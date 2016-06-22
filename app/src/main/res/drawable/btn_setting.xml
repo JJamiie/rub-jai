@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:enterFadeDuration="200"
+    android:exitFadeDuration="200">
+
+    <item android:drawable="@drawable/ic_setting" android:state_selected="true"></item>
+    <item android:drawable="@drawable/ic_setting_click" android:state_pressed="true"></item>
+    <item android:drawable="@drawable/ic_setting"></item>
+
+</selector>

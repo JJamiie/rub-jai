@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="match_parent"
+            android:background="@color/blue" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="25dp">
+
+            <TextView
+                android:id="@+id/txt_history_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="เดินทาง"
+                android:textSize="16dp"
+                android:textColor="@color/graySuperDark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_history_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="นั่งรถเมล์สาย 7"
+                android:textSize="14dp"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_history"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/item_family" />
+
+            <TextView
+                android:id="@+id/txt_history_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-15.00"
+                android:textSize="12dp"
+                android:textColor="@color/red" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="280dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/graySoft" />
+</LinearLayout>

@@ -1,0 +1,25 @@
+package com.example.jjamierashata.incomeexpense.manager;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+/**
+ * Created by jjamierashata on 6/3/16 AD.
+ */
+public class Initial extends RealmObject {
+    @PrimaryKey private String uuid;
+
+    private double money;
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+}
