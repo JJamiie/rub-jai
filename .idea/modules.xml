@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IncomeExpense.iml" filepath="$PROJECT_DIR$/IncomeExpense.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rub-jai.iml" filepath="$PROJECT_DIR$/rub-jai.iml" />
     </modules>
   </component>
 </project>

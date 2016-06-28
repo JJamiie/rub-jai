@@ -14,18 +14,25 @@ import io.realm.annotations.PrimaryKey;
  * Created by jjamierashata on 6/3/16 AD.
  */
 public class Data extends RealmObject {
-    public static final int TYPE_EXPENSE = 0;
     public static final int TYPE_INCOME = 0;
-
-    @PrimaryKey private String uuid;
+    public static final int TYPE_EXPENSE = 1;
+    @PrimaryKey private int uuid;
     private double money;
     private String note;
     private int catagory;
     private Date date;
+    private String title;
     private int type;
 
+    public String getTitle() {
+        return title;
+    }
 
-    public String getUuid() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getUuid() {
         return uuid;
     }
 
@@ -49,55 +56,29 @@ public class Data extends RealmObject {
         return type;
     }
 
-    public Data(Builder builder) {
-        this.uuid = builder.uuid;
+    public void setUuid(int uuid) {
+        this.uuid = uuid;
     }
 
-    public static Builder newBuilder(){
-        return new Builder();
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setCatagory(int catagory) {
+        this.catagory = catagory;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
 
-    public static class Builder {
-        private String uuid;
-        private double money;
-        private String note;
-        private int catagory;
-        private Date date;
-        private int type;
-
-        public Builder() {
-            this.uuid = UUID.randomUUID().toString();
-        }
-
-        public Builder money(double money) {
-            this.money = money;
-            return this;
-        }
-
-        public Builder note(String note) {
-            this.note = note;
-            return this;
-        }
-
-        public Builder catagory(int catagory) {
-            this.catagory = catagory;
-            return this;
-        }
-
-        public Builder date(Date date) {
-            this.date = date;
-            return this;
-        }
-
-        public Builder type(int type) {
-            this.type = type;
-            return this;
-        }
-
-
-        public Data build() {
-            return new Data(this);
-        }
-    }
 }

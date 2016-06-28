@@ -40,7 +40,7 @@
             android:layout_marginLeft="20dp"
             android:hint="ระบุจำนวนเงิน"
             android:textSize="14dp"
-            android:inputType="numberDecimal"
+            android:inputType="numberSigned"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
             <requestFocus />

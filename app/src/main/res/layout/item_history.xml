@@ -29,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="เดินทาง"
-                android:textSize="16dp"
                 android:textColor="@color/graySuperDark"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -39,8 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="นั่งรถเมล์สาย 7"
-                android:textSize="14dp"
-                android:textColor="@color/gray" />
+                android:textColor="@color/gray"
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,16 +54,15 @@
                 android:id="@+id/img_history"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginBottom="3dp"
-                android:background="@drawable/item_family" />
+                android:layout_marginBottom="3dp" />
 
             <TextView
                 android:id="@+id/txt_history_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-15.00"
-                android:textSize="12dp"
-                android:textColor="@color/red" />
+                android:textColor="@color/red"
+                android:textSize="12dp" />
         </LinearLayout>
 
     </LinearLayout>

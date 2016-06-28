@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,9 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class ExpenseActivity extends AppCompatActivity {
 
@@ -36,7 +40,7 @@ public class ExpenseActivity extends AppCompatActivity {
             R.drawable.item_health, R.drawable.item_lover, R.drawable.item_party, R.drawable.item_shopping,
             R.drawable.item_gift, R.drawable.item_electric, R.drawable.item_water, R.drawable.item_phone,
             R.drawable.item_pet, R.drawable.item_run, R.drawable.item_family, R.drawable.item_bed, R.drawable.item_others};
-    private String itemTitle[] = {"เดินทาง", "อาหาร", "เสื้อผ้า", "ดูหนัง", "รักษาตัว", "คนรัก", "ปาร์ตี้", "ช๊อปปิ้ง",
+    public static String itemTitle[] = {"เดินทาง", "อาหาร", "เสื้อผ้า", "ดูหนัง", "รักษาตัว", "คนรัก", "ปาร์ตี้", "ช๊อปปิ้ง",
             "ของขวัญ", "ค่าไฟ", "ค่าน้ำ", "โทรศัพท์", "สัตว์เลี้ยง", "กีฬา", "ครอบครัว", "ที่พัก", "อื่นๆ"};
     private int selected_catagory = -1;
     @Bind(R.id.gridView) GridView gridView;
@@ -116,12 +120,15 @@ public class ExpenseActivity extends AppCompatActivity {
             return;
         }
         final String note = edt_note.getText().toString();
-
-        Data data = Data.newBuilder().money(money).note(note).catagory(selected_catagory)
-                .date(new Date()).type(Data.TYPE_EXPENSE).build();
-        dataRepository.add(data);
-        finish();
-
+        dataRepository.addData(money,note,item[selected_catagory],itemTitle[selected_catagory],new Date(),Data.TYPE_EXPENSE)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        finish();
+                    }
+                });
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.jjamierashata.incomeexpense.util;
 
+import java.lang.reflect.Type;
+
 /**
  * Created by jjamierashata on 5/31/16 AD.
  */
@@ -8,6 +10,16 @@ public class History {
     private String note;
     private int img;
     private double money;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
 
     public double getMoney() {
         return money;

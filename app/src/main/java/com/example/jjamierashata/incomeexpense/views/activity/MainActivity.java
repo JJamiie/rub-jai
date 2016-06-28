@@ -34,11 +34,14 @@ import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private Realm realm;
     private Initial initial;
     private double initial_money;
-    @Inject DataRepository dataRepository;
-    @Bind(R.id.txt_summary) TextView txt_summary;
+    @Inject
+    DataRepository dataRepository;
+    @Bind(R.id.txt_summary)
+    TextView txt_summary;
+    @Bind(R.id.txt_summary_today)
+    TextView txt_summary_today;
 
 
     @Override
@@ -56,17 +59,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        dataRepository.findAll().subscribe(new Action1<List<Data>>() {
+        dataRepository.getSummaryToday().subscribe(new Action1<String>() {
             @Override
-            public void call(List<Data> datas) {
-                Log.d(TAG,datas.toString());
+            public void call(String s) {
+                txt_summary_today.setText(String.valueOf(s));
             }
         });
+
         dataRepository.getSummary().subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_summary.setText(String.valueOf(s));
-
             }
         });
     }
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.settings_layout, null);
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
 
         // set prompts.xml to alertdialog builder
@@ -101,41 +104,38 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText edt_initial_money = (EditText) promptsView.findViewById(R.id.edt_initial_money);
 
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                String m = edt_initial_money.getText().toString();
-                                if (!m.equals("")) {
-                                    initial_money = Double.parseDouble(m);
-                                } else {
-                                    Toast.makeText(getActivity(), "กรุณาระบุจำนวนเงิน", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                realm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        initial = realm.createObject(Initial.class);
-                                        initial.setMoney(initial_money);
+        dataRepository.getInitialMoney().subscribe(new Action1<Double>() {
+            @Override
+            public void call(Double aDouble) {
+                if(aDouble == 0.00){
+                    edt_initial_money.setText("");// set dialog message
+                }else{
+                    edt_initial_money.setText(aDouble.toString());// set dialog message
+                }
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        String m = edt_initial_money.getText().toString();
+                                        if (!m.equals("")) {
+                                            initial_money = Double.parseDouble(m);
+                                            dataRepository.setInitial(initial_money).subscribe();
+                                            loadData();
+                                        }
                                     }
                                 });
 
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
 
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+                // show it
+                alertDialog.show();
 
-        // show it
-        alertDialog.show();
+            }
+        });
+
+
     }
 
     @OnClick(R.id.btn_history)
@@ -147,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
 
     public Activity getActivity() {

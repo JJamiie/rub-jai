@@ -13,18 +13,27 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.jjamierashata.incomeexpense.R;
+import com.example.jjamierashata.incomeexpense.component.Injector;
+import com.example.jjamierashata.incomeexpense.repository.DataRepository;
 import com.example.jjamierashata.incomeexpense.util.ImageItem;
 import com.example.jjamierashata.incomeexpense.views.adapter.ItemGridAdapter;
 import com.example.jjamierashata.incomeexpense.manager.Data;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class IncomeActivity extends AppCompatActivity {
     private ItemGridAdapter itemGridAdapter;
     private int item[] = {R.drawable.item_parent, R.drawable.item_salary, R.drawable.item_gift_gray, R.drawable.item_loan, R.drawable.item_sell, R.drawable.item_others_gray};
-    private String itemTitle[] = {"พ่อแม่", "เงินเดือน", "ของขวัญ", "ยืม", "ขายของ", "อื่นๆ"};
+    public static String itemTitle[] = {"พ่อแม่", "เงินเดือน", "ของขวัญ", "ยืม", "ขายของ", "อื่นๆ"};
     private double money;
     private int selected_catagory = -1;
     private Data data;
@@ -33,12 +42,15 @@ public class IncomeActivity extends AppCompatActivity {
     @Bind(R.id.edt_note) EditText edt_note;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
+    @Inject DataRepository dataRepository;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income);
         ButterKnife.bind(this);
+        Injector.getApplicationComponent().inject(this);
         setWidget();
     }
 
@@ -51,6 +63,7 @@ public class IncomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemGridAdapter.setClicked(position);
+                selected_catagory = position;
                 itemGridAdapter.notifyDataSetChanged();
             }
         });
@@ -85,6 +98,7 @@ public class IncomeActivity extends AppCompatActivity {
         return true;
     }
 
+
     public void addToDatabase() {
         String m = edt_money.getText().toString();
         if (!m.equals("")) {
@@ -99,18 +113,15 @@ public class IncomeActivity extends AppCompatActivity {
             return;
         }
         final String note = edt_note.getText().toString();
-//        realm.executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                data = realm.createObject(Data.class);
-//                data.setMoney(money);
-//                data.setNote(note);
-//                data.setCatagory(selected_catagory);
-//                data.setDate(new Date());
-//                data.setType(Data.TYPE_INCOME);
-//            }
-//        });
-        finish();
+        dataRepository.addData(money,note,item[selected_catagory],itemTitle[selected_catagory],new Date(),Data.TYPE_INCOME)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        finish();
+                    }
+                });
     }
 
     public Activity getActivity() {
