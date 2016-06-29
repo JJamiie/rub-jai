@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="+1000.00"
                 android:textColor="@color/white"
-                android:textSize="60dp"
+                android:textSize="50dp"
                 android:textStyle="bold" />
 
             <TextView

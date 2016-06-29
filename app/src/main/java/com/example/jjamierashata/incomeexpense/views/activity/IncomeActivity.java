@@ -1,6 +1,7 @@
 package com.example.jjamierashata.incomeexpense.views.activity;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +52,7 @@ public class IncomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_income);
         ButterKnife.bind(this);
         Injector.getApplicationComponent().inject(this);
+        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
         setWidget();
     }
 

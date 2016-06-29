@@ -28,6 +28,7 @@
             android:inputType="numberDecimal"
             android:minWidth="100dp"
             android:textSize="40dp"
+            android:maxLength="8"
             android:textStyle="bold" />
 
         <TextView

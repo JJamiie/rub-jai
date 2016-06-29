@@ -21,28 +21,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="5dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingRight="20dp"
+        android:paddingTop="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="เงินเริ่มต้น"
             android:textSize="15dp"
-            android:textStyle="bold"
-            android:text="เงินเริ่มต้น" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edt_initial_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/grayDark"
             android:layout_marginLeft="20dp"
+            android:textColorHint="@color/gray"
+            android:backgroundTint="@color/grayDark"
             android:hint="ระบุจำนวนเงิน"
-            android:textSize="14dp"
-            android:inputType="numberSigned"
+            android:inputType="numberSigned|numberDecimal"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:paddingRight="10dp"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:maxLength="9"
+            android:textSize="14dp">
+
             <requestFocus />
 
         </EditText>

@@ -1,6 +1,7 @@
 package com.example.jjamierashata.incomeexpense.views.activity;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,8 +41,10 @@ public class ExpenseActivity extends AppCompatActivity {
             R.drawable.item_health, R.drawable.item_lover, R.drawable.item_party, R.drawable.item_shopping,
             R.drawable.item_gift, R.drawable.item_electric, R.drawable.item_water, R.drawable.item_phone,
             R.drawable.item_pet, R.drawable.item_run, R.drawable.item_family, R.drawable.item_bed, R.drawable.item_others};
-    public static String itemTitle[] = {"เดินทาง", "อาหาร", "เสื้อผ้า", "ดูหนัง", "รักษาตัว", "คนรัก", "ปาร์ตี้", "ช๊อปปิ้ง",
-            "ของขวัญ", "ค่าไฟ", "ค่าน้ำ", "โทรศัพท์", "สัตว์เลี้ยง", "กีฬา", "ครอบครัว", "ที่พัก", "อื่นๆ"};
+    public static String itemTitle[] = {"เดินทาง", "อาหาร", "เสื้อผ้า", "ดูหนัง",
+                                        "รักษาตัว", "คนรัก", "ปาร์ตี้", "ช๊อปปิ้ง",
+                                         "ของขวัญ", "ค่าไฟ", "ค่าน้ำ", "โทรศัพท์",
+                                        "สัตว์เลี้ยง", "กีฬา", "ครอบครัว", "ที่พัก", "อื่นๆ"};
     private int selected_catagory = -1;
     @Bind(R.id.gridView) GridView gridView;
     @Bind(R.id.edt_money) EditText edt_money;
@@ -57,6 +60,7 @@ public class ExpenseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_expense);
         ButterKnife.bind(this);
         Injector.getApplicationComponent().inject(this);
+        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
         setWidget();
     }
 

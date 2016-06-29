@@ -3,6 +3,7 @@ package com.example.jjamierashata.incomeexpense.views.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialogBuilder.setView(promptsView);
 
         final EditText edt_initial_money = (EditText) promptsView.findViewById(R.id.edt_initial_money);
+        edt_initial_money.setRawInputType(Configuration.KEYBOARD_12KEY);
 
         dataRepository.getInitialMoney().subscribe(new Action1<Double>() {
             @Override
