@@ -118,7 +118,7 @@ public class IncomeActivity extends AppCompatActivity {
         dataRepository.addData(money,note,item[selected_catagory],itemTitle[selected_catagory],new Date(),Data.TYPE_INCOME)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Integer>() {
+                .subscribe( new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
                         finish();

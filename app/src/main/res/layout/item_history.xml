@@ -1,75 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/white"
-    android:orientation="vertical">
-
+    android:layout_height="100dp">
+    <!-- Bottom View Start-->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <!--What you want to show-->
 
-        <View
-            android:layout_width="6dp"
+        <ImageButton
+            android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@color/blue" />
+            android:background="@drawable/btn_select_edit"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_edit" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <ImageButton
+            android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="25dp">
-
-            <TextView
-                android:id="@+id/txt_history_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="เดินทาง"
-                android:textColor="@color/graySuperDark"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_history_note"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="นั่งรถเมล์สาย 7"
-                android:textColor="@color/gray"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/img_history"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="3dp" />
-
-            <TextView
-                android:id="@+id/txt_history_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-15.00"
-                android:textColor="@color/red"
-                android:textSize="12dp" />
-        </LinearLayout>
-
+            android:background="@drawable/btn_select_delete"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_garbage" />
     </LinearLayout>
+    <!-- Bottom View End-->
 
-    <View
-        android:layout_width="280dp"
-        android:layout_height="2dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/graySoft" />
-</LinearLayout>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="match_parent"
+                android:background="@color/blue" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <TextView
+                    android:id="@+id/txt_history_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="เดินทาง"
+                    android:textColor="@color/graySuperDark"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_history_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="นั่งรถเมล์สาย 7"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_history"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="3dp" />
+
+                <TextView
+                    android:id="@+id/txt_history_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-15.00"
+                    android:textColor="@color/red"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</com.daimajia.swipe.SwipeLayout>

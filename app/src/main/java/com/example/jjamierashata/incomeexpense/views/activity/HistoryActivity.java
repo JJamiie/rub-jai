@@ -74,6 +74,7 @@ public class HistoryActivity extends AppCompatActivity {
                         d.add(datas.get(i));
                         if (!compareDate(date, datas.get(i).getDate()) || i == datas.size() - 1) {
                             DatasHistory datasHistory = new DatasHistory(d, date, total);
+                            date = datas.get(i).getDate();
                             datasHistories.add(datasHistory);
                             total = 0;
                             d = new ArrayList<Data>();

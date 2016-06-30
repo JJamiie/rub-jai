@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 if(aDouble == 0.00){
                     edt_initial_money.setText("");// set dialog message
                 }else{
-                    edt_initial_money.setText(aDouble.toString());// set dialog message
+                    edt_initial_money.setText(String.format("%.2f", aDouble));// set dialog message
                 }
                 alertDialogBuilder
                         .setCancelable(false)

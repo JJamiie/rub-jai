@@ -70,7 +70,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
     protected void onBindSectionHeaderViewHolder(HistoryHeaderViewHolder holder, int section) {
         Date date = datasHistories.get(section).getDate();
         holder.txt_date.setText(date_thai[date.getDay()] + " " + date.getDate() + " " + month_thai[date.getMonth()] + " " + (date.getYear() + 1900 + 543));
-        holder.txt_total_money.setText(String.valueOf(datasHistories.get(section).getTotal_money()));
+        holder.txt_total_money.setText(String.format("%.2f", datasHistories.get(section).getTotal_money()));
     }
 
     @Override
@@ -80,7 +80,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     @Override
     protected void onBindItemViewHolder(HistoryItemViewHolder holder, int section, int position) {
-        holder.txt_history_money.setText(String.valueOf(datasHistories.get(section).getDatas().get(position).getMoney()));
+        holder.txt_history_money.setText(String.format("%.2f", datasHistories.get(section).getDatas().get(position).getMoney()));
         if (datasHistories.get(section).getDatas().get(position).getType() == Data.TYPE_EXPENSE) {
             holder.txt_history_money.setTextColor(Color.parseColor("#89C4CA"));
         } else {

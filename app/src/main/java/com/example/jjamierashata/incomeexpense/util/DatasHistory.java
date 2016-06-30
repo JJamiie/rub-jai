@@ -13,7 +13,7 @@ public class DatasHistory {
     private Date date;
     private double total_money;
 
-    public DatasHistory(ArrayList<Data> datas, Date date, Double total_money) {
+    public DatasHistory(ArrayList<Data> datas, Date date, double total_money) {
         this.datas = datas;
         this.date = date;
         this.total_money = total_money;
@@ -33,10 +33,6 @@ public class DatasHistory {
     }
 
     public void setTotal_money(double total_money) {
-        this.total_money = total_money;
-    }
-
-    public void setTotal_money(Double total_money) {
         this.total_money = total_money;
     }
 
