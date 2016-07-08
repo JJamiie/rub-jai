@@ -21,16 +21,7 @@ public class Data extends RealmObject {
     private String note;
     private int catagory;
     private Date date;
-    private String title;
     private int type;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public int getUuid() {
         return uuid;

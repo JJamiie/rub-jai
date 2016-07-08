@@ -2,6 +2,7 @@ package com.example.jjamierashata.incomeexpense.views.activity;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,8 +34,6 @@ import rx.schedulers.Schedulers;
 
 public class IncomeActivity extends AppCompatActivity {
     private ItemGridAdapter itemGridAdapter;
-    private int item[] = {R.drawable.item_parent, R.drawable.item_salary, R.drawable.item_gift_gray, R.drawable.item_loan, R.drawable.item_sell, R.drawable.item_others_gray};
-    public static String itemTitle[] = {"พ่อแม่", "เงินเดือน", "ของขวัญ", "ยืม", "ขายของ", "อื่นๆ"};
     private double money;
     private int selected_catagory = -1;
     private Data data;
@@ -74,8 +73,10 @@ public class IncomeActivity extends AppCompatActivity {
 
     private ArrayList<ImageItem> getData() {
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        for (int i = 0; i < item.length; i++) {
-            imageItems.add(new ImageItem(item[i], itemTitle[i]));
+        TypedArray imgs = getResources().obtainTypedArray(R.array.id_list_income);
+        String img_title[] = getResources().getStringArray(R.array.list_income);
+        for (int i = 0; i < img_title.length; i++) {
+            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), img_title[i]));
         }
         return imageItems;
     }
@@ -115,7 +116,7 @@ public class IncomeActivity extends AppCompatActivity {
             return;
         }
         final String note = edt_note.getText().toString();
-        dataRepository.addData(money,note,item[selected_catagory],itemTitle[selected_catagory],new Date(),Data.TYPE_INCOME)
+        dataRepository.addData(money,note,selected_catagory,new Date(),Data.TYPE_INCOME)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( new Action1<Integer>() {

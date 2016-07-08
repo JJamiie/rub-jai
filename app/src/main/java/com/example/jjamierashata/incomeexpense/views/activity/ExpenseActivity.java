@@ -2,6 +2,7 @@ package com.example.jjamierashata.incomeexpense.views.activity;
 
 import android.app.Activity;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -37,19 +38,15 @@ public class ExpenseActivity extends AppCompatActivity {
 
     private static final String TAG = "ExpenseActivity";
     private ItemGridAdapter itemGridAdapter;
-    private int item[] = {R.drawable.item_bus, R.drawable.item_food, R.drawable.item_shirt, R.drawable.item_movie,
-            R.drawable.item_health, R.drawable.item_lover, R.drawable.item_party, R.drawable.item_shopping,
-            R.drawable.item_gift, R.drawable.item_electric, R.drawable.item_water, R.drawable.item_phone,
-            R.drawable.item_pet, R.drawable.item_run, R.drawable.item_family, R.drawable.item_bed, R.drawable.item_others};
-    public static String itemTitle[] = {"เดินทาง", "อาหาร", "เสื้อผ้า", "ดูหนัง",
-                                        "รักษาตัว", "คนรัก", "ปาร์ตี้", "ช๊อปปิ้ง",
-                                         "ของขวัญ", "ค่าไฟ", "ค่าน้ำ", "โทรศัพท์",
-                                        "สัตว์เลี้ยง", "กีฬา", "ครอบครัว", "ที่พัก", "อื่นๆ"};
     private int selected_catagory = -1;
-    @Bind(R.id.gridView) GridView gridView;
-    @Bind(R.id.edt_money) EditText edt_money;
-    @Bind(R.id.edt_note) EditText edt_note;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.gridView)
+    GridView gridView;
+    @Bind(R.id.edt_money)
+    EditText edt_money;
+    @Bind(R.id.edt_note)
+    EditText edt_note;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Inject
     DataRepository dataRepository;
@@ -82,8 +79,10 @@ public class ExpenseActivity extends AppCompatActivity {
 
     private ArrayList<ImageItem> getData() {
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        for (int i = 0; i < item.length; i++) {
-            imageItems.add(new ImageItem(item[i], itemTitle[i]));
+        TypedArray imgs = getResources().obtainTypedArray(R.array.id_list_expense);
+        String img_title[] = getResources().getStringArray(R.array.list_expense);
+        for (int i = 0; i < img_title.length; i++) {
+            imageItems.add(new ImageItem(imgs.getResourceId(i, -1), img_title[i]));
         }
         return imageItems;
     }
@@ -124,7 +123,7 @@ public class ExpenseActivity extends AppCompatActivity {
             return;
         }
         final String note = edt_note.getText().toString();
-        dataRepository.addData(money,note,item[selected_catagory],itemTitle[selected_catagory],new Date(),Data.TYPE_EXPENSE)
+        dataRepository.addData(money, note, selected_catagory, new Date(), Data.TYPE_EXPENSE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Integer>() {

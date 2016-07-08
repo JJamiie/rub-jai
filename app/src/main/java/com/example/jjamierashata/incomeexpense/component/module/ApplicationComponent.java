@@ -9,6 +9,7 @@ import com.example.jjamierashata.incomeexpense.views.activity.ExpenseActivity;
 import com.example.jjamierashata.incomeexpense.views.activity.HistoryActivity;
 import com.example.jjamierashata.incomeexpense.views.activity.IncomeActivity;
 import com.example.jjamierashata.incomeexpense.views.activity.MainActivity;
+import com.example.jjamierashata.incomeexpense.views.adapter.HistoryAdapter;
 
 import javax.inject.Singleton;
 
@@ -34,5 +35,6 @@ public interface ApplicationComponent {
     void inject(IncomeActivity incomeActivity);
 
     void inject(HistoryActivity historyActivity);
+
 
 }

@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("Ok",
+                        .setPositiveButton("ตกลง",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         String m = edt_initial_money.getText().toString();

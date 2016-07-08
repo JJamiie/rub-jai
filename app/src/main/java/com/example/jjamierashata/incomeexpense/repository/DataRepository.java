@@ -13,9 +13,14 @@ import java.util.List;
  */
 public interface DataRepository {
 
-    rx.Observable<Integer> addData(double money, String note, int catagory,String title, Date date, int type);
+    rx.Observable<Integer> addData(double money, String note, int catagory, Date date, int type);
+
+    rx.Observable<Integer> editData(int uuid, double money, String note, int catagory, Date date, int type);
 
     rx.Observable<List<Data>> findAllData();
+
+
+    rx.Observable<List<Data>> findAllData(int type);
 
     rx.Observable<List<Initial>> findAllInitial();
 
@@ -27,6 +32,7 @@ public interface DataRepository {
 
     rx.Observable<Initial> setInitial(double money);
 
+    rx.Observable deleteData(int uuid);
 
 
 }
