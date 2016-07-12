@@ -16,6 +16,17 @@
             android:layout_gravity="center"
             android:background="@drawable/ic_setting_big" />
 
+        <TextView
+            android:id="@+id/btn_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ล้างข้อมูล"
+            android:layout_margin="10dp"
+            android:textColor="@drawable/selector_color_text"
+            android:layout_gravity="right"
+            android:clickable="true"
+            />
+
     </FrameLayout>
 
     <LinearLayout

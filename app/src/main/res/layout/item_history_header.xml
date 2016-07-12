@@ -23,12 +23,13 @@
 
     <TextView
         android:id="@+id/txt_total_money"
-        android:paddingRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:paddingRight="20dp"
         android:text="-275.00"
-        android:textColor="@color/red"
+        android:textColor="@color/grayDark"
+        android:textSize="16dp"
         android:textStyle="bold" />
 
 
