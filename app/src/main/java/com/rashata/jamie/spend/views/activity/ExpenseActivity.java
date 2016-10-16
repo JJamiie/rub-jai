@@ -1,6 +1,9 @@
 package com.rashata.jamie.spend.views.activity;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +34,7 @@ import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import xml.RubjaiWidget;
 
 public class ExpenseActivity extends AppCompatActivity {
 
@@ -46,8 +50,7 @@ public class ExpenseActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @Inject
-    DataRepository dataRepository;
+    @Inject DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,7 @@ public class ExpenseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                updateWidget();
                 finish();
                 return true;
             case R.id.correct:
@@ -127,6 +131,7 @@ public class ExpenseActivity extends AppCompatActivity {
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
+                        updateWidget();
                         finish();
                     }
                 });
@@ -139,5 +144,13 @@ public class ExpenseActivity extends AppCompatActivity {
 
     public Activity getActivity() {
         return this;
+    }
+
+    public void updateWidget() {
+        Intent intent = new Intent(this, RubjaiWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RubjaiWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 }

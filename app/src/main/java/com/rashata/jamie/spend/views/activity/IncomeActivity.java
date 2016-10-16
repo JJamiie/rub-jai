@@ -1,6 +1,9 @@
 package com.rashata.jamie.spend.views.activity;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -31,18 +34,24 @@ import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import xml.RubjaiWidget;
 
 public class IncomeActivity extends AppCompatActivity {
     private ItemGridAdapter itemGridAdapter;
     private double money;
     private int selected_catagory = -1;
     private Data data;
-    @Bind(R.id.gridView) GridView gridView;
-    @Bind(R.id.edt_money) EditText edt_money;
-    @Bind(R.id.edt_note) EditText edt_note;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.gridView)
+    GridView gridView;
+    @Bind(R.id.edt_money)
+    EditText edt_money;
+    @Bind(R.id.edt_note)
+    EditText edt_note;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
-    @Inject DataRepository dataRepository;
+    @Inject
+    DataRepository dataRepository;
 
 
     @Override
@@ -85,6 +94,7 @@ public class IncomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                updateWidget();
                 finish();
                 return true;
             case R.id.correct:
@@ -116,12 +126,13 @@ public class IncomeActivity extends AppCompatActivity {
             return;
         }
         final String note = edt_note.getText().toString();
-        dataRepository.addData(money,note,selected_catagory,new Date(),Data.TYPE_INCOME)
+        dataRepository.addData(money, note, selected_catagory, new Date(), Data.TYPE_INCOME)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( new Action1<Integer>() {
+                .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
+                        updateWidget();
                         finish();
                     }
                 });
@@ -130,4 +141,13 @@ public class IncomeActivity extends AppCompatActivity {
     public Activity getActivity() {
         return this;
     }
+
+    public void updateWidget() {
+        Intent intent = new Intent(this, RubjaiWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RubjaiWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
+    }
+
 }

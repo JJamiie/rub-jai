@@ -12,6 +12,7 @@ import com.rashata.jamie.spend.views.activity.MainActivity;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import xml.RubjaiWidget;
 
 /**
  * Created by jjamierashata on 6/16/16 AD.
@@ -33,6 +34,8 @@ public interface ApplicationComponent {
     void inject(IncomeActivity incomeActivity);
 
     void inject(HistoryActivity historyActivity);
+
+    void inject(RubjaiWidget rubjaiWidget);
 
 
 }
