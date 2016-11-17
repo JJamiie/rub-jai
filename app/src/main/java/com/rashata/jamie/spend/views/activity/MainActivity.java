@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                     edt_initial_money.setText(String.format("%.2f", aDouble));// set dialog message
                 }
                 alertDialogBuilder
-                        .setCancelable(false)
                         .setPositiveButton("ตกลง",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {

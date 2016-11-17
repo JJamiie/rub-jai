@@ -1,11 +1,16 @@
 package com.rashata.jamie.spend.repository.impl;
 
+import android.util.Log;
+
 import com.rashata.jamie.spend.component.Injector;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.Initial;
 import com.rashata.jamie.spend.repository.DataRepository;
 import com.rashata.jamie.spend.repository.DatabaseRealm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -197,6 +202,49 @@ public class DataRepositoryImpl implements DataRepository {
     }
 
     @Override
+    public Observable<String> getSummary(final int type, final int month) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+                    Realm realm = databaseRealm.getRealmInstance();
+
+                    List<Data> datas;
+                    if (month != -1) {
+                        Calendar calendar_before = Calendar.getInstance();
+                        calendar_before.set(Calendar.MONTH, month);
+                        calendar_before.set(Calendar.DAY_OF_MONTH, 1);
+                        Date date_before = calendar_before.getTime();
+                        Calendar calendar_after = Calendar.getInstance();
+                        calendar_after.set(Calendar.MONTH, month + 1);
+                        calendar_after.set(Calendar.DAY_OF_MONTH, 1);
+                        Date date_after = calendar_after.getTime();
+                        datas = realm.where(Data.class)
+                                .greaterThanOrEqualTo("date", date_before)
+                                .lessThan("date", date_after)
+                                .equalTo("type", type)
+                                .findAll();
+                    } else {
+                        datas = realm.where(Data.class).equalTo("type", type).findAll();
+                    }
+
+                    double summary = 0.0;
+
+                    for (Data data : datas) {
+                        summary += data.getMoney();
+                    }
+                    subscriber.onNext(String.format("%.2f", summary));
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+
+                }
+            }
+        });
+    }
+
+    @Override
     public Observable<String> getSummaryToday() {
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
@@ -230,6 +278,32 @@ public class DataRepositoryImpl implements DataRepository {
             }
         });
     }
+
+    @Override
+    public Observable<String> getSummary(final int type) {
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+                    Realm realm = databaseRealm.getRealmInstance();
+                    List<Data> datas = realm.where(Data.class).findAll();
+                    double summary = 0.0;
+                    for (Data data : datas) {
+                        if (data.getType() == type) {
+                            summary += data.getMoney();
+                        }
+                    }
+                    subscriber.onNext(String.format("%.2f", summary));
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+
+                }
+            }
+        });
+    }
+
 
     @Override
     public Observable<Double> getInitialMoney() {
@@ -275,6 +349,82 @@ public class DataRepositoryImpl implements DataRepository {
                     realm.close();
                 } catch (Exception e) {
                     subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Float> getStatistic(final int[] type) {
+        return Observable.create(new Observable.OnSubscribe<Float>() {
+            @Override
+            public void call(Subscriber<? super Float> subscriber) {
+                try {
+                    Realm realm = databaseRealm.getRealmInstance();
+                    List<Data> datas = realm.where(Data.class).findAll();
+                    float summary = 0;
+                    for (Data data : datas) {
+                        Log.d(TAG, "id catagory: " + data.getCatagory());
+                        for (int i = 0; i < type.length; i++) {
+                            if (data.getCatagory() == type[i]) {
+                                summary += data.getMoney();
+                                break;
+                            }
+                        }
+                    }
+                    subscriber.onNext(summary);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable<Float> getStatistic(final int[] type, final int month) {
+        return Observable.create(new Observable.OnSubscribe<Float>() {
+            @Override
+            public void call(Subscriber<? super Float> subscriber) {
+                try {
+                    Realm realm = databaseRealm.getRealmInstance();
+                    List<Data> datas;
+                    if (month != -1) {
+                        Calendar calendar_before = Calendar.getInstance();
+                        calendar_before.set(Calendar.MONTH, month);
+                        calendar_before.set(Calendar.DAY_OF_MONTH, 1);
+                        Date date_before = calendar_before.getTime();
+                        Calendar calendar_after = Calendar.getInstance();
+                        calendar_after.set(Calendar.MONTH, month + 1);
+                        calendar_after.set(Calendar.DAY_OF_MONTH, 1);
+                        Date date_after = calendar_after.getTime();
+                        datas = realm.where(Data.class)
+                                .greaterThanOrEqualTo("date", date_before)
+                                .lessThan("date", date_after)
+                                .equalTo("type",Data.TYPE_EXPENSE)
+                                .findAll();
+                    } else {
+                        datas = realm.where(Data.class).equalTo("type",Data.TYPE_EXPENSE).findAll();
+                    }
+
+                    float summary = 0;
+                    for (Data data : datas) {
+                        Log.d(TAG, "id catagory: " + data.getCatagory());
+                        for (int i = 0; i < type.length; i++) {
+                            if (data.getCatagory() == type[i]) {
+                                summary += data.getMoney();
+                                break;
+                            }
+                        }
+                    }
+                    subscriber.onNext(summary);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+
                 }
             }
         });

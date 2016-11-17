@@ -1,7 +1,10 @@
 package com.rashata.jamie.spend.views.adapter;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +32,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import xml.RubjaiWidget;
 
 /**
  * Created by jjamierashata on 5/30/16 AD.
@@ -281,5 +285,7 @@ class HistoryFooterViewHolder extends RecyclerView.ViewHolder {
 
     }
 }
+
+
 
 

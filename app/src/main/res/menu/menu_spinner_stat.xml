@@ -1,15 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/statistic"
-        android:icon="@drawable/ic_statistic"
-        android:title="statistic"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/spinner"
         android:background="#FFFFFF"
         android:title="ActionBar Spinner"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />
+
 </menu>
 

@@ -8,6 +8,22 @@
         <item>1 เดือน</item>
     </string-array>
 
+    <string-array name="spinner_list_item_month">
+        <item>ทั้งหมด</item>
+        <item>มกราคม</item>
+        <item>กุมภาพันธ์</item>
+        <item>มีนาคม</item>
+        <item>เมษายน</item>
+        <item>พฤษภาคม</item>
+        <item>มิถุนายน</item>
+        <item>กรกฎาคม</item>
+        <item>สิงหาคม</item>
+        <item>กันยายน</item>
+        <item>ตุลาคม</item>
+        <item>พฤศจิกายน</item>
+        <item>ธันวาคม</item>
+    </string-array>
+
     <string-array name="list_expense">
         <item>เดินทาง</item>
         <item>อาหาร</item>

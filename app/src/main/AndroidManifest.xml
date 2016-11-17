@@ -29,7 +29,7 @@
         <activity
             android:name=".views.activity.HistoryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name="xml.RubjaiWidget">
             <intent-filter>
@@ -40,6 +40,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/rubjai_widget_info" />
         </receiver>
+
+        <activity android:name=".views.activity.StatisticActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -25,11 +25,19 @@ public interface DataRepository {
 
     rx.Observable<String> getSummary();
 
+    rx.Observable<String> getSummary(int type, int month);
+
     rx.Observable<String> getSummaryToday();
+
+    rx.Observable<String> getSummary(int type);
 
     rx.Observable<Double> getInitialMoney();
 
     rx.Observable<Initial> setInitial(double money);
+
+    rx.Observable<Float> getStatistic(int[] type);
+
+    rx.Observable<Float> getStatistic(int[] type, int month);
 
     rx.Observable deleteData(int uuid);
 

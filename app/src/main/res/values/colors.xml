@@ -22,6 +22,8 @@
     <color name="redDark">#e44744</color>
     <color name="overlay">#80000000</color>
     <color name="black">#000000</color>
-    <color name="green">#69F0AE</color>
+    <color name="green">#71edb1</color>
     <color name="greenDark">#56df9c</color>
+    <color name="skin">#E9A487</color>
+
 </resources>

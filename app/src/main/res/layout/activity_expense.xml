@@ -26,9 +26,9 @@
             android:gravity="center"
             android:hint="0"
             android:inputType="numberDecimal"
+            android:maxLength="8"
             android:minWidth="100dp"
             android:textSize="40dp"
-            android:maxLength="8"
             android:textStyle="bold" />
 
         <TextView
@@ -85,6 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:clipToPadding="false"
         android:drawSelectorOnTop="true"
         android:focusable="true"
         android:gravity="center"

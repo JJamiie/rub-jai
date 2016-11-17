@@ -1,5 +1,6 @@
 package com.rashata.jamie.spend.views.activity;
 
+import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,9 +36,12 @@ public class HistoryActivity extends AppCompatActivity {
     private static final String TAG = "HistoryActivity";
     private ArrayList<DatasHistory> datasHistories;
     private HistoryAdapter historyAdapter;
-    @Bind(R.id.rcc_history) RecyclerView rcc_history;
-    @Inject DataRepository dataRepository;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.rcc_history)
+    RecyclerView rcc_history;
+    @Inject
+    DataRepository dataRepository;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
     private int current_type = 0;
 
     @Override
@@ -73,7 +77,7 @@ public class HistoryActivity extends AppCompatActivity {
                     double total = 0;
                     for (int i = 0; i < datas.size(); i++) {
                         Data data = datas.get(i);
-                        History history = new History(data.getUuid(),data.getMoney(),data.getNote(),data.getCatagory(),data.getDate(),data.getType());
+                        History history = new History(data.getUuid(), data.getMoney(), data.getNote(), data.getCatagory(), data.getDate(), data.getType());
                         if (!compareDate(date, datas.get(i).getDate())) {
                             DatasHistory datasHistory = new DatasHistory(histories, date, total);
                             datasHistories.add(datasHistory);
@@ -104,6 +108,11 @@ public class HistoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.statistic:
+                Intent intent = new Intent(this,StatisticActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -172,4 +181,6 @@ public class HistoryActivity extends AppCompatActivity {
     public void setCurrent_type(int current_type) {
         this.current_type = current_type;
     }
+
+
 }
