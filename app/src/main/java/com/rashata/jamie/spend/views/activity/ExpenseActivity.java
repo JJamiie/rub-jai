@@ -18,19 +18,13 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.component.Injector;
-import com.rashata.jamie.spend.repository.DataRepository;
+import com.rashata.jamie.spend.repository.DatabaseRealm;
 import com.rashata.jamie.spend.util.ImageItem;
 import com.rashata.jamie.spend.views.adapter.ItemGridAdapter;
 import com.rashata.jamie.spend.manager.Data;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -41,28 +35,25 @@ public class ExpenseActivity extends AppCompatActivity {
     private static final String TAG = "ExpenseActivity";
     private ItemGridAdapter itemGridAdapter;
     private int selected_catagory = -1;
-    @Bind(R.id.gridView)
-    GridView gridView;
-    @Bind(R.id.edt_money)
-    EditText edt_money;
-    @Bind(R.id.edt_note)
-    EditText edt_note;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    private GridView gridView;
+    private EditText edt_money;
+    private EditText edt_note;
+    private Toolbar toolbar;
 
-    @Inject DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
-        ButterKnife.bind(this);
-        Injector.getApplicationComponent().inject(this);
-        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
         setWidget();
     }
 
     public void setWidget() {
+        gridView = (GridView) findViewById(R.id.gridView);
+        edt_money = (EditText) findViewById(R.id.edt_money);
+        edt_note = (EditText) findViewById(R.id.edt_note);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("รายจ่าย");
@@ -125,7 +116,7 @@ public class ExpenseActivity extends AppCompatActivity {
             return;
         }
         final String note = edt_note.getText().toString();
-        dataRepository.addData(money, note, selected_catagory, new Date(), Data.TYPE_EXPENSE)
+        DatabaseRealm.getInstance().getDataRepository().addData(money, note, selected_catagory, new Date(), Data.TYPE_EXPENSE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Integer>() {

@@ -13,62 +13,50 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.component.Injector;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.repository.DataRepository;
+import com.rashata.jamie.spend.repository.DatabaseRealm;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.views.adapter.HistoryAdapter;
 import com.rashata.jamie.spend.util.DatasHistory;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import rx.functions.Action1;
 
 public class HistoryActivity extends AppCompatActivity {
     private static final String TAG = "HistoryActivity";
     private ArrayList<DatasHistory> datasHistories;
     private HistoryAdapter historyAdapter;
-    @Bind(R.id.rcc_history)
-    RecyclerView rcc_history;
-    @Inject
-    DataRepository dataRepository;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    private RecyclerView rcc_history;
+    private Toolbar toolbar;
     private int current_type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        ButterKnife.bind(this);
-        Injector.getApplicationComponent().inject(this);
         datasHistories = new ArrayList<>();
         loadData(0);
         setWidget();
     }
 
     public void setWidget() {
+        rcc_history = (RecyclerView) findViewById(R.id.rcc_history);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("ประวัติการใช้");
         rcc_history.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         rcc_history.setLayoutManager(llm);
-        historyAdapter = new HistoryAdapter(datasHistories, dataRepository, this);
+        historyAdapter = new HistoryAdapter(datasHistories, this);
         rcc_history.setAdapter(historyAdapter);
     }
 
     public void loadData(int type) {
         datasHistories.clear();
-        dataRepository.findAllData(type).subscribe(new Action1<List<Data>>() {
+        DatabaseRealm.getInstance().getDataRepository().findAllData(type).subscribe(new Action1<List<Data>>() {
             @Override
             public void call(List<Data> datas) {
                 ArrayList<History> histories = new ArrayList<History>();
@@ -110,7 +98,7 @@ public class HistoryActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.statistic:
-                Intent intent = new Intent(this,StatisticActivity.class);
+                Intent intent = new Intent(this, StatisticActivity.class);
                 startActivity(intent);
                 return true;
             default:

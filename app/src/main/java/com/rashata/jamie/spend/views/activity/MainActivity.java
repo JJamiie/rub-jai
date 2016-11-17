@@ -11,19 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.component.Injector;
 import com.rashata.jamie.spend.manager.Initial;
-import com.rashata.jamie.spend.repository.DataRepository;
+import com.rashata.jamie.spend.repository.DatabaseRealm;
 
-import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.functions.Action1;
 import xml.RubjaiWidget;
 
@@ -31,20 +26,55 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private Initial initial;
     private double initial_money;
-    @Inject
-    DataRepository dataRepository;
-    @Bind(R.id.txt_summary)
-    TextView txt_summary;
-    @Bind(R.id.txt_summary_today)
-    TextView txt_summary_today;
+    private TextView txt_summary;
+    private TextView txt_summary_today;
+    private Button btn_expense;
+    private Button btn_income;
+    private Button btn_setting;
+    private Button btn_history;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        Injector.getApplicationComponent().inject(this);
+        setWidget();
+    }
+
+    private void setWidget() {
+        txt_summary = (TextView) findViewById(R.id.txt_summary);
+        txt_summary_today = (TextView) findViewById(R.id.txt_summary_today);
+        btn_expense = (Button) findViewById(R.id.btn_expense);
+        btn_expense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_income = (Button) findViewById(R.id.btn_income);
+        btn_income.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, IncomeActivity.class);
+                startActivity(intent);
+            }
+        });
+        btn_setting = (Button) findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogSetting();
+            }
+        });
+        btn_history = (Button) findViewById(R.id.btn_history);
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        dataRepository.getSummaryToday().subscribe(new Action1<String>() {
+        DatabaseRealm.getInstance().getDataRepository().getSummaryToday().subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_summary_today.setText(s);
             }
         });
 
-        dataRepository.getSummary().subscribe(new Action1<String>() {
+        DatabaseRealm.getInstance().getDataRepository().getSummary().subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_summary.setText(s);
@@ -69,22 +99,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.btn_expense)
-    public void openExpenseActivity(View v) {
-        Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btn_income)
-    public void openIncomeActivity(View v) {
-        Intent intent = new Intent(MainActivity.this, IncomeActivity.class);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btn_setting)
-    public void openSetting(View v) {
-        showDialogSetting();
-    }
 
     public void showDialogSetting() {
         // get prompts.xml view
@@ -103,12 +117,12 @@ public class MainActivity extends AppCompatActivity {
         final TextView btn_clear_data = (TextView) promptsView.findViewById(R.id.btn_clear);
 
 
-        dataRepository.getInitialMoney().subscribe(new Action1<Double>() {
+        DatabaseRealm.getInstance().getDataRepository().getInitialMoney().subscribe(new Action1<Double>() {
             @Override
             public void call(Double aDouble) {
-                if(aDouble == 0.00){
+                if (aDouble == 0.00) {
                     edt_initial_money.setText("");// set dialog message
-                }else{
+                } else {
                     edt_initial_money.setText(String.format("%.2f", aDouble));// set dialog message
                 }
                 alertDialogBuilder
@@ -118,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                         String m = edt_initial_money.getText().toString();
                                         if (!m.equals("")) {
                                             initial_money = Double.parseDouble(m);
-                                            dataRepository.setInitial(initial_money).subscribe();
+                                            DatabaseRealm.getInstance().getDataRepository().setInitial(initial_money).subscribe();
                                             loadData();
                                         }
                                     }
@@ -153,38 +167,33 @@ public class MainActivity extends AppCompatActivity {
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("ใช่",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dataRepository.clearDB().subscribe();
-                                        loadData();
-                                    }
-                                })
-                        .setNegativeButton("ยกเลิก",
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("ใช่",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                DatabaseRealm.getInstance().getDataRepository().clearDB().subscribe();
+                                loadData();
+                            }
+                        })
+                .setNegativeButton("ยกเลิก",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
 
                             }
-                        });;
+                        });
+        ;
 
-                // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
-                alertDialog.show();
-
+        // show it
+        alertDialog.show();
 
 
     }
 
-    @OnClick(R.id.btn_history)
-    public void showHistory(View v) {
-        Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     protected void onDestroy() {

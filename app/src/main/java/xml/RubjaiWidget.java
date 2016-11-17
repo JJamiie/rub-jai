@@ -4,37 +4,25 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Parcelable;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.component.Injector;
-import com.rashata.jamie.spend.repository.DataRepository;
+import com.rashata.jamie.spend.repository.DatabaseRealm;
 import com.rashata.jamie.spend.views.activity.ExpenseActivity;
 import com.rashata.jamie.spend.views.activity.IncomeActivity;
 import com.rashata.jamie.spend.views.activity.MainActivity;
 
 import java.util.Calendar;
 
-import javax.inject.Inject;
-
-import butterknife.Bind;
 import rx.functions.Action1;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RubjaiWidget extends AppWidgetProvider {
-    @Inject
-    DataRepository dataRepository;
     private String summary;
     private int[] ids;
 
@@ -43,17 +31,17 @@ public class RubjaiWidget extends AppWidgetProvider {
                                 int appWidgetId) {
         //set Alarm
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context,  AlarmManagerBroadcastReceiver.class);
+        Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
         intent.putExtra("ids", ids);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
         Calendar current = Calendar.getInstance();
         Calendar nexMin = (Calendar) current.clone();
-        nexMin.set(Calendar.MINUTE, nexMin.get(Calendar.MINUTE)+1);
+        nexMin.set(Calendar.MINUTE, nexMin.get(Calendar.MINUTE) + 1);
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             // bannerAd alarm
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, nexMin.getTimeInMillis()-current.getTimeInMillis(), 60000, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, nexMin.getTimeInMillis() - current.getTimeInMillis(), 60000, pendingIntent);
         } else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, nexMin.getTimeInMillis() - current.getTimeInMillis(), pendingIntent);
         }
@@ -82,7 +70,6 @@ public class RubjaiWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         ids = appWidgetIds;
-        Injector.getApplicationComponent().inject(this);
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
@@ -100,7 +87,7 @@ public class RubjaiWidget extends AppWidgetProvider {
     }
 
     public String getSummaryToday() {
-        dataRepository.getSummaryToday().subscribe(new Action1<String>() {
+        DatabaseRealm.getInstance().getDataRepository().getSummaryToday().subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 summary = s;

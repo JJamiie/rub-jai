@@ -16,8 +16,6 @@ import com.rashata.jamie.spend.R;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by jjamierashata on 5/23/16 AD.
@@ -62,12 +60,14 @@ public class ItemGridAdapter extends ArrayAdapter {
     }
 
     static class ViewHolder {
-        @Bind(R.id.item_grid) LinearLayout item_grid;
-        @Bind(R.id.text) TextView imageTitle;
-        @Bind(R.id.image) ImageView image;
+        LinearLayout item_grid;
+        TextView imageTitle;
+        ImageView image;
 
         public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            item_grid = (LinearLayout) view.findViewById(R.id.item_grid);
+            imageTitle = (TextView) view.findViewById(R.id.text);
+            image = (ImageView) view.findViewById(R.id.image);
         }
     }
 

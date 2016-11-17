@@ -2,19 +2,13 @@ package com.rashata.jamie.spend.repository.impl;
 
 import android.util.Log;
 
-import com.rashata.jamie.spend.component.Injector;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.Initial;
 import com.rashata.jamie.spend.repository.DataRepository;
-import com.rashata.jamie.spend.repository.DatabaseRealm;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -26,13 +20,6 @@ import rx.Observable;
 public class DataRepositoryImpl implements DataRepository {
 
     private static final String TAG = "DataRepositoryImpl";
-    @Inject
-    DatabaseRealm databaseRealm;
-
-    public DataRepositoryImpl() {
-        Injector.getApplicationComponent().inject(this);
-    }
-
 
     @Override
     public Observable<Integer> addData(final double money, final String note, final int catagory, final Date date, final int type) {
@@ -40,11 +27,15 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
-                    Data data = realm.createObject(Data.class);
                     RealmResults<Data> datas = realm.where(Data.class).findAll().sort("uuid", Sort.DESCENDING);
-                    data.setUuid(datas.get(0).getUuid() + 1);
+                    Data data = null;
+                    if (datas.isEmpty()) {
+                        data = realm.createObject(Data.class, 0);
+                    } else {
+                        data = realm.createObject(Data.class, datas.get(0).getUuid() + 1);
+                    }
                     data.setMoney(money);
                     data.setNote(note);
                     data.setCatagory(catagory);
@@ -67,7 +58,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     final Data data = realm.where(Data.class).equalTo("uuid", uuid).findFirst();
                     realm.beginTransaction();
                     data.setMoney(money);
@@ -92,7 +83,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super List<Data>> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     List<Data> datas = realm.where(Data.class).findAll().sort("uuid", Sort.DESCENDING);
                     subscriber.onNext(datas);
                     subscriber.onCompleted();
@@ -110,7 +101,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super List<Data>> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     Date date = new Date();
                     date.setHours(0);
                     date.setMinutes(0);
@@ -152,7 +143,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super List<Initial>> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     List<Initial> initials = realm.where(Initial.class).findAll();
                     subscriber.onNext(initials);
                     subscriber.onCompleted();
@@ -171,7 +162,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     List<Data> datas = realm.where(Data.class).findAll();
                     double summary = 0.0;
                     for (Data data : datas) {
@@ -207,7 +198,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
 
                     List<Data> datas;
                     if (month != -1) {
@@ -250,7 +241,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     Date date = new Date();
                     date.setHours(0);
                     date.setMinutes(0);
@@ -285,7 +276,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     List<Data> datas = realm.where(Data.class).findAll();
                     double summary = 0.0;
                     for (Data data : datas) {
@@ -311,7 +302,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Double> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     Initial initial = realm.where(Initial.class).findFirst();
                     if (initial != null) {
                         subscriber.onNext(initial.getMoney());
@@ -334,11 +325,11 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Initial> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     Initial initial = realm.where(Initial.class).findFirst();
                     realm.beginTransaction();
                     if (initial == null) {
-                        initial = realm.createObject(Initial.class);
+                        initial = realm.createObject(Initial.class, 0);
                         initial.setMoney(money);
                     } else {
                         initial.setMoney(money);
@@ -360,7 +351,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Float> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     List<Data> datas = realm.where(Data.class).findAll();
                     float summary = 0;
                     for (Data data : datas) {
@@ -389,7 +380,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Float> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     List<Data> datas;
                     if (month != -1) {
                         Calendar calendar_before = Calendar.getInstance();
@@ -403,10 +394,10 @@ public class DataRepositoryImpl implements DataRepository {
                         datas = realm.where(Data.class)
                                 .greaterThanOrEqualTo("date", date_before)
                                 .lessThan("date", date_after)
-                                .equalTo("type",Data.TYPE_EXPENSE)
+                                .equalTo("type", Data.TYPE_EXPENSE)
                                 .findAll();
                     } else {
-                        datas = realm.where(Data.class).equalTo("type",Data.TYPE_EXPENSE).findAll();
+                        datas = realm.where(Data.class).equalTo("type", Data.TYPE_EXPENSE).findAll();
                     }
 
                     float summary = 0;
@@ -437,7 +428,7 @@ public class DataRepositoryImpl implements DataRepository {
             @Override
             public void call(Subscriber<? super Boolean> subscriber) {
                 try {
-                    Realm realm = databaseRealm.getRealmInstance();
+                    Realm realm = Realm.getDefaultInstance();
                     final Data data = realm.where(Data.class).equalTo("uuid", uuid).findFirst();
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
@@ -461,7 +452,7 @@ public class DataRepositoryImpl implements DataRepository {
         return Observable.create(new Observable.OnSubscribe() {
             @Override
             public void call(Object o) {
-                Realm realm = databaseRealm.getRealmInstance();
+                Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
                 realm.delete(Data.class);
                 realm.delete(Initial.class);

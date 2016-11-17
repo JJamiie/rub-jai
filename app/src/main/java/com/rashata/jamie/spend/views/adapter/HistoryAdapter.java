@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.repository.DataRepository;
+import com.rashata.jamie.spend.repository.DatabaseRealm;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.views.activity.HistoryActivity;
@@ -30,15 +30,10 @@ import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import xml.RubjaiWidget;
-
 /**
  * Created by jjamierashata on 5/30/16 AD.
  */
 public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderViewHolder, HistoryItemViewHolder, HistoryFooterViewHolder> {
-    DataRepository dataRepository;
     private static final String TAG = "HistoryAdapter";
     private ArrayList<DatasHistory> datasHistories;
     private HistoryActivity historyActivity;
@@ -46,10 +41,9 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
     public String month_thai[] = {"มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"};
 
 
-    public HistoryAdapter(ArrayList<DatasHistory> datasHistories, DataRepository dataRepository, HistoryActivity historyActivity) {
+    public HistoryAdapter(ArrayList<DatasHistory> datasHistories, HistoryActivity historyActivity) {
         this.historyActivity = historyActivity;
         this.datasHistories = datasHistories;
-        this.dataRepository = dataRepository;
     }
 
 
@@ -154,7 +148,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
                 .setPositiveButton("ใช่",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                dataRepository.deleteData(uuid).subscribe();
+                                DatabaseRealm.getInstance().getDataRepository().deleteData(uuid).subscribe();
                                 historyActivity.loadData(historyActivity.getCurrent_type());
                             }
                         }).setNegativeButton("ไม่",
@@ -208,10 +202,10 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
                             public void onClick(DialogInterface dialog, int id) {
                                 int position = spinner.getSelectedItemPosition();
                                 if (data.getType() == Data.TYPE_EXPENSE) {
-                                    dataRepository.editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
+                                    DatabaseRealm.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
                                             position, data.getDate(), data.getType()).subscribe();
                                 } else {
-                                    dataRepository.editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
+                                    DatabaseRealm.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
                                             position, data.getDate(), data.getType()).subscribe();
                                 }
                                 historyActivity.loadData(historyActivity.getCurrent_type());
@@ -241,38 +235,36 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
 
 class HistoryItemViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.txt_history_title)
     TextView txt_history_title;
-    @Bind(R.id.txt_history_note)
     TextView txt_history_note;
-    @Bind(R.id.txt_history_money)
     TextView txt_history_money;
-    @Bind(R.id.img_history)
     ImageView img_history;
-    @Bind(R.id.btn_delete)
     ImageButton btn_delete;
-    @Bind(R.id.btn_edit)
     ImageButton btn_edit;
-    @Bind(R.id.v_front)
     View v_front;
 
     public HistoryItemViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
+        txt_history_title = (TextView) itemView.findViewById(R.id.txt_history_title);
+        txt_history_note = (TextView) itemView.findViewById(R.id.txt_history_note);
+        txt_history_money = (TextView) itemView.findViewById(R.id.txt_history_money);
+        img_history = (ImageView) itemView.findViewById(R.id.img_history);
+        btn_delete = (ImageButton) itemView.findViewById(R.id.btn_delete);
+        btn_edit = (ImageButton) itemView.findViewById(R.id.btn_edit);
+        v_front = itemView.findViewById(R.id.v_front);
 
     }
 }
 
 class HistoryHeaderViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.txt_date)
     TextView txt_date;
-    @Bind(R.id.txt_total_money)
     TextView txt_total_money;
 
 
     public HistoryHeaderViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
+        txt_date = (TextView) itemView.findViewById(R.id.txt_date);
+        txt_total_money = (TextView) itemView.findViewById(R.id.txt_total_money);
     }
 }
 

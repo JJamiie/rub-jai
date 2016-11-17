@@ -24,16 +24,9 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.component.Injector;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.repository.DataRepository;
-
+import com.rashata.jamie.spend.repository.DatabaseRealm;
 import java.util.ArrayList;
-
-import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import rx.functions.Action1;
 
 public class StatisticActivity extends AppCompatActivity implements OnChartValueSelectedListener {
@@ -42,14 +35,9 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
     final int[] relax = {2, 3, 5, 6, 7, 8, 14};
     final int[] travel = {0};
     final int[] payment = {9, 10, 11, 12};
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.txt_total_income)
-    TextView txt_total_income;
-    @Bind(R.id.txt_total_expense)
-    TextView txt_total_expense;
-    @Inject
-    DataRepository dataRepository;
+    private Toolbar toolbar;
+    private TextView txt_total_income;
+    private TextView txt_total_expense;
     private PieChart mChart;
     private ArrayList<PieEntry> entries;
 
@@ -57,12 +45,13 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
-        ButterKnife.bind(this);
-        Injector.getApplicationComponent().inject(this);
         setWidget();
     }
 
     public void setWidget() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        txt_total_income = (TextView) findViewById(R.id.txt_total_income);
+        txt_total_expense = (TextView) findViewById(R.id.txt_total_expense);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("สถิติการใช้เงิน");
@@ -132,13 +121,13 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
 
 
     public void loadData(int month) {
-        dataRepository.getSummary(Data.TYPE_EXPENSE, month).subscribe(new Action1<String>() {
+        DatabaseRealm.getInstance().getDataRepository().getSummary(Data.TYPE_EXPENSE, month).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_total_expense.setText(s);
             }
         });
-        dataRepository.getSummary(Data.TYPE_INCOME, month).subscribe(new Action1<String>() {
+        DatabaseRealm.getInstance().getDataRepository().getSummary(Data.TYPE_INCOME, month).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_total_income.setText(s);
@@ -146,7 +135,7 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
         });
         entries = new ArrayList<PieEntry>();
 
-        dataRepository.getStatistic(factor4, month).subscribe(new Action1<Float>() {
+        DatabaseRealm.getInstance().getDataRepository().getStatistic(factor4, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
@@ -154,21 +143,21 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
 
             }
         });
-        dataRepository.getStatistic(relax, month).subscribe(new Action1<Float>() {
+        DatabaseRealm.getInstance().getDataRepository().getStatistic(relax, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
                     entries.add(new PieEntry(aFloat, "ผ่อนคลาย"));
             }
         });
-        dataRepository.getStatistic(travel, month).subscribe(new Action1<Float>() {
+        DatabaseRealm.getInstance().getDataRepository().getStatistic(travel, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
                     entries.add(new PieEntry(aFloat, "เดินทาง"));
             }
         });
-        dataRepository.getStatistic(payment, month).subscribe(new Action1<Float>() {
+        DatabaseRealm.getInstance().getDataRepository().getStatistic(payment, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
