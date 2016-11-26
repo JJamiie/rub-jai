@@ -1,13 +1,11 @@
 package com.rashata.jamie.spend.views.adapter;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.repository.DatabaseRealm;
+import com.rashata.jamie.spend.util.ArrayAdapterWithIcon;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.views.activity.HistoryActivity;
@@ -90,7 +90,6 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
             holder.txt_total_money.setTextColor(Color.parseColor("#EF5350"));
             holder.txt_total_money.setText(String.format("%.2f", datasHistories.get(section).getTotal_money()));
         }
-
     }
 
     @Override
@@ -115,18 +114,14 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
         }
         holder.img_history.setImageResource(imgs.getResourceId(catagory, -1));
         holder.txt_history_note.setText(datasHistories.get(section).getHistories().get(position).getNote());
-        holder.btn_delete.setOnClickListener(new View.OnClickListener() {
+        holder.frm_history.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                showDialogDelete(datasHistories.get(section).getHistories().get(position).getUuid());
+            public boolean onLongClick(View v) {
+                showDialogOption(section, position);
+                return true;
             }
         });
-        holder.btn_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogEdit(datasHistories.get(section).getHistories().get(position));
-            }
-        });
+
     }
 
     protected LayoutInflater getLayoutInflater() {
@@ -225,8 +220,32 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
         // show it
         alertDialog.show();
 
-
     }
+
+    public void showDialogOption(final int section, final int position) {
+        final String[] items = new String[]{"แก้ไขข้อมูล", "ลบข้อมูล"};
+        ListAdapter adapter = new ArrayAdapterWithIcon(getContext(), items);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        showDialogEdit(datasHistories.get(section).getHistories().get(position));
+                        break;
+                    case 1:
+                        showDialogDelete(datasHistories.get(section).getHistories().get(position).getUuid());
+                        break;
+                }
+            }
+        });
+        // set prompts.xml to alertdialog builder
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+    }
+
 
     public Context getContext() {
         return historyActivity;
@@ -235,12 +254,11 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
 
 class HistoryItemViewHolder extends RecyclerView.ViewHolder {
+    CardView frm_history;
     TextView txt_history_title;
     TextView txt_history_note;
     TextView txt_history_money;
     ImageView img_history;
-    ImageButton btn_delete;
-    ImageButton btn_edit;
     View v_front;
 
     public HistoryItemViewHolder(View itemView) {
@@ -249,9 +267,8 @@ class HistoryItemViewHolder extends RecyclerView.ViewHolder {
         txt_history_note = (TextView) itemView.findViewById(R.id.txt_history_note);
         txt_history_money = (TextView) itemView.findViewById(R.id.txt_history_money);
         img_history = (ImageView) itemView.findViewById(R.id.img_history);
-        btn_delete = (ImageButton) itemView.findViewById(R.id.btn_delete);
-        btn_edit = (ImageButton) itemView.findViewById(R.id.btn_edit);
         v_front = itemView.findViewById(R.id.v_front);
+        frm_history = (CardView) itemView.findViewById(R.id.frm_history);
 
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_guide"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.rashata.jamie.spend.views.activity.GuideActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_guide"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioBtnOne"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_pager_dot"
+            android:clickable="false"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radioBtnTwo"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_pager_dot"
+            android:clickable="false"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radioBtnThree"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginRight="5dp"
+            android:clickable="false"
+            android:background="@drawable/button_pager_dot"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radioBtnFour"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:clickable="false"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_pager_dot"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/radioBtnFive"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:clickable="false"
+            android:background="@drawable/button_pager_dot"
+            android:button="@null" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/btn_get_started"
+        android:text="@string/get_started"
+        android:textColor="@color/white" />
+</LinearLayout>

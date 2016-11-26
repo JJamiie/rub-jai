@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#4A6EA0</color>
     <color name="colorPrimaryDark">#3b5d8c</color>
+    <color name="colorPrimaryDark2">#2e4d79</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="grayDark">#888b8f</color>
     <color name="graySuperDark">#43464b</color>
@@ -11,6 +12,7 @@
     <color name="sky">#89C4CA</color>
     <color name="skyDark">#78b6bc</color>
     <color name="white">#FFFFFF</color>
+    <color name="whiteD">#f2f2f2</color>
     <color name="pink">#EFB7B6</color>
     <color name="pinky">#ffcbca</color>
     <color name="pinkDark">#dca1a0</color>

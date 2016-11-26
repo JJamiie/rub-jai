@@ -24,7 +24,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:divider="@drawable/empty_tall_divider"
             android:gravity="center"
             android:orientation="vertical"
             android:showDividers="middle">
@@ -33,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="วันนี้"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -41,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+1000.00"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textSize="50dp"
                 android:textStyle="bold" />
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ทั้งหมด"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
