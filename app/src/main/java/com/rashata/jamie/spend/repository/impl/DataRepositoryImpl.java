@@ -2,10 +2,17 @@ package com.rashata.jamie.spend.repository.impl;
 
 import android.util.Log;
 
+import com.rashata.jamie.spend.Contextor;
+import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
+import com.rashata.jamie.spend.manager.ExpenseCategory;
+import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.manager.Initial;
 import com.rashata.jamie.spend.repository.DataRepository;
+import com.rashata.jamie.spend.util.CategoryItem;
+import com.rashata.jamie.spend.util.RubjaiPreference;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +23,17 @@ import io.realm.Sort;
 import rx.Subscriber;
 import rx.Observable;
 
-
 public class DataRepositoryImpl implements DataRepository {
-
     private static final String TAG = "DataRepositoryImpl";
+    private String[] income = {"พ่อแม่", "เงินเดือน", "ของขวัญ", "ยืม", "ขายของ", "อื่นๆ"};
+    private int[] incomePic = {R.drawable.item_parent, R.drawable.item_salary, R.drawable.item_gift_gray, R.drawable.item_loan
+            , R.drawable.item_sell, R.drawable.item_others_gray};
+    private String[] expense = {"เดินทาง", "อาหาร", "เสื้อผ้า", "ดูหนัง", "รักษาตัว", "คนรัก", "ปาร์ตี้", "ช๊อปปิ้ง", "ของขวัญ", "ค่าไฟ", "ค่าน้ำ", "โทรศัพท์"
+            , "สัตว์เลี้ยง", "กีฬา", "ครอบครัว", "ที่พัก", "อื่นๆ"};
+    private int[] expensePic = {R.drawable.item_bus, R.drawable.item_food, R.drawable.item_shirt, R.drawable.item_movie
+            , R.drawable.item_health, R.drawable.item_lover, R.drawable.item_party, R.drawable.item_shopping, R.drawable.item_gift
+            , R.drawable.item_electric, R.drawable.item_water, R.drawable.item_phone, R.drawable.item_pet, R.drawable.item_run
+            , R.drawable.item_family, R.drawable.item_bed, R.drawable.item_others};
 
     @Override
     public Observable<Integer> addData(final double money, final String note, final int catagory, final Date date, final int type) {
@@ -456,6 +470,229 @@ public class DataRepositoryImpl implements DataRepository {
                 realm.beginTransaction();
                 realm.delete(Data.class);
                 realm.delete(Initial.class);
+                realm.commitTransaction();
+                realm.close();
+            }
+        });
+    }
+
+    @Override
+    public Observable getExpenseCategory() {
+        return Observable.create(new Observable.OnSubscribe<List<ExpenseCategory>>() {
+            @Override
+            public void call(Subscriber<? super List<ExpenseCategory>> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    List<ExpenseCategory> datas = realm.where(ExpenseCategory.class).equalTo("show", true).findAllSorted("position");
+                    subscriber.onNext(datas);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable addExpenseCategory(final String name, final int image) {
+        return Observable.create(new Observable.OnSubscribe<ExpenseCategory>() {
+            @Override
+            public void call(Subscriber<? super ExpenseCategory> subscriber) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                RealmResults<ExpenseCategory> datas = realm.where(ExpenseCategory.class).findAll().sort("uuid", Sort.DESCENDING);
+                ExpenseCategory expensecategory = realm.createObject(ExpenseCategory.class, datas.get(0).getUuid() + 1);
+                expensecategory.setName(name);
+                expensecategory.setPicture(Contextor.getInstance().getContext().getResources().getResourceEntryName(image));
+                expensecategory.setShow(true);
+                expensecategory.setPosition(datas.size());
+                realm.commitTransaction();
+                subscriber.onNext(expensecategory);
+                subscriber.onCompleted();
+                realm.close();
+            }
+        });
+    }
+
+    @Override
+    public Observable addIncomeCategory(final String name, final int image) {
+        return Observable.create(new Observable.OnSubscribe<IncomeCategory>() {
+            @Override
+            public void call(Subscriber<? super IncomeCategory> subscriber) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                RealmResults<IncomeCategory> datas = realm.where(IncomeCategory.class).findAll().sort("uuid", Sort.DESCENDING);
+                IncomeCategory incomeCategory = realm.createObject(IncomeCategory.class, datas.get(0).getUuid() + 1);
+                incomeCategory.setName(name);
+                incomeCategory.setPicture(Contextor.getInstance().getContext().getResources().getResourceEntryName(image));
+                incomeCategory.setShow(true);
+                incomeCategory.setPosition(datas.size());
+                realm.commitTransaction();
+                subscriber.onNext(incomeCategory);
+                subscriber.onCompleted();
+                realm.close();
+            }
+        });
+    }
+
+    @Override
+    public Observable getAllExpenseCategory() {
+        return Observable.create(new Observable.OnSubscribe<List<ExpenseCategory>>() {
+            @Override
+            public void call(Subscriber<? super List<ExpenseCategory>> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    List<ExpenseCategory> datas = realm.where(ExpenseCategory.class).findAllSorted("position");
+                    subscriber.onNext(datas);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable getExpenseCategoryWithId(final int id) {
+        return Observable.create(new Observable.OnSubscribe<ExpenseCategory>() {
+            @Override
+            public void call(Subscriber<? super ExpenseCategory> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    ExpenseCategory expenseCategory = realm.where(ExpenseCategory.class).equalTo("uuid", id).findFirst();
+                    subscriber.onNext(expenseCategory);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable getIncomeCategory() {
+        return Observable.create(new Observable.OnSubscribe<List<IncomeCategory>>() {
+            @Override
+            public void call(Subscriber<? super List<IncomeCategory>> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    List<IncomeCategory> datas = realm.where(IncomeCategory.class).equalTo("show", true).findAllSorted("position");
+                    subscriber.onNext(datas);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable getAllIncomeCategory() {
+        return Observable.create(new Observable.OnSubscribe<List<IncomeCategory>>() {
+            @Override
+            public void call(Subscriber<? super List<IncomeCategory>> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    List<IncomeCategory> datas = realm.where(IncomeCategory.class).findAllSorted("position");
+                    subscriber.onNext(datas);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable getIncomeCategoryWithId(final int id) {
+        return Observable.create(new Observable.OnSubscribe<IncomeCategory>() {
+            @Override
+            public void call(Subscriber<? super IncomeCategory> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    IncomeCategory incomeCategory = realm.where(IncomeCategory.class).equalTo("uuid", id).findFirst();
+                    subscriber.onNext(incomeCategory);
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    @Override
+    public Observable initialData() {
+        return Observable.create(new Observable.OnSubscribe() {
+            @Override
+            public void call(Object o) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                // Add Income
+                Log.d(TAG, "add initial data");
+                for (int i = 0; i < income.length; i++) {
+                    IncomeCategory incomeCategory = realm.createObject(IncomeCategory.class, i);
+                    incomeCategory.setName(income[i]);
+                    incomeCategory.setPicture(Contextor.getInstance().getContext().getResources().getResourceEntryName(incomePic[i]));
+                    if (i == income.length - 1) incomeCategory.setShow(false);
+                    else incomeCategory.setShow(true);
+                    incomeCategory.setPosition(i);
+                }
+
+                // Add Expense
+                for (int i = 0; i < expense.length; i++) {
+                    ExpenseCategory expensecategory = realm.createObject(ExpenseCategory.class, i);
+                    expensecategory.setName(expense[i]);
+                    expensecategory.setPicture(Contextor.getInstance().getContext().getResources().getResourceEntryName(expensePic[i]));
+                    if (i == expense.length - 1) expensecategory.setShow(false);
+                    else expensecategory.setShow(true);
+                    expensecategory.setPosition(i);
+                }
+
+                RubjaiPreference rubjaiPreference = new RubjaiPreference(Contextor.getInstance().getContext());
+                rubjaiPreference.initialData = "done";
+                rubjaiPreference.update();
+                realm.commitTransaction();
+                realm.close();
+            }
+        });
+    }
+
+    @Override
+    public Observable updateCategoryExpense(final ArrayList<CategoryItem> categoryItems) {
+        return Observable.create(new Observable.OnSubscribe() {
+            @Override
+            public void call(Object o) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                for (int i = 0; i < categoryItems.size(); i++) {
+                    ExpenseCategory expenseCategory = realm.where(ExpenseCategory.class).equalTo("uuid", categoryItems.get(i).getId()).findFirst();
+                    expenseCategory.setPosition(i);
+                    expenseCategory.setShow(categoryItems.get(i).isShow());
+                }
+                realm.commitTransaction();
+                realm.close();
+            }
+        });
+    }
+
+    @Override
+    public Observable updateCategoryIncome(final ArrayList<CategoryItem> categoryItems) {
+        return Observable.create(new Observable.OnSubscribe() {
+            @Override
+            public void call(Object o) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                for (int i = 0; i < categoryItems.size(); i++) {
+                    IncomeCategory incomeCategory = realm.where(IncomeCategory.class).equalTo("uuid", categoryItems.get(i).getId()).findFirst();
+                    incomeCategory.setPosition(i);
+                    incomeCategory.setShow(categoryItems.get(i).isShow());
+                }
                 realm.commitTransaction();
                 realm.close();
             }

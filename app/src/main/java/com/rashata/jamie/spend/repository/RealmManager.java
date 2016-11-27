@@ -8,21 +8,21 @@ import io.realm.RealmConfiguration;
 /**
  * Created by jjamierashata on 6/16/16 AD.
  */
-public class DatabaseRealm {
-    private static DatabaseRealm instance;
+public class RealmManager {
+    private static RealmManager instance;
     private DataRepository dataRepository;
     private RealmConfiguration realmConfiguration;
 
 
-    private DatabaseRealm() {
+    private RealmManager() {
         setup();
         dataRepository = new DataRepositoryImpl();
     }
 
 
-    public static DatabaseRealm getInstance() {
+    public static RealmManager getInstance() {
         if (instance == null)
-            instance = new DatabaseRealm();
+            instance = new RealmManager();
         return instance;
     }
 
@@ -31,7 +31,7 @@ public class DatabaseRealm {
             Realm.init(Contextor.getInstance().getContext());
             realmConfiguration = new RealmConfiguration.Builder()
                     .name("rubjai.realm")
-                    .schemaVersion(0)
+                    .schemaVersion(1)
                     .migration(new DatabaseMigration())
                     .build();
             Realm.setDefaultConfiguration(realmConfiguration);

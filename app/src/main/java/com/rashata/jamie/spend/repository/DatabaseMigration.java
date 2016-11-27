@@ -1,6 +1,8 @@
 package com.rashata.jamie.spend.repository;
 
 
+import android.util.Log;
+
 import java.util.Date;
 
 import io.realm.DynamicRealm;
@@ -16,23 +18,26 @@ import io.realm.annotations.PrimaryKey;
 
 public class DatabaseMigration implements RealmMigration {
 
+    private String TAG = "DatabaseMigration";
+
     @Override
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
+
         if (oldVersion == 0) {
-
-            RealmObjectSchema dataSchema = schema.get("Data");
-            dataSchema.addField("uuid", int.class, FieldAttribute.PRIMARY_KEY)
-                    .addField("money", double.class)
-                    .addField("note", String.class)
-                    .addField("catagory", int.class)
-                    .addField("date", Date.class)
-                    .addField("type", int.class);
-
-            RealmObjectSchema initialSchema = schema.get("Initial");
-            initialSchema.addField("uuid", int.class, FieldAttribute.PRIMARY_KEY)
-                    .addField("money", double.class);
-
+            Log.d(TAG, "version: " + oldVersion);
+            RealmObjectSchema expenseCategorySchema = schema.create("ExpenseCategory");
+            expenseCategorySchema.addField("uuid", int.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("name", String.class)
+                    .addField("picture", int.class)
+                    .addField("show", boolean.class)
+                    .addField("position", int.class);
+            RealmObjectSchema incomeCategorySchema = schema.create("IncomeCategory");
+            incomeCategorySchema.addField("uuid", int.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("name", String.class)
+                    .addField("picture", int.class)
+                    .addField("show", boolean.class)
+                    .addField("position", int.class);
             oldVersion++;
         }
     }

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Initial;
-import com.rashata.jamie.spend.repository.DatabaseRealm;
+import com.rashata.jamie.spend.repository.RealmManager;
 
 import rx.functions.Action1;
 import xml.RubjaiWidget;
@@ -84,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        DatabaseRealm.getInstance().getDataRepository().getSummaryToday().subscribe(new Action1<String>() {
+        RealmManager.getInstance().getDataRepository().getSummaryToday().subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_summary_today.setText(s);
             }
         });
 
-        DatabaseRealm.getInstance().getDataRepository().getSummary().subscribe(new Action1<String>() {
+        RealmManager.getInstance().getDataRepository().getSummary().subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_summary.setText(s);
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView btn_clear_data = (TextView) promptsView.findViewById(R.id.btn_clear);
 
 
-        DatabaseRealm.getInstance().getDataRepository().getInitialMoney().subscribe(new Action1<Double>() {
+        RealmManager.getInstance().getDataRepository().getInitialMoney().subscribe(new Action1<Double>() {
             @Override
             public void call(Double aDouble) {
                 if (aDouble == 0.00) {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                                         String m = edt_initial_money.getText().toString();
                                         if (!m.equals("")) {
                                             initial_money = Double.parseDouble(m);
-                                            DatabaseRealm.getInstance().getDataRepository().setInitial(initial_money).subscribe();
+                                            RealmManager.getInstance().getDataRepository().setInitial(initial_money).subscribe();
                                             loadData();
                                         }
                                     }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("ใช่",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DatabaseRealm.getInstance().getDataRepository().clearDB().subscribe();
+                                RealmManager.getInstance().getDataRepository().clearDB().subscribe();
                                 loadData();
                             }
                         })

@@ -3,7 +3,9 @@ package com.rashata.jamie.spend.repository;
 
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.Initial;
+import com.rashata.jamie.spend.util.CategoryItem;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +44,28 @@ public interface DataRepository {
     rx.Observable deleteData(int uuid);
 
     rx.Observable clearDB();
+
+    rx.Observable getExpenseCategory();
+
+    rx.Observable addExpenseCategory(String name, int image);
+
+    rx.Observable addIncomeCategory(String name, int image);
+
+    rx.Observable getAllExpenseCategory();
+
+    rx.Observable getExpenseCategoryWithId(int id);
+
+    rx.Observable getIncomeCategory();
+
+    rx.Observable getAllIncomeCategory();
+
+    rx.Observable getIncomeCategoryWithId(int id);
+
+    rx.Observable initialData();
+
+    rx.Observable updateCategoryExpense(ArrayList<CategoryItem> categoryItems);
+
+    rx.Observable updateCategoryIncome(ArrayList<CategoryItem> categoryItems);
 
 
 }

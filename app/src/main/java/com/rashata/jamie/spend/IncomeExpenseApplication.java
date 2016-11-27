@@ -1,9 +1,8 @@
 package com.rashata.jamie.spend;
 
 import android.app.Application;
-import android.content.Context;
-
-import com.rashata.jamie.spend.repository.DatabaseRealm;
+import com.rashata.jamie.spend.repository.RealmManager;
+import com.rashata.jamie.spend.util.RubjaiPreference;
 
 
 public class IncomeExpenseApplication extends Application {
@@ -13,6 +12,10 @@ public class IncomeExpenseApplication extends Application {
         super.onCreate();
         //Initialize thing(s) here
         Contextor.getInstance().init(getApplicationContext());
+        RubjaiPreference rubjaiPreference = new RubjaiPreference(this);
+        if (!rubjaiPreference.initialData.equals("done")){
+            RealmManager.getInstance().getDataRepository().initialData().subscribe();
+        }
     }
 
     @Override

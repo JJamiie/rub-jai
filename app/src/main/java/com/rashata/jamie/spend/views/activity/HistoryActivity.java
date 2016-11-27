@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.repository.DatabaseRealm;
+import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.views.adapter.HistoryAdapter;
 import com.rashata.jamie.spend.util.DatasHistory;
@@ -56,7 +56,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     public void loadData(int type) {
         datasHistories.clear();
-        DatabaseRealm.getInstance().getDataRepository().findAllData(type).subscribe(new Action1<List<Data>>() {
+        RealmManager.getInstance().getDataRepository().findAllData(type).subscribe(new Action1<List<Data>>() {
             @Override
             public void call(List<Data> datas) {
                 ArrayList<History> histories = new ArrayList<History>();

@@ -25,7 +25,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.repository.DatabaseRealm;
+import com.rashata.jamie.spend.repository.RealmManager;
 import java.util.ArrayList;
 import rx.functions.Action1;
 
@@ -121,13 +121,13 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
 
 
     public void loadData(int month) {
-        DatabaseRealm.getInstance().getDataRepository().getSummary(Data.TYPE_EXPENSE, month).subscribe(new Action1<String>() {
+        RealmManager.getInstance().getDataRepository().getSummary(Data.TYPE_EXPENSE, month).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_total_expense.setText(s);
             }
         });
-        DatabaseRealm.getInstance().getDataRepository().getSummary(Data.TYPE_INCOME, month).subscribe(new Action1<String>() {
+        RealmManager.getInstance().getDataRepository().getSummary(Data.TYPE_INCOME, month).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
                 txt_total_income.setText(s);
@@ -135,7 +135,7 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
         });
         entries = new ArrayList<PieEntry>();
 
-        DatabaseRealm.getInstance().getDataRepository().getStatistic(factor4, month).subscribe(new Action1<Float>() {
+        RealmManager.getInstance().getDataRepository().getStatistic(factor4, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
@@ -143,21 +143,21 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
 
             }
         });
-        DatabaseRealm.getInstance().getDataRepository().getStatistic(relax, month).subscribe(new Action1<Float>() {
+        RealmManager.getInstance().getDataRepository().getStatistic(relax, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
                     entries.add(new PieEntry(aFloat, "ผ่อนคลาย"));
             }
         });
-        DatabaseRealm.getInstance().getDataRepository().getStatistic(travel, month).subscribe(new Action1<Float>() {
+        RealmManager.getInstance().getDataRepository().getStatistic(travel, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)
                     entries.add(new PieEntry(aFloat, "เดินทาง"));
             }
         });
-        DatabaseRealm.getInstance().getDataRepository().getStatistic(payment, month).subscribe(new Action1<Float>() {
+        RealmManager.getInstance().getDataRepository().getStatistic(payment, month).subscribe(new Action1<Float>() {
             @Override
             public void call(Float aFloat) {
                 if (aFloat != 0.0)

@@ -61,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="จดบันทึก..."
+            android:padding="10dp"
             android:textSize="16dp" />
     </LinearLayout>
 
@@ -93,6 +94,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="15dp"
+        android:scrollbars="none"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp" />
 

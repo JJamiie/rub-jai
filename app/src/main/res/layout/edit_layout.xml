@@ -36,8 +36,8 @@
         <EditText
             android:id="@+id/edt_money"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:backgroundTint="@color/grayDark"
             android:hint="ระบุจำนวนเงิน"
             android:inputType="numberSigned|numberDecimal"
@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/grayDark"
-            android:maxLength="9"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColorHint="@color/gray"
@@ -85,13 +84,13 @@
 
         </EditText>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
+        android:paddingRight="20dp">
 
         <TextView
             android:layout_width="120dp"

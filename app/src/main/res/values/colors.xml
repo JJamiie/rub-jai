@@ -7,25 +7,17 @@
     <color name="grayDark">#888b8f</color>
     <color name="graySuperDark">#43464b</color>
     <color name="gray">#989a9c</color>
-    <color name="graySoft">#d7d7d7</color>
+    <color name="graySoft">#a8aaac</color>
     <color name="grayVerySoft">#e9e9e9</color>
     <color name="sky">#89C4CA</color>
+    <color name="skySoft">#96d1d7</color>
     <color name="skyDark">#78b6bc</color>
     <color name="white">#FFFFFF</color>
-    <color name="whiteD">#f2f2f2</color>
     <color name="pink">#EFB7B6</color>
-    <color name="pinky">#ffcbca</color>
-    <color name="pinkDark">#dca1a0</color>
     <color name="blue">#5F8AB3</color>
-    <color name="blueSoft">#8ab3da</color>
-    <color name="overlayWhite">#80e9e9e9</color>
-    <color name="transparent">#00000000</color>
     <color name="red">#EF5350</color>
-    <color name="redDark">#e44744</color>
-    <color name="overlay">#80000000</color>
-    <color name="black">#000000</color>
     <color name="green">#71edb1</color>
-    <color name="greenDark">#56df9c</color>
-    <color name="skin">#E9A487</color>
+    <color name="greenL">#82f9bf</color>
+    <color name="greenDark">#64dea3</color>
 
 </resources>

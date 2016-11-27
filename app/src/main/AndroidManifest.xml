@@ -11,9 +11,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".views.activity.MainActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".views.activity.ExpenseActivity"
             android:screenOrientation="portrait"
@@ -44,8 +42,7 @@
         <activity
             android:name=".views.activity.GuideActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".views.activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -56,6 +53,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.activity.ManageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

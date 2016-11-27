@@ -13,11 +13,11 @@ public class History {
     private Date date;
     private int type;
 
-    public History(int uuid, double money, String note, int catagory, Date date,int type){
+    public History(int uuid, double money, String note, int catagory, Date date, int type) {
         this.uuid = uuid;
         this.money = money;
         this.note = note;
-        this.catagory  =catagory;
+        this.catagory = catagory;
         this.date = date;
         this.type = type;
     }

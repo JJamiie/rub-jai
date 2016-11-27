@@ -2,7 +2,6 @@ package com.rashata.jamie.spend.views.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -10,25 +9,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.repository.DatabaseRealm;
+import com.rashata.jamie.spend.manager.ExpenseCategory;
+import com.rashata.jamie.spend.manager.IncomeCategory;
+import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.ArrayAdapterWithIcon;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
+import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.views.activity.HistoryActivity;
 import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import rx.functions.Action1;
 
 /**
  * Created by jjamierashata on 5/30/16 AD.
@@ -98,21 +102,32 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
     }
 
     @Override
-    protected void onBindItemViewHolder(HistoryItemViewHolder holder, final int section, final int position) {
-        int catagory = datasHistories.get(section).getHistories().get(position).getCatagory();
-        TypedArray imgs;
+    protected void onBindItemViewHolder(final HistoryItemViewHolder holder, final int section, final int position) {
+        final int catagory = datasHistories.get(section).getHistories().get(position).getCatagory();
         if (datasHistories.get(section).getHistories().get(position).getType() == Data.TYPE_EXPENSE) {
             holder.txt_history_money.setTextColor(Color.parseColor("#89C4CA"));
             holder.txt_history_money.setText(String.format("%.2f", datasHistories.get(section).getHistories().get(position).getMoney()));
-            holder.txt_history_title.setText(getContext().getResources().getTextArray(R.array.list_expense)[catagory]);
-            imgs = getContext().getResources().obtainTypedArray(R.array.id_list_expense);
+            RealmManager.getInstance().getDataRepository().getExpenseCategoryWithId(catagory).subscribe(new Action1<ExpenseCategory>() {
+                @Override
+                public void call(ExpenseCategory data) {
+                    holder.txt_history_title.setText(data.getName());
+                    int resId = Contextor.getInstance().getContext().getResources().getIdentifier(data.getPicture(), "drawable", "com.rashata.jamie.spend");
+                    holder.img_history.setImageResource(resId);
+                }
+            });
+
         } else {
             holder.txt_history_money.setTextColor(Color.parseColor("#9e9e9e"));
             holder.txt_history_money.setText("+" + String.format("%.2f", datasHistories.get(section).getHistories().get(position).getMoney()));
-            holder.txt_history_title.setText(getContext().getResources().getTextArray(R.array.list_income)[catagory]);
-            imgs = getContext().getResources().obtainTypedArray(R.array.id_list_income);
+            RealmManager.getInstance().getDataRepository().getIncomeCategoryWithId(catagory).subscribe(new Action1<IncomeCategory>() {
+                @Override
+                public void call(IncomeCategory data) {
+                    holder.txt_history_title.setText(data.getName());
+                    int resId = Contextor.getInstance().getContext().getResources().getIdentifier(data.getPicture(), "drawable", "com.rashata.jamie.spend");
+                    holder.img_history.setImageResource(resId);
+                }
+            });
         }
-        holder.img_history.setImageResource(imgs.getResourceId(catagory, -1));
         holder.txt_history_note.setText(datasHistories.get(section).getHistories().get(position).getNote());
         holder.frm_history.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -143,7 +158,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
                 .setPositiveButton("ใช่",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                DatabaseRealm.getInstance().getDataRepository().deleteData(uuid).subscribe();
+                                RealmManager.getInstance().getDataRepository().deleteData(uuid).subscribe();
                                 historyActivity.loadData(historyActivity.getCurrent_type());
                             }
                         }).setNegativeButton("ไม่",
@@ -179,17 +194,58 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
         edt_money.setText((String.format("%.2f", data.getMoney())));
         edt_note.setText(data.getNote());
 
-        int id_list;
+        final ArrayList<CategoryItem> imageItems = new ArrayList<>();
         if (data.getType() == Data.TYPE_EXPENSE) {
-            id_list = R.array.list_expense;
+            RealmManager.getInstance().getDataRepository().getExpenseCategory().subscribe(new Action1<List<ExpenseCategory>>() {
+                @Override
+                public void call(List<ExpenseCategory> datas) {
+                    if (!datas.isEmpty()) {
+                        for (ExpenseCategory expenseCategory : datas) {
+                            imageItems.add(new CategoryItem(expenseCategory.getUuid(), expenseCategory.getPosition(), expenseCategory.getName(), expenseCategory.isShow()));
+                        }
+                    }
+                }
+            });
         } else {
-            id_list = R.array.list_income;
+            RealmManager.getInstance().getDataRepository().getIncomeCategory().subscribe(new Action1<List<IncomeCategory>>() {
+                @Override
+                public void call(List<IncomeCategory> datas) {
+                    if (!datas.isEmpty()) {
+                        for (IncomeCategory incomeCategory : datas) {
+                            imageItems.add(new CategoryItem(incomeCategory.getUuid(), incomeCategory.getPosition(), incomeCategory.getName(), incomeCategory.isShow()));
+                        }
+                    }
+                }
+            });
         }
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                id_list, R.layout.drop_spinner_title_edit);
-        adapter.setDropDownViewResource(R.layout.drop_spinner_item_edit);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(data.getCatagory());
+        final CategoryDropdownAdapter categoryDropdownAdapter = new CategoryDropdownAdapter(getContext(), imageItems);
+        spinner.setAdapter(categoryDropdownAdapter);
+        int selection = -1;
+        for (int i = 0; i < imageItems.size(); i++) {
+            if (data.getCatagory() == imageItems.get(i).getId()) {
+                selection = i;
+                break;
+            }
+        }
+        if(selection == -1){
+            if(data.getType() == Data.TYPE_EXPENSE){
+                RealmManager.getInstance().getDataRepository().getExpenseCategoryWithId(data.getCatagory()).subscribe(new Action1<ExpenseCategory>() {
+                    @Override
+                    public void call(ExpenseCategory expenseCategory) {
+                        categoryDropdownAdapter.addTopOfItem(new CategoryItem(expenseCategory.getUuid(),expenseCategory.getPosition(),expenseCategory.getName(),expenseCategory.isShow()));
+                    }
+                });
+            }else{
+                RealmManager.getInstance().getDataRepository().getIncomeCategoryWithId(data.getCatagory()).subscribe(new Action1<IncomeCategory>() {
+                    @Override
+                    public void call(IncomeCategory incomeCategory) {
+                        categoryDropdownAdapter.addTopOfItem(new CategoryItem(incomeCategory.getUuid(),incomeCategory.getPosition(),incomeCategory.getName(),incomeCategory.isShow()));
+                    }
+                });
+            }
+        }else {
+            spinner.setSelection(selection);
+        }
         alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("แก้ไข",
@@ -197,11 +253,11 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
                             public void onClick(DialogInterface dialog, int id) {
                                 int position = spinner.getSelectedItemPosition();
                                 if (data.getType() == Data.TYPE_EXPENSE) {
-                                    DatabaseRealm.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
-                                            position, data.getDate(), data.getType()).subscribe();
+                                    RealmManager.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
+                                            imageItems.get(position).getId(), data.getDate(), data.getType()).subscribe();
                                 } else {
-                                    DatabaseRealm.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
-                                            position, data.getDate(), data.getType()).subscribe();
+                                    RealmManager.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
+                                            imageItems.get(position).getId(), data.getDate(), data.getType()).subscribe();
                                 }
                                 historyActivity.loadData(historyActivity.getCurrent_type());
                             }
