@@ -12,15 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.rashata.jamie.spend.Contextor;
@@ -34,14 +30,14 @@ import com.rashata.jamie.spend.util.GridSpacingItemDecoration;
 import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.util.ItemTouchHelperCallback;
 import com.rashata.jamie.spend.views.adapter.ManageAdapter;
-import com.rashata.jamie.spend.views.adapter.NewItemGridAdapter;
+import com.rashata.jamie.spend.views.adapter.NewItemCategoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import rx.functions.Action1;
 
-public class ManageActivity extends AppCompatActivity implements ManageAdapter.OnDragStartListener {
+public class ManageActivity extends AppCompatActivity implements ManageAdapter.OnDragStartListener, NewItemCategoryAdapter.ActivityListener {
 
     private static final String TAG = "ManageActivity";
     private Toolbar toolbar;
@@ -56,6 +52,9 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
+        if (savedInstanceState != null) {
+            onRestoreInstanceState(savedInstanceState);
+        }
         initInstances();
     }
 
@@ -71,7 +70,7 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("แก้ไขรายการ");
+        getSupportActionBar().setTitle("แก้ไขหมวด");
 
         rec_item = (RecyclerView) findViewById(R.id.rec_item);
         rec_item.setHasFixedSize(true);
@@ -102,24 +101,17 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
         final AlertDialog alertDialog = alertDialogBuilder.create();
-        GridView gridView = (GridView) promptsView.findViewById(R.id.gridView);
-        int layout = type == Data.TYPE_EXPENSE ? R.layout.grid_item_layout : R.layout.grid_item_layout_gray;
-        final NewItemGridAdapter newItemGridAdapter = new NewItemGridAdapter(this, layout);
+        RecyclerView rec_item = (RecyclerView) promptsView.findViewById(R.id.rec_item);
+        rec_item.setHasFixedSize(true);
+        rec_item.setLayoutManager(new GridLayoutManager(this, 4));
+        final NewItemCategoryAdapter newItemCategoryAdapter = new NewItemCategoryAdapter(type, this);
+        rec_item.setAdapter(newItemCategoryAdapter);
         selected_item = -1;
-        gridView.setAdapter(newItemGridAdapter);
         if (type == Data.TYPE_EXPENSE) {
-            newItemGridAdapter.setData(Constants.expensePic);
+            newItemCategoryAdapter.setData(Constants.expensePic);
         } else {
-            newItemGridAdapter.setData(Constants.incomePic);
+            newItemCategoryAdapter.setData(Constants.incomePic);
         }
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                newItemGridAdapter.setClicked(position);
-                Log.d(TAG, "postion: " + position);
-                selected_item = position;
-            }
-        });
         final EditText edt_category = (EditText) promptsView.findViewById(R.id.edt_category);
         edt_category.addTextChangedListener(new TextWatcher() {
             @Override
@@ -129,7 +121,7 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                newItemGridAdapter.setText(s.toString());
+                newItemCategoryAdapter.setNameCategory(s.toString());
             }
 
             @Override
@@ -143,16 +135,16 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
             public void onClick(View v) {
                 String name = edt_category.getText().toString();
                 if (name.isEmpty()) {
-                    edt_category.setError("กรุณาพิมพ์ชื่อรายการ");
+                    edt_category.setError("กรุณาพิมพ์ชื่อหมวด");
                     edt_category.requestFocus();
                     return;
                 } else if (selected_item == -1) {
-                    showToast("กรุณาเลือกรายการ");
+                    showToast("กรุณาเลือกหมวด");
                     return;
                 } else {
                     if (type == Data.TYPE_EXPENSE) {
                         RealmManager.getInstance().getDataRepository()
-                                .addExpenseCategory(name, newItemGridAdapter.getData()[selected_item])
+                                .addExpenseCategory(name, newItemCategoryAdapter.getData()[selected_item])
                                 .subscribe(new Action1<ExpenseCategory>() {
                                     @Override
                                     public void call(ExpenseCategory expenseCategory) {
@@ -162,7 +154,7 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
                                 });
                     } else {
                         RealmManager.getInstance().getDataRepository()
-                                .addIncomeCategory(name, newItemGridAdapter.getData()[selected_item])
+                                .addIncomeCategory(name, newItemCategoryAdapter.getData()[selected_item])
                                 .subscribe(new Action1<IncomeCategory>() {
                                     @Override
                                     public void call(IncomeCategory incomeCategory) {
@@ -171,6 +163,7 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
                                     }
                                 });
                     }
+                    updateCategory();
                 }
                 alertDialog.dismiss();
                 manageAdapter.notifyDataSetChanged();
@@ -187,15 +180,13 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
         alertDialog.show();
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return true;
-            case R.id.correct:
-                updateCategory();
-                finish();
+                overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -242,17 +233,17 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
         manageAdapter.setImageItems(imageItems);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_expense_income, menu);
-        return true;
-    }
-
 
     @Override
     public void onDragStarted(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
     }
+
+    @Override
+    public void onUpdate() {
+        updateCategory();
+    }
+
 
     public void updateCategory() {
         if (type == Data.TYPE_EXPENSE) {
@@ -268,5 +259,10 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
 
     public void showToast(String text) {
         Toast.makeText(Contextor.getInstance().getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        selected_item = position;
     }
 }

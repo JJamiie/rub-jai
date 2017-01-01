@@ -23,50 +23,6 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/radioBtnOne"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_pager_dot"
-            android:clickable="false"
-            android:button="@null" />
-
-        <RadioButton
-            android:id="@+id/radioBtnTwo"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_pager_dot"
-            android:clickable="false"
-            android:button="@null" />
-
-        <RadioButton
-            android:id="@+id/radioBtnThree"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="5dp"
-            android:clickable="false"
-            android:background="@drawable/button_pager_dot"
-            android:button="@null" />
-
-        <RadioButton
-            android:id="@+id/radioBtnFour"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:clickable="false"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_pager_dot"
-            android:button="@null" />
-
-        <RadioButton
-            android:id="@+id/radioBtnFive"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:clickable="false"
-            android:background="@drawable/button_pager_dot"
-            android:button="@null" />
-
     </RadioGroup>
 
     <Button

@@ -13,14 +13,18 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RubjaiPreference rubjaiPreference = new RubjaiPreference(this);
-        if (rubjaiPreference.guideTour.equals("done")) {
+        if (rubjaiPreference.guideTour.equals("done") && rubjaiPreference.newFeature1.equals("done")) {
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if (rubjaiPreference.guideTour.equals("done") && !rubjaiPreference.newFeature1.equals("done")) {
+            Intent intent = new Intent(this, GuideActivity.class);
+            intent.putExtra("feature", 1);
             startActivity(intent);
         } else {
             Intent intent = new Intent(this, GuideActivity.class);
             startActivity(intent);
-
         }
+
         finish();
     }
 }

@@ -14,10 +14,14 @@
     <color name="skyDark">#78b6bc</color>
     <color name="white">#FFFFFF</color>
     <color name="pink">#EFB7B6</color>
+    <color name="pinkSoft">#fffafa</color>
     <color name="blue">#5F8AB3</color>
     <color name="red">#EF5350</color>
     <color name="green">#71edb1</color>
     <color name="greenL">#82f9bf</color>
     <color name="greenDark">#64dea3</color>
+    <color name="overlay">#80000000</color>
+    <color name="nav">#2b2a30</color>
+
 
 </resources>

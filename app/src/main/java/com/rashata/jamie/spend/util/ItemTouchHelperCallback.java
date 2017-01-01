@@ -44,6 +44,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
 
+
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
@@ -59,6 +60,9 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
         super.clearView(recyclerView, viewHolder);
         ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
         itemViewHolder.onItemClear();
+        mAdapter.notifyDataSetChanged();
+        mAdapter.getmDragStartListener().onUpdate();
+
     }
 
 }

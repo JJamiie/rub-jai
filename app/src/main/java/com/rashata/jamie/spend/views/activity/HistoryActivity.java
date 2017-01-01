@@ -96,10 +96,12 @@ public class HistoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.transition_right_in,R.anim.transition_right_out);
                 return true;
             case R.id.statistic:
                 Intent intent = new Intent(this, StatisticActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

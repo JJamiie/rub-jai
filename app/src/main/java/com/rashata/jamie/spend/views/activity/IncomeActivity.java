@@ -7,20 +7,22 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.CategoryItem;
-import com.rashata.jamie.spend.views.adapter.ItemGridAdapter;
+import com.rashata.jamie.spend.views.adapter.ItemCategoryAdapter;
 import com.rashata.jamie.spend.manager.Data;
 
 import java.util.ArrayList;
@@ -32,15 +34,14 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xml.RubjaiWidget;
 
-public class IncomeActivity extends AppCompatActivity {
-    private ItemGridAdapter itemGridAdapter;
+public class IncomeActivity extends AppCompatActivity implements ItemCategoryAdapter.ActivityListener {
     private double money;
     private int selected_catagory = -1;
-    private Data data;
-    private GridView gridView;
     private EditText edt_money;
     private EditText edt_note;
     private Toolbar toolbar;
+    private RecyclerView rec_item;
+    private ItemCategoryAdapter itemCategoryAdapter;
 
 
     @Override
@@ -57,31 +58,26 @@ public class IncomeActivity extends AppCompatActivity {
     }
 
     public void setWidget() {
-        gridView = (GridView) findViewById(R.id.gridView);
-        edt_money = (EditText) findViewById(R.id.edt_money);
-        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
-        edt_note = (EditText) findViewById(R.id.edt_note);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("รายรับ");
-        itemGridAdapter = new ItemGridAdapter(this, R.layout.grid_item_layout_gray);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int idItem = itemGridAdapter.getData().get(position).getId();
-                if (idItem == -1) {
-                    Intent intent = new Intent(getActivity(), ManageActivity.class);
-                    intent.putExtra("type", Data.TYPE_INCOME);
-                    startActivity(intent);
-                } else {
-                    selected_catagory = idItem;
-                    itemGridAdapter.setClicked(position);
-                    itemGridAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-        gridView.setAdapter(itemGridAdapter);
+        edt_money = (EditText) findViewById(R.id.edt_money);
+        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
+        edt_note = (EditText) findViewById(R.id.edt_note);
+        rec_item = (RecyclerView) findViewById(R.id.rec_item);
+        rec_item.setHasFixedSize(true);
+        rec_item.setLayoutManager(new GridLayoutManager(this, 4));
+        itemCategoryAdapter = new ItemCategoryAdapter(this);
+        rec_item.setAdapter(itemCategoryAdapter);
+        addAds();
+    }
+
+    public void addAds() {
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3754673556433244/6327931413");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void getData() {
@@ -98,22 +94,22 @@ public class IncomeActivity extends AppCompatActivity {
             }
         });
         imageItems.add(new CategoryItem(-1, R.drawable.item_ic_setting_income, "แก้ไข", false));
-        itemGridAdapter.setData(imageItems);
+        itemCategoryAdapter.setData(imageItems);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                updateWidget();
                 finish();
-                return true;
+                overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
+                break;
             case R.id.correct:
                 addToDatabase();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
         }
+        updateWidget();
+        return true;
     }
 
     @Override
@@ -143,8 +139,9 @@ public class IncomeActivity extends AppCompatActivity {
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
-                        updateWidget();
                         finish();
+                        overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
+
                     }
                 });
     }
@@ -161,4 +158,17 @@ public class IncomeActivity extends AppCompatActivity {
         sendBroadcast(intent);
     }
 
+    @Override
+    public void onItemClicked(int position) {
+        int idItem = itemCategoryAdapter.getData().get(position).getId();
+        if (idItem == -1) {
+            Intent intent = new Intent(getActivity(), ManageActivity.class);
+            intent.putExtra("type", Data.TYPE_EXPENSE);
+            startActivity(intent);
+            overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);
+        } else {
+            selected_catagory = idItem;
+            itemCategoryAdapter.setClicked(position);
+        }
+    }
 }

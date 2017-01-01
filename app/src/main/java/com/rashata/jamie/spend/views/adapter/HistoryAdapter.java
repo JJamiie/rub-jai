@@ -175,8 +175,6 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
         // show it
         alertDialog.show();
-
-
     }
 
     public void showDialogEdit(final History data) {

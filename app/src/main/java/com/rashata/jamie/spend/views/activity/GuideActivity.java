@@ -3,6 +3,10 @@ package com.rashata.jamie.spend.views.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +33,7 @@ public class GuideActivity extends AppCompatActivity {
     private ViewPager pager_guide;
     private RadioGroup radioGroup;
     private Button btn_start;
+    private int feature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,8 @@ public class GuideActivity extends AppCompatActivity {
     }
 
     private void setWidget() {
+        Intent intent = getIntent();
+        feature = intent.getIntExtra("feature", -1);
         setGuideItem();
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         pager_guide = (ViewPager) findViewById(R.id.pager_guide);
@@ -45,7 +52,7 @@ public class GuideActivity extends AppCompatActivity {
         pager_guide.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return 5;
+                return guideItems.size();
             }
 
             @Override
@@ -64,12 +71,11 @@ public class GuideActivity extends AppCompatActivity {
                 txt_title.setText(guideItems.get(position).getTitle());
                 txt_description1.setText(guideItems.get(position).getDescription1());
                 txt_description2.setText(guideItems.get(position).getDescription2());
-                if (position > 0) {
-                    txt_description2.setVisibility(View.GONE);
-                } else {
+                if (guideItems.get(position).getDescription()) {
                     txt_description1.setVisibility(View.VISIBLE);
                     txt_description2.setVisibility(View.VISIBLE);
-
+                } else {
+                    txt_description2.setVisibility(View.GONE);
                 }
 
                 Glide.with(getActivity()).load(guideItems.get(position).getImgGuide()).into(img_guide);
@@ -98,12 +104,25 @@ public class GuideActivity extends AppCompatActivity {
 
             }
         });
+        final float scale = getActivity().getResources().getDisplayMetrics().density;
+        RadioGroup.LayoutParams params_rb = new RadioGroup.LayoutParams(
+                (int) (15 * scale + 0.5f),
+                (int) (15 * scale + 0.5f));
+        params_rb.setMargins((int) (3 * scale + 0.5f), 0, (int) (3 * scale + 0.5f), 0);
+        for (int i = 0; i < guideItems.size(); i++) {
+            RadioButton rb = new RadioButton(this);
+            rb.setButtonDrawable(ContextCompat.getDrawable(getActivity(), android.R.color.transparent));
+            rb.setBackgroundResource(R.drawable.button_pager_dot);
+            rb.setChecked(false);
+            radioGroup.addView(rb, params_rb);
+        }
         radioGroup.check(radioGroup.getChildAt(0).getId());
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RubjaiPreference rubjaiPreference = new RubjaiPreference(getActivity());
                 rubjaiPreference.guideTour = "done";
+                rubjaiPreference.newFeature1 = "done";
                 rubjaiPreference.update();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
@@ -114,11 +133,15 @@ public class GuideActivity extends AppCompatActivity {
 
     private void setGuideItem() {
         guideItems = new ArrayList<>();
-        guideItems.add(new GuideItem("ยินดีต้อนรับ", "เข้าสู่แอพพลิเคชั่นรับจ่ายที่", "เหมาะสมกับการทำงานโดยแท้จริง", R.drawable.guide1));
-        guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide2));
-        guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide3));
-        guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide4));
-        guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide5));
+        if (feature == -1) {
+            guideItems.add(new GuideItem("ยินดีต้อนรับ", "เข้าสู่แอพพลิเคชั่นรับจ่ายที่", "เหมาะสมกับการทำงานโดยแท้จริง", R.drawable.guide1, true));
+            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide2, false));
+            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide3, false));
+            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide4, false));
+            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide5, false));
+        }
+        guideItems.add(new GuideItem("วิธีการใช้งาน", "ฟังก์ชันใหม่", "จัดรูปแบบหมวดตามใจชอบ", R.drawable.guide6, true));
+        guideItems.add(new GuideItem("วิธีการใช้งาน", "ฟังก์ชันใหม่", "จัดรูปแบบสถิติตามใจอยาก", R.drawable.guide7, true));
     }
 
     public Activity getActivity() {

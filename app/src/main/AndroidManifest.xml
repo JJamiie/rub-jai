@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rashata.jamie.spend">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".IncomeExpenseApplication"
         android:allowBackup="true"
@@ -11,14 +12,16 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".views.activity.MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".views.activity.ExpenseActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activity.IncomeActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activity.HistoryActivity"
@@ -42,21 +45,24 @@
         <activity
             android:name=".views.activity.GuideActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".views.activity.ManageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme2.NoActionBar" />
+        <activity
+            android:name=".views.activity.MangageStatisticActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2.NoActionBar"></activity>
     </application>
 
 </manifest>

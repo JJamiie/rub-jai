@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
             }
         });
         btn_income = (Button) findViewById(R.id.btn_income);
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, IncomeActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
             }
         });
         btn_setting = (Button) findViewById(R.id.btn_setting);
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
             }
         });
     }

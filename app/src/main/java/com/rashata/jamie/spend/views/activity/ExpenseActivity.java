@@ -1,30 +1,37 @@
 package com.rashata.jamie.spend.views.activity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.CategoryItem;
-import com.rashata.jamie.spend.views.adapter.ItemGridAdapter;
+import com.rashata.jamie.spend.views.adapter.ItemCategoryAdapter;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.views.adapter.ManageAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,15 +40,16 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xml.RubjaiWidget;
 
-public class ExpenseActivity extends AppCompatActivity {
+
+public class ExpenseActivity extends AppCompatActivity implements ItemCategoryAdapter.ActivityListener {
 
     private static final String TAG = "ExpenseActivity";
-    private ItemGridAdapter itemGridAdapter;
     private int selected_catagory = -1;
-    private GridView gridView;
     private EditText edt_money;
     private EditText edt_note;
     private Toolbar toolbar;
+    private RecyclerView rec_item;
+    private ItemCategoryAdapter itemCategoryAdapter;
 
 
     @Override
@@ -57,33 +65,22 @@ public class ExpenseActivity extends AppCompatActivity {
         getData();
     }
 
+
     public void setWidget() {
-        gridView = (GridView) findViewById(R.id.gridView);
-        edt_money = (EditText) findViewById(R.id.edt_money);
-        edt_note = (EditText) findViewById(R.id.edt_note);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("รายจ่าย");
-        itemGridAdapter = new ItemGridAdapter(this, R.layout.grid_item_layout);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int idItem = itemGridAdapter.getData().get(position).getId();
-                if (idItem == -1) {
-                    Intent intent = new Intent(getActivity(), ManageActivity.class);
-                    intent.putExtra("type", Data.TYPE_EXPENSE);
-                    startActivity(intent);
-                } else {
-                    selected_catagory = idItem;
-                    itemGridAdapter.setClicked(position);
-                    itemGridAdapter.notifyDataSetChanged();
-                }
+        addAds();
+        rec_item = (RecyclerView) findViewById(R.id.rec_item);
+        rec_item.setHasFixedSize(true);
+        rec_item.setLayoutManager(new GridLayoutManager(this, 4));
+        itemCategoryAdapter = new ItemCategoryAdapter(this);
+        rec_item.setAdapter(itemCategoryAdapter);
+        edt_money = (EditText) findViewById(R.id.edt_money);
+        edt_note = (EditText) findViewById(R.id.edt_note);
+        edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
 
-            }
-        });
-        gridView.setAdapter(itemGridAdapter);
     }
 
     private void getData() {
@@ -100,22 +97,22 @@ public class ExpenseActivity extends AppCompatActivity {
             }
         });
         imageItems.add(new CategoryItem(-1, R.drawable.item_ic_setting_expense, "แก้ไข", false));
-        itemGridAdapter.setData(imageItems);
+        itemCategoryAdapter.setData(imageItems);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                updateWidget();
                 finish();
-                return true;
+                overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
+                break;
             case R.id.correct:
                 addToDatabase();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
         }
+        updateWidget();
+        return true;
     }
 
     @Override
@@ -146,8 +143,8 @@ public class ExpenseActivity extends AppCompatActivity {
                 .subscribe(new Action1<Integer>() {
                     @Override
                     public void call(Integer integer) {
-                        updateWidget();
                         finish();
+                        overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
                     }
                 });
     }
@@ -167,5 +164,56 @@ public class ExpenseActivity extends AppCompatActivity {
         int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RubjaiWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
+    }
+
+    private void showDialogChooseDate(final TextView txt_date, final Calendar calendar, final int position, final ArrayList<String> datetime) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.cus_dialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            }
+        });
+        datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                int loadedOrientation = getActivity().getResources().getConfiguration().orientation;
+                int requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+                if (loadedOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                } else if (loadedOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                }
+                getActivity().setRequestedOrientation(requestedOrientation);
+            }
+        });
+        datePickerDialog.show();
+    }
+
+    public void addAds() {
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3754673556433244/6327931413");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        int idItem = itemCategoryAdapter.getData().get(position).getId();
+        if (idItem == -1) {
+            Intent intent = new Intent(getActivity(), ManageActivity.class);
+            intent.putExtra("type", Data.TYPE_EXPENSE);
+            startActivity(intent);
+            overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);
+        } else {
+            selected_catagory = idItem;
+            itemCategoryAdapter.setClicked(position);
+        }
     }
 }

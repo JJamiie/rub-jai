@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "928682794779",
+    "project_id": "firebase-rubjai"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:928682794779:android:0654cca03dfaa0a7",
+        "android_client_info": {
+          "package_name": "com.rashata.jamie.spend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "928682794779-29df8gmrk2bn63fbhaljdu3gqu7njtlv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rashata.jamie.spend",
+            "certificate_hash": "AAE60A0FB8B3E42301870F72136AF24535ABC885"
+          }
+        },
+        {
+          "client_id": "928682794779-tvrdp3h04eu9r7f7c28nc46jrvufs1rb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZVobMjSRWOe3oBRlbR-o0YrwE06NYf94"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

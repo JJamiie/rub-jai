@@ -14,6 +14,7 @@ public class ExpenseCategory extends RealmObject {
     private String picture;
     private boolean show;
     private int position;
+    private int idExpenseStatistic;
 
     public int getUuid() {
         return uuid;
@@ -54,4 +55,13 @@ public class ExpenseCategory extends RealmObject {
     public void setPosition(int position) {
         this.position = position;
     }
+
+    public int getIdExpenseStatistic() {
+        return idExpenseStatistic;
+    }
+
+    public void setIdExpenseStatistic(int idExpenseStatistic) {
+        this.idExpenseStatistic = idExpenseStatistic;
+    }
+
 }

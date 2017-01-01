@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,8 +20,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_margin="10dp"
-            android:background="@drawable/btn_setting"
-             />
+            android:background="@drawable/btn_setting" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,8 +33,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="วันนี้"
                 android:layout_marginBottom="10dp"
+                android:text="วันนี้"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -40,8 +42,8 @@
                 android:id="@+id/txt_summary_today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+1000.00"
                 android:layout_marginBottom="10dp"
+                android:text="+1000.00"
                 android:textColor="@color/white"
                 android:textSize="50dp"
                 android:textStyle="bold" />
@@ -49,8 +51,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ทั้งหมด"
                 android:layout_marginBottom="10dp"
+                android:text="ทั้งหมด"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -70,8 +72,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_margin="20dp"
-            android:background="@drawable/btn_select_history"
-             />
+            android:background="@drawable/btn_select_history" />
     </FrameLayout>
 
     <LinearLayout
