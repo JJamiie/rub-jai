@@ -142,17 +142,18 @@ public class ManageStatisticCategoryAdapter extends RecyclerView.Adapter<ManageS
         alertDialogBuilder.setView(promptsView);
         TextView txt_confirm = (TextView) promptsView.findViewById(R.id.txt_confirm);
         TextView txt_confirm2 = (TextView) promptsView.findViewById(R.id.txt_confirm2);
-        txt_confirm.setText("คุณต้องการจะย้ายหมวด" + titleCategory);
-        txt_confirm2.setText("จากสถิติ" + titleStatistic + "มาสู่สถิติ" + titleCurrentStatistic + "ใช่หรือไม่?");
+        txt_confirm.setText(Contextor.getInstance().getContext().getString(R.string.do_you_want_to_move) + titleCategory);
+        txt_confirm2.setText(Contextor.getInstance().getContext().getString(R.string.from) + titleStatistic + Contextor.getInstance().getContext().getString(R.string.to)
+                + titleCurrentStatistic + Contextor.getInstance().getContext().getString(R.string.dont_you));
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("ใช่",
+                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.do_you_want_to_move),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 setIdExpenseStatisticInExpenseCategory(idExpenseStatistic, idCategory, position);
                                 notifyDataSetChanged();
                             }
-                        }).setNegativeButton("ไม่",
+                        }).setNegativeButton(Contextor.getInstance().getContext().getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 

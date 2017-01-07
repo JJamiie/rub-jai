@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="รายรับ"
+                android:text="@string/income"
                 android:textColor="@color/grayVerySoft" />
 
             <TextView
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="รายจ่าย"
+                android:text="@string/expense"
                 android:textColor="@color/grayVerySoft" />
 
             <TextView

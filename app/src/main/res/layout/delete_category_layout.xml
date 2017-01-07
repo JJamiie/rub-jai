@@ -23,14 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="คุณต้องการจะลบใช่หรือไม่ ?"
+            android:text="@string/make_sure_delete"
             android:textColor="@color/white"
             android:textSize="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ข้อมูลในหมวดนี้จะถูกย้ายไปสู่หมวดอื่นๆ"
+            android:text="@string/make_sure_delete2"
             android:textColor="@color/white"
             android:textSize="12dp" />
 

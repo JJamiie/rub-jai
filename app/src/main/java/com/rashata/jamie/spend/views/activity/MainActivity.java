@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     edt_initial_money.setText(String.format("%.2f", aDouble));// set dialog message
                 }
                 alertDialogBuilder
-                        .setPositiveButton("ตกลง",
+                        .setPositiveButton(getResources().getString(R.string.done),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         String m = edt_initial_money.getText().toString();
@@ -172,14 +172,14 @@ public class MainActivity extends AppCompatActivity {
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("ใช่",
+                .setPositiveButton(getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 RealmManager.getInstance().getDataRepository().clearDB().subscribe();
                                 loadData();
                             }
                         })
-                .setNegativeButton("ยกเลิก",
+                .setNegativeButton(getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 

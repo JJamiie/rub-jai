@@ -20,8 +20,7 @@
     <color name="green">#71edb1</color>
     <color name="greenL">#82f9bf</color>
     <color name="greenDark">#64dea3</color>
-    <color name="overlay">#80000000</color>
-    <color name="nav">#2b2a30</color>
+    <color name="overlay">#40000000</color>
 
 
 </resources>

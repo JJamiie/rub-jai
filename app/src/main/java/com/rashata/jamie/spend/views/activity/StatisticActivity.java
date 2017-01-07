@@ -79,7 +79,7 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("สถิติการใช้เงิน");
+        getSupportActionBar().setTitle(getResources().getString(R.string.spend_statistic));
         setChart();
     }
 

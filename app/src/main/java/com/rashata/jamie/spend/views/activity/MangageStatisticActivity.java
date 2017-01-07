@@ -49,7 +49,7 @@ public class MangageStatisticActivity extends AppCompatActivity implements Manag
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("ตั้งค่ากราฟสถิติ");
+        getSupportActionBar().setTitle(getResources().getString(R.string.setting_graph_statistic));
         rec_statistic_catagory = (RecyclerView) findViewById(R.id.rec_statistic_catagory);
         rec_statistic_catagory.setHasFixedSize(true);
         rec_statistic = (RecyclerView) findViewById(R.id.rec_statistic);
@@ -79,7 +79,7 @@ public class MangageStatisticActivity extends AppCompatActivity implements Manag
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                overridePendingTransition(R.anim.transition_right_in,R.anim.transition_right_out);
+                overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
                 return true;
             case R.id.add:
                 showDialogAddStatistic();
@@ -179,7 +179,7 @@ public class MangageStatisticActivity extends AppCompatActivity implements Manag
             public void onClick(View v) {
                 String statistic = edt_statistic.getText().toString();
                 if (statistic.isEmpty()) {
-                    edt_statistic.setError("กรุณากรอกชื่อสถิติ");
+                    edt_statistic.setError(getResources().getString(R.string.please_fill_statistic));
                     edt_statistic.requestFocus();
                 } else {
                     RealmManager.getInstance().getDataRepository().addExpenseStatistic(statistic).subscribe(new Action1<ExpenseStatistic>() {

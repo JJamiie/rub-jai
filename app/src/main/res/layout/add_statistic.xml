@@ -11,7 +11,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="20dp"
-        android:text="เพิ่มรายการใหม่"
+        android:text="@string/add_statistic"
         android:textSize="15dp"
         android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="@color/gray"
-        android:hint="ชื่อรายการ"
+        android:hint="@string/name_statistic"
         android:maxLength="10"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_add_cancel"
-            android:text="ยกเลิก"
+            android:text="@string/cancel"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/selector_cus_btn_add"
-            android:text="เพิ่ม"
+            android:text="@string/add"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </LinearLayout>

@@ -3,12 +3,12 @@
     android:id="@+id/frm_item"
     android:clickable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/item_grid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -26,14 +26,11 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="เดินทาง"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/gray"
             android:textSize="13sp" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/border"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/border_gray"
-        android:visibility="gone" />
+
 </FrameLayout>

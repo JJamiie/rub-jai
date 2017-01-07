@@ -160,7 +160,7 @@ public class ManageStatisticAdapter extends RecyclerView.Adapter<ManageStatistic
             public void onClick(View v) {
                 String statistic = edt_statistic.getText().toString();
                 if (statistic.isEmpty()) {
-                    edt_statistic.setError("กรุณากรอกชื่อสถิติ");
+                    edt_statistic.setError(Contextor.getInstance().getContext().getString(R.string.please_fill_statistic));
                     edt_statistic.requestFocus();
                 } else {
                     RealmManager.getInstance().getDataRepository().editExpenseStatistic(uuid, statistic).subscribe(new Action1<ExpenseStatistic>() {
@@ -178,7 +178,8 @@ public class ManageStatisticAdapter extends RecyclerView.Adapter<ManageStatistic
     }
 
     public void showDialogOption(final int uuid, final String title, final int position) {
-        final String[] items = new String[]{"แก้ไขสถิติ", "ลบสถิติ"};
+        final String[] items = new String[]{Contextor.getInstance().getContext().getString(R.string.edit_statistic),
+                Contextor.getInstance().getContext().getString(R.string.delete_statistic)};
         ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), items);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -204,7 +205,7 @@ public class ManageStatisticAdapter extends RecyclerView.Adapter<ManageStatistic
     public void showDialogDeleteCategory(final int uuid, final int position) {
         // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(getActivity());
-        View promptsView = li.inflate(R.layout.delete_statistic_layout, null);
+        View promptsView = li.inflate(R.layout.delete_layout, null);
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
@@ -213,7 +214,7 @@ public class ManageStatisticAdapter extends RecyclerView.Adapter<ManageStatistic
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("ใช่",
+                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 RealmManager.getInstance().getDataRepository().deleteExpenseStatistic(uuid).subscribe();
@@ -226,7 +227,7 @@ public class ManageStatisticAdapter extends RecyclerView.Adapter<ManageStatistic
                                 }
                                 notifyDataSetChanged();
                             }
-                        }).setNegativeButton("ไม่",
+                        }).setNegativeButton(Contextor.getInstance().getContext().getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 

@@ -13,18 +13,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.views.adapter.HistoryAdapter;
 import com.rashata.jamie.spend.util.DatasHistory;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import rx.functions.Action1;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity implements HistoryAdapter.ActivityListener {
     private static final String TAG = "HistoryActivity";
     private ArrayList<DatasHistory> datasHistories;
     private HistoryAdapter historyAdapter;
@@ -46,11 +49,11 @@ public class HistoryActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("ประวัติการใช้");
+        getSupportActionBar().setTitle(getString(R.string.history));
         rcc_history.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         rcc_history.setLayoutManager(llm);
-        historyAdapter = new HistoryAdapter(datasHistories, this);
+        historyAdapter = new HistoryAdapter(datasHistories, this, this);
         rcc_history.setAdapter(historyAdapter);
     }
 
@@ -96,12 +99,12 @@ public class HistoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                overridePendingTransition(R.anim.transition_right_in,R.anim.transition_right_out);
+                overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
                 return true;
             case R.id.statistic:
                 Intent intent = new Intent(this, StatisticActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
+                overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -173,4 +176,8 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onLoadData() {
+        loadData(current_type);
+    }
 }

@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="วันนี้"
+                android:text="@string/today"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
@@ -41,7 +41,7 @@
             android:layout_width="90dp"
             android:layout_height="match_parent"
             android:background="@drawable/btn_select_expense"
-            android:text="รายจ่าย" />
+            android:text="@string/expense" />
 
         <Button
             android:id="@+id/btn_income"
@@ -49,7 +49,7 @@
             android:layout_width="90dp"
             android:layout_height="match_parent"
             android:background="@drawable/btn_select_income"
-            android:text="รายรับ" />
+            android:text="@string/income" />
 
 
     </LinearLayout>

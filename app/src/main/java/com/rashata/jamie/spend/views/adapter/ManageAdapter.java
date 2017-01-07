@@ -120,7 +120,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
             public void onClick(View v) {
                 if ((type == Data.TYPE_EXPENSE && imageItems.get(position).getId() == Constants.TYPE_OTHER_EXPENSE) ||
                         (type == Data.TYPE_INCOME && imageItems.get(position).getId() == Constants.TYPE_OTHER_INCOME)) {
-                    showToast("คุณไม่สามารถแก้ไขหรือลบหมวดอื่นๆได้");
+                    showToast(Contextor.getInstance().getContext().getString(R.string.cant_edit_others_category));
                 } else {
                     showDialogOption(imageItems.get(position).getId(), imageItems.get(position).getResId()
                             , imageItems.get(position).getTitle(), position);
@@ -192,7 +192,8 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
 
 
     public void showDialogOption(final int uuid, final int resId, final String title, final int position) {
-        final String[] items = new String[]{"แก้ไขหมวด", "ลบหมวด"};
+        final String[] items = new String[]{Contextor.getInstance().getContext().getString(R.string.edit_category),
+                Contextor.getInstance().getContext().getString(R.string.delete_category)};
         ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), items);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -227,7 +228,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("ใช่",
+                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (type == Data.TYPE_EXPENSE) {
@@ -239,7 +240,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
                                 mDragStartListener.onUpdate();
                                 notifyDataSetChanged();
                             }
-                        }).setNegativeButton("ไม่",
+                        }).setNegativeButton(Contextor.getInstance().getContext().getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -305,11 +306,11 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
             public void onClick(View v) {
                 String name = edt_category.getText().toString();
                 if (name.isEmpty()) {
-                    edt_category.setError("กรุณาพิมพ์ชื่อหมวด");
+                    edt_category.setError(Contextor.getInstance().getContext().getString(R.string.please_fill_category_name));
                     edt_category.requestFocus();
                     return;
                 } else if (selected_item == -1) {
-                    showToast("กรุณาเลือกหมวด");
+                    showToast(Contextor.getInstance().getContext().getString(R.string.please_choose_category_name));
                     return;
                 } else {
                     if (type == Data.TYPE_EXPENSE) {

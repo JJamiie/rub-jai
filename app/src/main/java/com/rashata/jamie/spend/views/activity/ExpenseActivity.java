@@ -15,8 +15,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +53,8 @@ public class ExpenseActivity extends AppCompatActivity implements ItemCategoryAd
     private Toolbar toolbar;
     private RecyclerView rec_item;
     private ItemCategoryAdapter itemCategoryAdapter;
+    private ImageButton btn_calendar;
+    private Calendar calendar;
 
 
     @Override
@@ -75,12 +80,19 @@ public class ExpenseActivity extends AppCompatActivity implements ItemCategoryAd
         rec_item = (RecyclerView) findViewById(R.id.rec_item);
         rec_item.setHasFixedSize(true);
         rec_item.setLayoutManager(new GridLayoutManager(this, 4));
-        itemCategoryAdapter = new ItemCategoryAdapter(this);
+        itemCategoryAdapter = new ItemCategoryAdapter(this, Data.TYPE_EXPENSE);
         rec_item.setAdapter(itemCategoryAdapter);
         edt_money = (EditText) findViewById(R.id.edt_money);
         edt_note = (EditText) findViewById(R.id.edt_note);
         edt_money.setRawInputType(Configuration.KEYBOARD_12KEY);
-
+        calendar = Calendar.getInstance();
+        btn_calendar = (ImageButton) findViewById(R.id.btn_calendar);
+        btn_calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogChooseDate();
+            }
+        });
     }
 
     private void getData() {
@@ -137,7 +149,7 @@ public class ExpenseActivity extends AppCompatActivity implements ItemCategoryAd
             return;
         }
         final String note = edt_note.getText().toString();
-        RealmManager.getInstance().getDataRepository().addData(money, note, selected_catagory, new Date(), Data.TYPE_EXPENSE)
+        RealmManager.getInstance().getDataRepository().addData(money, note, selected_catagory, calendar.getTime(), Data.TYPE_EXPENSE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Integer>() {
@@ -166,18 +178,18 @@ public class ExpenseActivity extends AppCompatActivity implements ItemCategoryAd
         sendBroadcast(intent);
     }
 
-    private void showDialogChooseDate(final TextView txt_date, final Calendar calendar, final int position, final ArrayList<String> datetime) {
+    private void showDialogChooseDate() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.cus_dialogTheme, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-
+                calendar.set(year, monthOfYear, dayOfMonth);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
             }
         });
         datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {

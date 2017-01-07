@@ -1,5 +1,9 @@
 package com.rashata.jamie.spend.views.adapter;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
 
@@ -43,9 +48,15 @@ public class NewItemCategoryAdapter extends RecyclerView.Adapter<NewItemCategory
     @Override
     public void onBindViewHolder(ItemViewHolder holder, final int position) {
         if (position == clicked) {
-            holder.border.setVisibility(View.VISIBLE);
+            int border = type == Data.TYPE_INCOME ? R.drawable.border_gray : R.drawable.border_sky;
+            Drawable bg = ContextCompat.getDrawable(Contextor.getInstance().getContext(), border);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                holder.frm_item.setBackground(bg);
+            } else {
+                holder.frm_item.setBackgroundDrawable(bg);
+            }
         } else {
-            holder.border.setVisibility(View.GONE);
+            holder.frm_item.setBackgroundColor(Color.TRANSPARENT);
         }
         holder.image.setImageResource(data[position]);
         holder.text.setText(nameCategory);
@@ -67,14 +78,12 @@ public class NewItemCategoryAdapter extends RecyclerView.Adapter<NewItemCategory
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        View border;
         TextView text;
         FrameLayout frm_item;
 
         public ItemViewHolder(View view) {
             super(view);
             image = (ImageView) view.findViewById(R.id.image);
-            border = view.findViewById(R.id.border);
             text = (TextView) view.findViewById(R.id.text);
             frm_item = (FrameLayout) view.findViewById(R.id.frm_item);
         }

@@ -70,7 +70,7 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("แก้ไขหมวด");
+        getSupportActionBar().setTitle(getResources().getString(R.string.edit_category));
 
         rec_item = (RecyclerView) findViewById(R.id.rec_item);
         rec_item.setHasFixedSize(true);
@@ -135,11 +135,11 @@ public class ManageActivity extends AppCompatActivity implements ManageAdapter.O
             public void onClick(View v) {
                 String name = edt_category.getText().toString();
                 if (name.isEmpty()) {
-                    edt_category.setError("กรุณาพิมพ์ชื่อหมวด");
+                    edt_category.setError(getResources().getString(R.string.please_fill_category_name));
                     edt_category.requestFocus();
                     return;
                 } else if (selected_item == -1) {
-                    showToast("กรุณาเลือกหมวด");
+                    showToast(getResources().getString(R.string.please_choose_category_name));
                     return;
                 } else {
                     if (type == Data.TYPE_EXPENSE) {

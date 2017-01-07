@@ -91,7 +91,7 @@ public class DataRepositoryImpl implements DataRepository {
             public void call(Subscriber<? super List<Data>> subscriber) {
                 try {
                     Realm realm = Realm.getDefaultInstance();
-                    List<Data> datas = realm.where(Data.class).findAll().sort("uuid", Sort.DESCENDING);
+                    List<Data> datas = realm.where(Data.class).findAll().sort("date", Sort.DESCENDING);
                     subscriber.onNext(datas);
                     subscriber.onCompleted();
                     realm.close();
@@ -116,22 +116,22 @@ public class DataRepositoryImpl implements DataRepository {
                     List<Data> datas = null;
                     switch (type) {
                         case 0:
-                            datas = realm.where(Data.class).findAll().sort("uuid", Sort.DESCENDING);
+                            datas = realm.where(Data.class).findAll().sort("date", Sort.DESCENDING);
                             break;
                         case 1:
-                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime())).findAll().sort("uuid", Sort.DESCENDING);
+                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime())).findAll().sort("date", Sort.DESCENDING);
                             break;
                         case 2:
-                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime() - 172800000L)).findAll().sort("uuid", Sort.DESCENDING);
+                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime() - 172800000L)).findAll().sort("date", Sort.DESCENDING);
                             break;
                         case 3:
-                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime() - 518400000L)).findAll().sort("uuid", Sort.DESCENDING);
+                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime() - 518400000L)).findAll().sort("date", Sort.DESCENDING);
                             break;
                         case 4:
-                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime() - 2505600000L)).findAll().sort("uuid", Sort.DESCENDING);
+                            datas = realm.where(Data.class).greaterThanOrEqualTo("date", new Date(date.getTime() - 2505600000L)).findAll().sort("date", Sort.DESCENDING);
                             break;
                         default:
-                            datas = realm.where(Data.class).findAll().sort("uuid", Sort.DESCENDING);
+                            datas = realm.where(Data.class).findAll().sort("date", Sort.DESCENDING);
                             break;
                     }
                     subscriber.onNext(datas);

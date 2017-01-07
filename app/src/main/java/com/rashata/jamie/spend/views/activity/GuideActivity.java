@@ -134,14 +134,14 @@ public class GuideActivity extends AppCompatActivity {
     private void setGuideItem() {
         guideItems = new ArrayList<>();
         if (feature == -1) {
-            guideItems.add(new GuideItem("ยินดีต้อนรับ", "เข้าสู่แอพพลิเคชั่นรับจ่ายที่", "เหมาะสมกับการทำงานโดยแท้จริง", R.drawable.guide1, true));
-            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide2, false));
-            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide3, false));
-            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide4, false));
-            guideItems.add(new GuideItem("วิธีการใช้งาน", "", "", R.drawable.guide5, false));
+            guideItems.add(new GuideItem(getString(R.string.welcome), getString(R.string.to_ledger_application), getString(R.string.beautifully_simple_management), R.drawable.guide1, true));
+            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide2, false));
+            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide3, false));
+            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide4, false));
+            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide5, false));
         }
-        guideItems.add(new GuideItem("วิธีการใช้งาน", "ฟังก์ชันใหม่", "จัดรูปแบบหมวดตามใจชอบ", R.drawable.guide6, true));
-        guideItems.add(new GuideItem("วิธีการใช้งาน", "ฟังก์ชันใหม่", "จัดรูปแบบสถิติตามใจอยาก", R.drawable.guide7, true));
+        guideItems.add(new GuideItem(getString(R.string.instruction), getString(R.string.new_feature), getString(R.string.simpler_generate_category), R.drawable.guide6, true));
+        guideItems.add(new GuideItem(getString(R.string.instruction), getString(R.string.new_feature), getString(R.string.simpler_generate_statistic), R.drawable.guide7, true));
     }
 
     public Activity getActivity() {

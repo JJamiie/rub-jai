@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="วันนี้"
+                android:text="@string/today"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="ทั้งหมด"
+                android:text="@string/total"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -87,7 +87,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/btn_select_income"
-            android:text="รายรับ" />
+            android:text="@string/income" />
 
         <Button
             android:id="@+id/btn_expense"
@@ -96,7 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/btn_select_expense"
-            android:text="รายจ่าย" />
+            android:text="@string/expense" />
     </LinearLayout>
 
 </LinearLayout>

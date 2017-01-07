@@ -1,16 +1,23 @@
 package com.rashata.jamie.spend.views.adapter;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +29,7 @@ import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.ArrayAdapterWithIcon;
+import com.rashata.jamie.spend.util.Constants;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.util.CategoryItem;
@@ -29,6 +37,7 @@ import com.rashata.jamie.spend.views.activity.HistoryActivity;
 import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,16 +49,20 @@ import rx.functions.Action1;
 public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderViewHolder, HistoryItemViewHolder, HistoryFooterViewHolder> {
     private static final String TAG = "HistoryAdapter";
     private ArrayList<DatasHistory> datasHistories;
-    private HistoryActivity historyActivity;
-    public String date_thai[] = {"วันอาทิตย์ที่", "วันจันทร์ที่", "วันอังคารที่", "วันพุธที่", "วันพฤหัสบดีที่", "วันศุกร์่", "วันเสาร์ที่"};
-    public String month_thai[] = {"มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"};
+    private Activity activity;
+    private ActivityListener activityListener;
 
 
-    public HistoryAdapter(ArrayList<DatasHistory> datasHistories, HistoryActivity historyActivity) {
-        this.historyActivity = historyActivity;
+    public HistoryAdapter(ArrayList<DatasHistory> datasHistories, Activity activity, ActivityListener activityListener) {
+        this.activity = activity;
         this.datasHistories = datasHistories;
+        this.activityListener = activityListener;
     }
 
+
+    public interface ActivityListener {
+        void onLoadData();
+    }
 
     @Override
     protected int getSectionCount() {
@@ -68,7 +81,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     @Override
     protected HistoryHeaderViewHolder onCreateSectionHeaderViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.item_history_header, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_header, parent, false);
         return new HistoryHeaderViewHolder(view);
     }
 
@@ -79,14 +92,18 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     @Override
     protected HistoryItemViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        View view = getLayoutInflater().inflate(R.layout.item_history, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history, parent, false);
         return new HistoryItemViewHolder(view);
     }
 
     @Override
     protected void onBindSectionHeaderViewHolder(HistoryHeaderViewHolder holder, int section) {
         Date date = datasHistories.get(section).getDate();
-        holder.txt_date.setText(date_thai[date.getDay()] + " " + date.getDate() + " " + month_thai[date.getMonth()] + " " + (date.getYear() + 1900 + 543));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Log.d(TAG, (Calendar.DAY_OF_WEEK - 1) + " " + calendar.get(Calendar.MONTH));
+        holder.txt_date.setText(Constants.date[calendar.get(Calendar.DAY_OF_WEEK) - 1] + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                + Constants.month[calendar.get(Calendar.MONTH)] + " " + (calendar.get(Calendar.YEAR) + 543));
         if (datasHistories.get(section).getTotal_money() >= 0) {
             holder.txt_total_money.setTextColor(Color.parseColor("#888b8f"));
             holder.txt_total_money.setText("+" + String.format("%.2f", datasHistories.get(section).getTotal_money()));
@@ -139,29 +156,26 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     }
 
-    protected LayoutInflater getLayoutInflater() {
-        return LayoutInflater.from(getContext());
-    }
 
     public void showDialogDelete(final int uuid) {
         // get prompts.xml view
-        LayoutInflater li = LayoutInflater.from(getContext());
+        LayoutInflater li = LayoutInflater.from(getActivity());
         View promptsView = li.inflate(R.layout.delete_layout, null);
 
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
 
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("ใช่",
+                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 RealmManager.getInstance().getDataRepository().deleteData(uuid).subscribe();
-                                historyActivity.loadData(historyActivity.getCurrent_type());
+                                activityListener.onLoadData();
                             }
-                        }).setNegativeButton("ไม่",
+                        }).setNegativeButton(Contextor.getInstance().getContext().getString(R.string.no),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -179,16 +193,28 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     public void showDialogEdit(final History data) {
         // get prompts.xml view
-        LayoutInflater li = LayoutInflater.from(getContext());
+        LayoutInflater li = LayoutInflater.from(getActivity());
         View promptsView = li.inflate(R.layout.edit_layout, null);
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
         final EditText edt_money = (EditText) promptsView.findViewById(R.id.edt_money);
         final EditText edt_note = (EditText) promptsView.findViewById(R.id.edt_note);
         final Spinner spinner = (Spinner) promptsView.findViewById(R.id.spin_type);
-
+        final LinearLayout lin_date = (LinearLayout) promptsView.findViewById(R.id.lin_date);
+        final TextView txt_date = (TextView) promptsView.findViewById(R.id.txt_date);
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(data.getDate());
+        String date = calendar.get(Calendar.DAY_OF_MONTH) + " "
+                + Constants.month[calendar.get(Calendar.MONTH)] + " " + (calendar.get(Calendar.YEAR) + 543);
+        lin_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogChooseDate(calendar, txt_date);
+            }
+        });
+        txt_date.setText(date);
         edt_money.setText((String.format("%.2f", data.getMoney())));
         edt_note.setText(data.getNote());
 
@@ -216,7 +242,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
                 }
             });
         }
-        final CategoryDropdownAdapter categoryDropdownAdapter = new CategoryDropdownAdapter(getContext(), imageItems);
+        final CategoryDropdownAdapter categoryDropdownAdapter = new CategoryDropdownAdapter(getActivity(), imageItems);
         spinner.setAdapter(categoryDropdownAdapter);
         int selection = -1;
         for (int i = 0; i < imageItems.size(); i++) {
@@ -225,42 +251,42 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
                 break;
             }
         }
-        if(selection == -1){
-            if(data.getType() == Data.TYPE_EXPENSE){
+        if (selection == -1) {
+            if (data.getType() == Data.TYPE_EXPENSE) {
                 RealmManager.getInstance().getDataRepository().getExpenseCategoryWithId(data.getCatagory()).subscribe(new Action1<ExpenseCategory>() {
                     @Override
                     public void call(ExpenseCategory expenseCategory) {
-                        categoryDropdownAdapter.addTopOfItem(new CategoryItem(expenseCategory.getUuid(),expenseCategory.getPosition(),expenseCategory.getName(),expenseCategory.isShow()));
+                        categoryDropdownAdapter.addTopOfItem(new CategoryItem(expenseCategory.getUuid(), expenseCategory.getPosition(), expenseCategory.getName(), expenseCategory.isShow()));
                     }
                 });
-            }else{
+            } else {
                 RealmManager.getInstance().getDataRepository().getIncomeCategoryWithId(data.getCatagory()).subscribe(new Action1<IncomeCategory>() {
                     @Override
                     public void call(IncomeCategory incomeCategory) {
-                        categoryDropdownAdapter.addTopOfItem(new CategoryItem(incomeCategory.getUuid(),incomeCategory.getPosition(),incomeCategory.getName(),incomeCategory.isShow()));
+                        categoryDropdownAdapter.addTopOfItem(new CategoryItem(incomeCategory.getUuid(), incomeCategory.getPosition(), incomeCategory.getName(), incomeCategory.isShow()));
                     }
                 });
             }
-        }else {
+        } else {
             spinner.setSelection(selection);
         }
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton("แก้ไข",
+                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.edit),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 int position = spinner.getSelectedItemPosition();
                                 if (data.getType() == Data.TYPE_EXPENSE) {
                                     RealmManager.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
-                                            imageItems.get(position).getId(), data.getDate(), data.getType()).subscribe();
+                                            imageItems.get(position).getId(), calendar.getTime(), data.getType()).subscribe();
                                 } else {
                                     RealmManager.getInstance().getDataRepository().editData(data.getUuid(), Double.parseDouble(edt_money.getText().toString()), edt_note.getText().toString(),
-                                            imageItems.get(position).getId(), data.getDate(), data.getType()).subscribe();
+                                            imageItems.get(position).getId(), calendar.getTime(), data.getType()).subscribe();
                                 }
-                                historyActivity.loadData(historyActivity.getCurrent_type());
+                                activityListener.onLoadData();
                             }
                         })
-                .setNegativeButton("ยกเลิก",
+                .setNegativeButton(Contextor.getInstance().getContext().getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
@@ -273,13 +299,46 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
         // show it
         alertDialog.show();
+    }
 
+    private void showDialogChooseDate(final Calendar calendar, final TextView txt_date) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.cus_dialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(year, monthOfYear, dayOfMonth);
+                String date = calendar.get(Calendar.DAY_OF_MONTH) + " "
+                        + Constants.month[calendar.get(Calendar.MONTH)] + " " + (calendar.get(Calendar.YEAR) + 543);
+                txt_date.setText(date);
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
+            }
+        });
+        datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                int loadedOrientation = getActivity().getResources().getConfiguration().orientation;
+                int requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+                if (loadedOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                } else if (loadedOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                }
+                getActivity().setRequestedOrientation(requestedOrientation);
+            }
+        });
+        datePickerDialog.show();
     }
 
     public void showDialogOption(final int section, final int position) {
-        final String[] items = new String[]{"แก้ไขข้อมูล", "ลบข้อมูล"};
-        ListAdapter adapter = new ArrayAdapterWithIcon(getContext(), items);
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        final String[] items = new String[]{Contextor.getInstance().getContext().getString(R.string.edit_data),
+                Contextor.getInstance().getContext().getString(R.string.delete_data)};
+        ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), items);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -300,9 +359,12 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
         alertDialog.show();
     }
 
+    public Activity getActivity() {
+        return activity;
+    }
 
-    public Context getContext() {
-        return historyActivity;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }
 
