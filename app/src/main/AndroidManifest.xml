@@ -3,6 +3,7 @@
     package="com.rashata.jamie.spend">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:name=".IncomeExpenseApplication"
         android:allowBackup="true"
@@ -16,13 +17,13 @@
         <activity
             android:name=".views.activity.ExpenseActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".views.activity.IncomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".views.activity.HistoryActivity"
             android:screenOrientation="portrait"
@@ -61,6 +62,10 @@
             android:theme="@style/AppTheme2.NoActionBar" />
         <activity
             android:name=".views.activity.MangageStatisticActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2.NoActionBar"></activity>
+        <activity
+            android:name=".views.activity.PasscodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2.NoActionBar"></activity>
     </application>

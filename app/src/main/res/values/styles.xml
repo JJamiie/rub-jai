@@ -50,5 +50,14 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="SCBSwitch">
+        <item name="colorControlActivated">#46bdbf</item>
+    </style>
+
+    <style name="passcode">
+        <item name="android:background">@drawable/selector_passcode</item>
+        <item name="android:textColor">@color/selector_passcode_text</item>
+        <item name="android:textSize">20dp</item>
+    </style>
 
 </resources>

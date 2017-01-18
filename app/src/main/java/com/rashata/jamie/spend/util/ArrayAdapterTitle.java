@@ -19,24 +19,22 @@ import java.util.List;
  * Created by jjamierashata on 10/12/2016 AD.
  */
 
-public class ArrayAdapterWithIcon extends ArrayAdapter<String> {
+public class ArrayAdapterTitle extends ArrayAdapter<String> {
     private List<String> items;
-    //    private List<Integer> images;
     private ViewHolder holder;
 
 
-    public ArrayAdapterWithIcon(Context context, List<String> items) {
+    public ArrayAdapterTitle(Context context, List<String> items) {
         super(context, android.R.layout.select_dialog_item, items);
     }
 
-    public ArrayAdapterWithIcon(Context context, String[] items) {
+    public ArrayAdapterTitle(Context context, String[] items) {
         super(context, android.R.layout.select_dialog_item, items);
         this.items = Arrays.asList(items);
     }
 
 
     class ViewHolder {
-        ImageView icon;
         TextView title;
     }
 
@@ -48,7 +46,6 @@ public class ArrayAdapterWithIcon extends ArrayAdapter<String> {
             convertView = inflater.inflate(R.layout.list_item, null);
 
             holder = new ViewHolder();
-//            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
             holder.title = (TextView) convertView.findViewById(R.id.title);
             convertView.setTag(holder);
         } else {
@@ -56,7 +53,6 @@ public class ArrayAdapterWithIcon extends ArrayAdapter<String> {
         }
 
         holder.title.setText(items.get(position));
-//        holder.icon.setImageResource(images.get(position));
         return convertView;
     }
 

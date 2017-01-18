@@ -6,18 +6,32 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Initial;
 import com.rashata.jamie.spend.repository.RealmManager;
+import com.rashata.jamie.spend.util.RubjaiPreference;
+import com.rashata.jamie.spend.util.SpinnerLanguageDropdownAdapter;
+
+import java.util.Locale;
 
 import rx.functions.Action1;
 import xml.RubjaiWidget;
@@ -50,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
+                overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);
             }
         });
         btn_income = (Button) findViewById(R.id.btn_income);
@@ -59,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, IncomeActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
+                overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);
             }
         });
         btn_setting = (Button) findViewById(R.id.btn_setting);
@@ -75,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
+                overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);
             }
         });
     }
@@ -118,7 +132,28 @@ public class MainActivity extends AppCompatActivity {
         edt_initial_money.setRawInputType(Configuration.KEYBOARD_12KEY);
 
         final TextView btn_clear_data = (TextView) promptsView.findViewById(R.id.btn_clear);
+        final LinearLayout lin_passcode = (LinearLayout) promptsView.findViewById(R.id.lin_passcode);
+        final SwitchCompat switch_pass = (SwitchCompat) promptsView.findViewById(R.id.switch_pass);
+        final LinearLayout lin_change_passcode = (LinearLayout) promptsView.findViewById(R.id.lin_change_passcode);
+        final Spinner dropdown_language = (Spinner) promptsView.findViewById(R.id.dropdown_language);
+        final SpinnerLanguageDropdownAdapter spinnerDropdownAdapter = new SpinnerLanguageDropdownAdapter(getActivity());
+        dropdown_language.setAdapter(spinnerDropdownAdapter);
+        if (getCurrentLocale().equals("th")) {
+            dropdown_language.setSelection(0);
+        } else if (getCurrentLocale().equals("en")) {
+            dropdown_language.setSelection(1);
+        }
+        dropdown_language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         RealmManager.getInstance().getDataRepository().getInitialMoney().subscribe(new Action1<Double>() {
             @Override
@@ -138,6 +173,12 @@ public class MainActivity extends AppCompatActivity {
                                             RealmManager.getInstance().getDataRepository().setInitial(initial_money).subscribe();
                                             loadData();
                                         }
+                                        int posLanguage = dropdown_language.getSelectedItemPosition();
+                                        if (posLanguage == 0) {
+                                            setLocale("th");
+                                        } else if (posLanguage == 1) {
+                                            setLocale("en");
+                                        }
                                     }
                                 });
 
@@ -150,15 +191,51 @@ public class MainActivity extends AppCompatActivity {
                         showDialogConfirmClear();
                     }
                 });
+                final RubjaiPreference rubjaiPreference = new RubjaiPreference(Contextor.getInstance().getContext());
+                if (rubjaiPreference.passcode_en) {
+                    switch_pass.setChecked(true);
+                    lin_passcode.setVisibility(View.VISIBLE);
+                    lin_change_passcode.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), PasscodeActivity.class);
+                            startActivity(intent);
+                            alertDialog.dismiss();
+                        }
+                    });
+                } else {
+                    switch_pass.setChecked(false);
+                    lin_passcode.setVisibility(View.GONE);
+                }
+                switch_pass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            lin_passcode.setVisibility(View.VISIBLE);
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(getActivity(), PasscodeActivity.class);
+                                    startActivity(intent);
+                                    alertDialog.dismiss();
+                                }
+                            }, 500);
+                        } else {
+                            lin_passcode.setVisibility(View.GONE);
+                            rubjaiPreference.passcode_en = false;
+                        }
+                        rubjaiPreference.update();
+                    }
+                });
 
                 // show it
                 alertDialog.show();
 
             }
         });
-
-
     }
+
 
     public void showDialogConfirmClear() {
         // get prompts.xml view
@@ -214,5 +291,26 @@ public class MainActivity extends AppCompatActivity {
         int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RubjaiWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         sendBroadcast(intent);
+    }
+
+
+    public String getCurrentLocale() {
+        Locale current = getResources().getConfiguration().locale;
+        return current.getLanguage();
+    }
+
+    public void setLocale(String lang) {
+        Log.d(TAG, getCurrentLocale());
+        if (lang.equals(getCurrentLocale())) return;
+        Resources res = this.getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = new Locale(lang);
+        res.updateConfiguration(conf, dm);
+        // Refresh
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

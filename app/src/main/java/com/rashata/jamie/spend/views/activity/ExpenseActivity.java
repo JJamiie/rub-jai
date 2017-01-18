@@ -75,7 +75,7 @@ public class ExpenseActivity extends AppCompatActivity implements ItemCategoryAd
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("รายจ่าย");
+        getSupportActionBar().setTitle(getResources().getString(R.string.expense));
         addAds();
         rec_item = (RecyclerView) findViewById(R.id.rec_item);
         rec_item.setHasFixedSize(true);

@@ -2,7 +2,6 @@ package com.rashata.jamie.spend.views.adapter;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -28,12 +27,11 @@ import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
-import com.rashata.jamie.spend.util.ArrayAdapterWithIcon;
+import com.rashata.jamie.spend.util.ArrayAdapterTitle;
 import com.rashata.jamie.spend.util.Constants;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.util.CategoryItem;
-import com.rashata.jamie.spend.views.activity.HistoryActivity;
 import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -337,7 +335,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
     public void showDialogOption(final int section, final int position) {
         final String[] items = new String[]{Contextor.getInstance().getContext().getString(R.string.edit_data),
                 Contextor.getInstance().getContext().getString(R.string.delete_data)};
-        ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), items);
+        ListAdapter adapter = new ArrayAdapterTitle(getActivity(), items);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override

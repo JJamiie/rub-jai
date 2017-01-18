@@ -2,22 +2,14 @@ package com.rashata.jamie.spend.views.adapter;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -25,22 +17,12 @@ import android.widget.Toast;
 
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.manager.ExpenseStatistic;
-import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
-import com.rashata.jamie.spend.util.ArrayAdapterWithIcon;
-import com.rashata.jamie.spend.util.CategoryItem;
-import com.rashata.jamie.spend.util.Constants;
-import com.rashata.jamie.spend.util.ItemTouchHelperAdapter;
-import com.rashata.jamie.spend.util.ItemTouchHelperViewHolder;
+import com.rashata.jamie.spend.util.ArrayAdapterTitle;
 import com.rashata.jamie.spend.util.StatisticItem;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
 
 import rx.functions.Action1;
 
@@ -180,7 +162,7 @@ public class ManageStatisticAdapter extends RecyclerView.Adapter<ManageStatistic
     public void showDialogOption(final int uuid, final String title, final int position) {
         final String[] items = new String[]{Contextor.getInstance().getContext().getString(R.string.edit_statistic),
                 Contextor.getInstance().getContext().getString(R.string.delete_statistic)};
-        ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), items);
+        ListAdapter adapter = new ArrayAdapterTitle(getActivity(), items);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
