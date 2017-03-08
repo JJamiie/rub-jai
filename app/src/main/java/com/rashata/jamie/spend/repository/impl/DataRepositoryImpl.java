@@ -1,7 +1,6 @@
 package com.rashata.jamie.spend.repository.impl;
 
 import android.util.Log;
-
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.ExpenseCategory;
@@ -12,12 +11,10 @@ import com.rashata.jamie.spend.repository.DataRepository;
 import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.util.Constants;
 import com.rashata.jamie.spend.util.RubjaiPreference;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -26,7 +23,6 @@ import rx.Observable;
 
 public class DataRepositoryImpl implements DataRepository {
     private static final String TAG = "DataRepositoryImpl";
-
 
     @Override
     public Observable<Integer> addData(final double money, final String note, final int catagory, final Date date, final int type) {

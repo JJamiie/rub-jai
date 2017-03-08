@@ -29,7 +29,7 @@ import java.util.List;
 
 import rx.functions.Action1;
 
-public class MangageStatisticActivity extends AppCompatActivity implements ManageStatisticAdapter.OnStatisticClick {
+public class ManageStatisticActivity extends AppCompatActivity implements ManageStatisticAdapter.OnStatisticClick {
 
     private Toolbar toolbar;
     private RecyclerView rec_statistic_catagory;

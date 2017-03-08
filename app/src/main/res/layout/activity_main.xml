@@ -31,6 +31,7 @@
             android:showDividers="middle">
 
             <TextView
+                android:id="@+id/txt_today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -49,6 +50,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/txt_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

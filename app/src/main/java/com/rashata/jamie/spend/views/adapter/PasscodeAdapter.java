@@ -29,7 +29,7 @@ public class PasscodeAdapter extends RecyclerView.Adapter<PasscodeAdapter.Passco
 
     @Override
     public PasscodeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_passcode, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_passcode_blue, parent, false);
         PasscodeViewHolder pvh = new PasscodeViewHolder(v);
         return pvh;
     }

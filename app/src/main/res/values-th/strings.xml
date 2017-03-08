@@ -103,6 +103,9 @@
     <string name="october">ตุลาคม</string>
     <string name="november">พฤศจิกายน</string>
     <string name="december">ธันวาคม</string>
+    <string name="settings">ตั้งค่า</string>
+    <string name="exchange_currency">คุณต้องการจะเปลี่ยนสกุลเงินหรือไม่</string>
+
 
     <string name="passcode_lock">เปิดระบบพาสโค๊ด</string>
     <string name="change_passcode">เปลี่ยนรหัสพาสโค๊ด</string>
@@ -110,6 +113,8 @@
     <string name="language">ภาษา</string>
     <string name="thai">ไทย</string>
     <string name="english">English</string>
+    <string name="currency">สกุลเงิน</string>
+
 
     <string name="banner_ad_unit_id">ca-app-pub-3754673556433244/6327931413</string>
 </resources>

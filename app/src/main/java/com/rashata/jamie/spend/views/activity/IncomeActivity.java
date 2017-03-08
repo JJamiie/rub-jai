@@ -21,19 +21,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.rashata.jamie.spend.R;
+import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.views.adapter.ItemCategoryAdapter;
-import com.rashata.jamie.spend.manager.Data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -87,15 +83,15 @@ public class IncomeActivity extends AppCompatActivity implements ItemCategoryAda
                 showDialogChooseDate();
             }
         });
-        addAds();
+//        addAds();
     }
 
-    public void addAds() {
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3754673556433244/6327931413");
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-    }
+//    public void addAds() {
+//        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3754673556433244/6327931413");
+//        AdView mAdView = (AdView) findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest.Builder().build();
+//        mAdView.loadAd(adRequest);
+//    }
 
     private void getData() {
         final ArrayList<CategoryItem> imageItems = new ArrayList<>();

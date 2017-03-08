@@ -108,8 +108,14 @@
     <string name="change_passcode">เปลี่ยนรหัสพาสโค๊ด</string>
     <string name="forget_passcode">ถ้าคุณลืมพาสโค๊ดของคุณ คุณจำเป็นต้องลบและติดตั้งแอพพลิเคชั่นกระเป๋าใหม่ เมื่อคุณทำการติดตั้งใหม่ข้อมูลทั้งหมดจะไม่สามารถกู้คืนได้</string>
     <string name="language">ภาษา</string>
+    <string name="currency">สกุลเงิน</string>
     <string name="thai">ไทย</string>
     <string name="english">English</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-3754673556433244/6327931413</string>
+    <string name="settings">ตั้งค่า</string>
+    <string name="exchange_currency">คุณต้องการจะเปลี่ยนสกุลเงินหรือไม่</string>
+    <string name="change_language">กรุณาเลือกภาษา</string>
+    <string name="ok">Ok</string>
+    <string name="pleasetryagain">Please try again</string>
 </resources>

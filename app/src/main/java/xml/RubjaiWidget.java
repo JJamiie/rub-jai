@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.repository.RealmManager;
-import com.rashata.jamie.spend.views.activity.ExpenseActivity;
+import com.rashata.jamie.spend.views.activity.ExpenseIncomeActivity;
 import com.rashata.jamie.spend.views.activity.IncomeActivity;
 import com.rashata.jamie.spend.views.activity.MainActivity;
 
@@ -54,7 +54,7 @@ public class RubjaiWidget extends AppWidgetProvider {
         PendingIntent pendingIntent_open_app = PendingIntent.getActivity(context, 0, intent_open, 0);
         views.setOnClickPendingIntent(R.id.btn_open_app, pendingIntent_open_app);
 
-        Intent intent_expense = new Intent(context, ExpenseActivity.class);
+        Intent intent_expense = new Intent(context, ExpenseIncomeActivity.class);
         PendingIntent pendingIntent_expense = PendingIntent.getActivity(context, 0, intent_expense, 0);
         views.setOnClickPendingIntent(R.id.btn_expense, pendingIntent_expense);
 

@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +26,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.manager.ExpenseStatistic;
 import com.rashata.jamie.spend.repository.RealmManager;
 
@@ -205,7 +202,7 @@ public class StatisticActivity extends AppCompatActivity implements OnChartValue
                 overridePendingTransition(R.anim.transition_right_in,R.anim.transition_right_out);
                 return true;
             case R.id.setting:
-                Intent intent = new Intent(this, MangageStatisticActivity.class);
+                Intent intent = new Intent(this, ManageStatisticActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.transition_left_in,R.anim.transition_left_out);
 

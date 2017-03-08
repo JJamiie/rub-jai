@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary"
     android:gravity="bottom|center_horizontal"
     android:orientation="vertical"
-    tools:context=".views.activity.ExpenseActivity">
+    tools:context=".views.activity.ExpenseIncomeActivity">
 
     <TextView
         android:id="@+id/txt_title"

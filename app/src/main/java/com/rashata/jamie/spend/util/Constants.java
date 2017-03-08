@@ -80,4 +80,14 @@ public class Constants {
     };
 
 
+    public static int[] flag = new int[]{R.drawable.flag_thai, R.drawable.flag_eng};
+    public static String[] language = new String[]{Contextor.getInstance().getContext().getString(R.string.thai)
+            , Contextor.getInstance().getContext().getString(R.string.english)};
+
+    public static String[] settings = {Contextor.getInstance().getContext().getString(R.string.money_started),
+            Contextor.getInstance().getContext().getString(R.string.passcode_lock),
+            Contextor.getInstance().getContext().getString(R.string.language),
+            Contextor.getInstance().getContext().getString(R.string.currency),
+            Contextor.getInstance().getContext().getString(R.string.clear_data)};
+
 }
