@@ -21,14 +21,9 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".views.activity.IncomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".views.activity.HistoryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
 
         <receiver android:name="xml.RubjaiWidget">
             <intent-filter>
@@ -70,13 +65,14 @@
             android:name=".views.activity.PasscodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2.NoActionBar" />
-
         <activity
             android:name=".views.activity.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme3.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme3.NoActionBar"/>
+        <activity
+            android:name=".views.activity.CalculatorActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

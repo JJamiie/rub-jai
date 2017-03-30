@@ -1,33 +1,35 @@
 {
   "project_info": {
-    "project_number": "928682794779",
-    "project_id": "firebase-rubjai"
+    "project_number": "242083641087",
+    "firebase_url": "https://kapao-fc513.firebaseio.com",
+    "project_id": "kapao-fc513",
+    "storage_bucket": "kapao-fc513.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:928682794779:android:0654cca03dfaa0a7",
+        "mobilesdk_app_id": "1:242083641087:android:0654cca03dfaa0a7",
         "android_client_info": {
           "package_name": "com.rashata.jamie.spend"
         }
       },
       "oauth_client": [
         {
-          "client_id": "928682794779-29df8gmrk2bn63fbhaljdu3gqu7njtlv.apps.googleusercontent.com",
+          "client_id": "242083641087-s1hhmrdn28mun7cr8is4rs85behe21tu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.rashata.jamie.spend",
-            "certificate_hash": "AAE60A0FB8B3E42301870F72136AF24535ABC885"
+            "certificate_hash": "f9edac4636d0e262fd1fd0bb933efe2f2ce2e0bb"
           }
         },
         {
-          "client_id": "928682794779-tvrdp3h04eu9r7f7c28nc46jrvufs1rb.apps.googleusercontent.com",
+          "client_id": "242083641087-1hc9l2f29n0p6jl09i6og50v4visc1os.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDZVobMjSRWOe3oBRlbR-o0YrwE06NYf94"
+          "current_key": "AIzaSyCsD5WEGQ9E74oItaFWzggF10t4s_K1mpQ"
         }
       ],
       "services": {
@@ -39,7 +41,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

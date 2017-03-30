@@ -67,5 +67,10 @@
         <item name="android:textSize">20dp</item>
     </style>
 
+    <style name="cal_number">
+        <item name="android:background">@drawable/selector_cal_number</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
 
 </resources>

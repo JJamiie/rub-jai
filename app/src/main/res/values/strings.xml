@@ -116,6 +116,9 @@
     <string name="settings">ตั้งค่า</string>
     <string name="exchange_currency">คุณต้องการจะเปลี่ยนสกุลเงินหรือไม่</string>
     <string name="change_language">กรุณาเลือกภาษา</string>
-    <string name="ok">Ok</string>
-    <string name="pleasetryagain">Please try again</string>
+    <string name="ok">ตกลง</string>
+    <string name="pleasetryagain">โปรดลองใหม่อีกครั้ง</string>
+    <string name="no_data_found">ไม่ค้นพบข้อมูล</string>
+    <string name="use">ใช้</string>
+    <string name="calculator">เครื่องคิดเลข</string>
 </resources>

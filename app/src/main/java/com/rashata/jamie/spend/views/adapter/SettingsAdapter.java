@@ -57,10 +57,6 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_language, parent, false);
             SettingLanguageViewHolder settingLanguageViewHolder = new SettingLanguageViewHolder(view);
             return settingLanguageViewHolder;
-//        } else if (viewType == SettingType.TYPE_CURRENCY) {
-//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_currency, parent, false);
-//            SettingCurrencyViewHolder settingCurrencyViewHolder = new SettingCurrencyViewHolder(view);
-//            return settingCurrencyViewHolder;
         } else if (viewType == SettingType.TYPE_CLEAR_DATA) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_clear_data, parent, false);
             SettingClearDataViewHolder settingClearDataViewHolder = new SettingClearDataViewHolder(view);
@@ -168,6 +164,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 settingsAdapterListener.onSelectSettingItem(SettingType.TYPE_MONEY_STARTED);
             }
         });
+        settingMoneyStartedViewHolder.txt_currency.setText(settingItem.getCurrency());
         settingMoneyStartedViewHolder.txt_money.setText(settingItem.getMoney());
     }
 

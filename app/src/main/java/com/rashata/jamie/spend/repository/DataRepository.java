@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import rx.Observable;
-
 
 /**
  * Created by jjamierashata on 6/16/16 AD.
@@ -94,4 +92,5 @@ public interface DataRepository {
     rx.Observable deleteExpenseStatistic(int uuid);
 
     rx.Observable<String> getTitleStatistic(int uuid);
+
 }

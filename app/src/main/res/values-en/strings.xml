@@ -117,4 +117,10 @@
     <string name="forget_passcode">If you forget your passcode, you will need to delete and reinstall Kapao. Once reinstalled, you will not be able to recover your chat history.</string>
     <string name="banner_ad_unit_id">ca-app-pub-3754673556433244/6327931413</string>
     <string name="beautifully_simple_management">can \"Track your money\"</string>
+    <string name="change_language">Choose language</string>
+    <string name="pleasetryagain">Please try again</string>
+    <string name="ok">Ok</string>
+    <string name="no_data_found">No data found</string>
+    <string name="use">Use</string>
+    <string name="calculator">Caluculator</string>
 </resources>

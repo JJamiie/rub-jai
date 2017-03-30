@@ -117,4 +117,10 @@
 
 
     <string name="banner_ad_unit_id">ca-app-pub-3754673556433244/6327931413</string>
+    <string name="change_language">กรุณาเลือกภาษา</string>
+    <string name="pleasetryagain">โปรดลองใหม่อีกครั้ง</string>
+    <string name="ok">ตกลง</string>
+    <string name="no_data_found">ไม่ค้นพบข้อมูล</string>
+    <string name="use">ใช้</string>
+    <string name="calculator">เครื่องคิดเลข</string>
 </resources>

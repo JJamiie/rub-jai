@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by jjamierashata on 1/1/2017 AD.
  */
 
-public class ItemCategoryAdapter extends RecyclerView.Adapter<ItemCategoryAdapter.ItemViewHolder> {
+public class  ItemCategoryAdapter extends RecyclerView.Adapter<ItemCategoryAdapter.ItemViewHolder> {
     private ArrayList<CategoryItem> data;
     private int clicked = -1;
     private ActivityListener activityListener;

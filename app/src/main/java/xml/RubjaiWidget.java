@@ -12,7 +12,6 @@ import android.widget.RemoteViews;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.views.activity.ExpenseIncomeActivity;
-import com.rashata.jamie.spend.views.activity.IncomeActivity;
 import com.rashata.jamie.spend.views.activity.MainActivity;
 
 import java.util.Calendar;
@@ -57,10 +56,6 @@ public class RubjaiWidget extends AppWidgetProvider {
         Intent intent_expense = new Intent(context, ExpenseIncomeActivity.class);
         PendingIntent pendingIntent_expense = PendingIntent.getActivity(context, 0, intent_expense, 0);
         views.setOnClickPendingIntent(R.id.btn_expense, pendingIntent_expense);
-
-        Intent intent_income = new Intent(context, IncomeActivity.class);
-        PendingIntent pendingIntent_income = PendingIntent.getActivity(context, 0, intent_income, 0);
-        views.setOnClickPendingIntent(R.id.btn_income, pendingIntent_income);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

@@ -28,10 +28,10 @@ import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.ArrayAdapterTitle;
+import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.util.Constants;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
-import com.rashata.jamie.spend.util.CategoryItem;
 import com.truizlop.sectionedrecyclerview.SectionedRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -51,9 +51,8 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
     private ActivityListener activityListener;
 
 
-    public HistoryAdapter(ArrayList<DatasHistory> datasHistories, Activity activity, ActivityListener activityListener) {
+    public HistoryAdapter(Activity activity, ActivityListener activityListener) {
         this.activity = activity;
-        this.datasHistories = datasHistories;
         this.activityListener = activityListener;
     }
 
@@ -64,11 +63,13 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     @Override
     protected int getSectionCount() {
+        if (datasHistories == null) return 0;
         return datasHistories.size();
     }
 
     @Override
     protected int getItemCountForSection(int section) {
+        if (datasHistories.get(section).getHistories() == null) return 0;
         return datasHistories.get(section).getHistories().size();
     }
 
@@ -363,6 +364,15 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    public ArrayList<DatasHistory> getDatasHistories() {
+        return datasHistories;
+    }
+
+    public void setDatasHistories(ArrayList<DatasHistory> datasHistories) {
+        this.datasHistories = datasHistories;
+        notifyDataSetChanged();
     }
 }
 

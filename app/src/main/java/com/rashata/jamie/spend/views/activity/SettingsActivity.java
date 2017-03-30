@@ -16,21 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.http.HttpManager;
-import com.rashata.jamie.spend.manager.http.dao.ListCurrencyDao;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.Constants;
 import com.rashata.jamie.spend.util.RubjaiPreference;
-import com.rashata.jamie.spend.util.SpinnerCurrencyDropdownAdapter;
 import com.rashata.jamie.spend.util.SpinnerDropdownAdapter;
 import com.rashata.jamie.spend.util.SpinnerDropdownPictureAdapter;
 import com.rashata.jamie.spend.views.adapter.SettingsAdapter;
@@ -41,14 +34,10 @@ import com.rashata.jamie.spend.views.adapter.setting.item.SettingMoneyStartedIte
 import com.rashata.jamie.spend.views.adapter.setting.item.SettingPasscodeItem;
 import com.rashata.jamie.spend.views.adapter.setting.item.SettingType;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
-import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.functions.Action1;
 
 
@@ -61,7 +50,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     private RubjaiPreference rubjaiPreference;
     private double initial_money;
     private double moneyStarted;
-    private Map<String, Double> rates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     protected void onResume() {
         super.onResume();
         loadData();
-        listCurrency();
     }
 
     private void initInstances() {
@@ -99,6 +86,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 ArrayList<BaseSettingItem> baseSettingItems = new ArrayList<>();
                 SettingMoneyStartedItem settingMoneyStartedItem = new SettingMoneyStartedItem();
                 settingMoneyStartedItem.setMoney(String.valueOf(moneyStarted));
+                settingMoneyStartedItem.setCurrency(String.valueOf(rubjaiPreference.currency));
                 baseSettingItems.add(settingMoneyStartedItem);
                 SettingPasscodeItem settingPasscodeItem = new SettingPasscodeItem();
                 settingPasscodeItem.setChecked(rubjaiPreference.passcode_en);
@@ -106,7 +94,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 SettingLanguageItem settingLanguageItem = new SettingLanguageItem();
                 settingLanguageItem.setLanguage(getCurrentLocale());
                 baseSettingItems.add(settingLanguageItem);
-//                baseSettingItems.add(new SettingCurrencyItem());
                 baseSettingItems.add(new SettingClearDataItem());
                 settingsAdapter.setBaseSettingItems(baseSettingItems);
             }
@@ -120,19 +107,28 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.money_started_layout, null);
-
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
-        Spinner spin_currency = (Spinner) promptsView.findViewById(R.id.spin_currency);
-        SpinnerDropdownAdapter spinnerDropdownAdapter = new SpinnerDropdownAdapter(this, rates);
+        final Spinner spin_currency = (Spinner) promptsView.findViewById(R.id.spin_currency);
+
+        String[] currencies = getResources().getStringArray(R.array.spinner_list_currency);
+        ArrayList<String> listCurrecy = new ArrayList<String>(Arrays.asList(currencies));
+        int currentPosition = 0;
+        for (int i = 0; i < listCurrecy.size(); i++) {
+            if (rubjaiPreference.currency.equals(listCurrecy.get(i))) {
+                currentPosition = i;
+                break;
+            }
+        }
+        final SpinnerDropdownAdapter spinnerDropdownAdapter = new SpinnerDropdownAdapter(this, listCurrecy);
         spin_currency.setAdapter(spinnerDropdownAdapter);
+        spin_currency.setSelection(currentPosition);
         final EditText edt_initial_money = (EditText) promptsView.findViewById(R.id.edt_initial_money);
         edt_initial_money.setRawInputType(Configuration.KEYBOARD_12KEY);
         if (moneyStarted == 0.00) {
-            edt_initial_money.setText("");// set dialog message
+            edt_initial_money.setText("");
         } else {
             edt_initial_money.setText(String.format("%.2f", moneyStarted));// set dialog message
         }
@@ -148,18 +144,18 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                                 SettingMoneyStartedItem settingMoneyStartedItem = (SettingMoneyStartedItem) settingsAdapter.getBaseSettingItems().get(0);
                                 settingMoneyStartedItem.setMoney(String.valueOf(initial_money));
                                 settingsAdapter.notifyDataSetChanged();
+                                String currency = spinnerDropdownAdapter.getItem(spin_currency.getSelectedItemPosition());
+                                rubjaiPreference.currency = currency;
+                                rubjaiPreference.update();
+                                ((SettingMoneyStartedItem) settingsAdapter.getBaseSettingItems().get(0)).setCurrency(currency);
+                                settingsAdapter.notifyDataSetChanged();
                             }
                         });
 
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
-        if (rates == null) {
-            showToast(getString(R.string.pleasetryagain));
-        }else{
-            alertDialog.show();
-        }
+        alertDialog.show();
     }
-
 
 
     public void showDialogChangeLanguage() {
@@ -209,6 +205,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 RealmManager.getInstance().getDataRepository().clearDB().subscribe();
+                                loadData();
                             }
                         })
                 .setNegativeButton(getString(R.string.cancel),
@@ -225,52 +222,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
 
     }
 
-
-    public void showDialogCurrency() {
-        LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.dialog_change_currrency, null);
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        TextView txt_current_currency = (TextView) promptsView.findViewById(R.id.txt_current_currency);
-        final EditText edt_select_currency = (EditText) promptsView.findViewById(R.id.edt_select_currency);
-        txt_current_currency.setText(rubjaiPreference.currency);
-        final Spinner spin_currency = (Spinner) promptsView.findViewById(R.id.spin_currency);
-
-        final SpinnerCurrencyDropdownAdapter spinnerCurrencyDropdownAdapter = new SpinnerCurrencyDropdownAdapter(getActivity(), rates);
-        spin_currency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                edt_select_currency.setText(String.valueOf(spinnerCurrencyDropdownAdapter.getData().get(spinnerCurrencyDropdownAdapter.getmKeys()[position])));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spin_currency.setAdapter(spinnerCurrencyDropdownAdapter);
-        alertDialogBuilder.setView(promptsView);
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                            }
-                        })
-                .setNegativeButton(getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                            }
-                        });
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
-
-    }
 
     /***********************************/
 
@@ -284,7 +235,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         Log.d(TAG, getCurrentLocale());
         if (lang.equals(getCurrentLocale())) return;
         Resources res = this.getResources();
-        // Change locale settings in the app.
         Configuration conf = res.getConfiguration();
         conf.locale = new Locale(lang);
         res.updateConfiguration(conf, res.getDisplayMetrics());
@@ -293,6 +243,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         rubjaiPreference.update();
         // Refresh
         loadData();
+
     }
 
     public Activity getActivity() {
@@ -306,8 +257,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
             showDialogMoneyStarted();
         } else if (type == SettingType.TYPE_LANGUAGE) {
             showDialogChangeLanguage();
-        } else if (type == SettingType.TYPE_CURRENCY) {
-            showDialogCurrency();
         } else if (type == SettingType.TYPE_CLEAR_DATA) {
             showDialogConfirmClear();
         } else if (type == SettingType.TYPE_ENABLED_PASSCODE) {
@@ -339,36 +288,5 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 break;
         }
         return true;
-    }
-
-    /**************Connect Server*****************/
-
-    public void listCurrency() {
-        Call<ListCurrencyDao> call = HttpManager.getInstance().getApiService().listCurrency(rubjaiPreference.currency);
-        call.enqueue(new Callback<ListCurrencyDao>() {
-            @Override
-            public void onResponse(Call<ListCurrencyDao> call, Response<ListCurrencyDao> response) {
-                if (response.isSuccessful()) {
-                    ListCurrencyDao listCurrencyDao = response.body();
-                    Log.d(TAG, new Gson().toJson(listCurrencyDao));
-                    rates = listCurrencyDao.getRates();
-                } else {
-                    try {
-                        Log.d(TAG, response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ListCurrencyDao> call, Throwable t) {
-                Log.d(TAG, t.toString());
-            }
-        });
-    }
-
-    private void showToast(String text) {
-        Toast.makeText(Contextor.getInstance().getContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 
 /**
@@ -18,55 +18,35 @@ import java.util.Map;
 
 public class SpinnerDropdownAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    public Map<String, Double> data;
-    private String[] mKeys;
+    private ArrayList<String> titles;
 
-    public SpinnerDropdownAdapter(Context context) {
+    public SpinnerDropdownAdapter(Context context, ArrayList<String> titles) {
         this.inflater = (LayoutInflater.from(context));
-    }
-
-    public SpinnerDropdownAdapter(Context context, Map<String, Double> data) {
-        this.inflater = (LayoutInflater.from(context));
-        this.data = data;
-        this.mKeys = data.keySet().toArray(new String[data.size()]);
+        this.titles = titles;
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        if (titles == null) return 0;
+        return titles.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public String getItem(int i) {
+        return titles.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.item_dropdown, null);
         TextView txt_name = (TextView) view.findViewById(R.id.txt_title);
-        txt_name.setText(mKeys[i]);
+        txt_name.setText(titles.get(i));
         return view;
     }
 
-    public Map<String, Double> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, Double> data) {
-        this.data = data;
-    }
-
-    public String[] getmKeys() {
-        return mKeys;
-    }
-
-    public void setmKeys(String[] mKeys) {
-        this.mKeys = mKeys;
-    }
 }

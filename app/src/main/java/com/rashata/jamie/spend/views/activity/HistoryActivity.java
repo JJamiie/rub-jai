@@ -1,25 +1,25 @@
 package com.rashata.jamie.spend.views.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.repository.RealmManager;
+import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;
 import com.rashata.jamie.spend.views.adapter.HistoryAdapter;
-import com.rashata.jamie.spend.util.DatasHistory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,37 +28,33 @@ import java.util.List;
 import rx.functions.Action1;
 
 public class HistoryActivity extends AppCompatActivity implements HistoryAdapter.ActivityListener {
-    private static final String TAG = "HistoryActivity";
-    private ArrayList<DatasHistory> datasHistories;
     private HistoryAdapter historyAdapter;
     private RecyclerView rcc_history;
-    private Toolbar toolbar;
+    private LinearLayout frm_nodata;
     private int current_type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        datasHistories = new ArrayList<>();
+        initInstances();
         loadData(0);
-        setWidget();
     }
 
-    public void setWidget() {
+    public void initInstances() {
         rcc_history = (RecyclerView) findViewById(R.id.rcc_history);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.history));
         rcc_history.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         rcc_history.setLayoutManager(llm);
-        historyAdapter = new HistoryAdapter(datasHistories, this, this);
+        frm_nodata = (LinearLayout) findViewById(R.id.frm_nodata);
+        historyAdapter = new HistoryAdapter(this, this);
         rcc_history.setAdapter(historyAdapter);
     }
 
     public void loadData(int type) {
-        datasHistories.clear();
+        final ArrayList<DatasHistory> datasHistories = new ArrayList<>();
         RealmManager.getInstance().getDataRepository().findAllData(type).subscribe(new Action1<List<Data>>() {
             @Override
             public void call(List<Data> datas) {
@@ -85,10 +81,10 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
                     }
                     DatasHistory datasHistory = new DatasHistory(histories, date, total);
                     datasHistories.add(datasHistory);
-                }
-
-                if (historyAdapter != null) {
-                    historyAdapter.notifyDataSetChanged();
+                    historyAdapter.setDatasHistories(datasHistories);
+                    frm_nodata.setVisibility(View.GONE);
+                } else {
+                    frm_nodata.setVisibility(View.VISIBLE);
                 }
             }
         });

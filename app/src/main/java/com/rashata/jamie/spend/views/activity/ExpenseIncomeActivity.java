@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rashata.jamie.spend.R;
@@ -26,10 +27,12 @@ import com.rashata.jamie.spend.manager.ExpenseCategory;
 import com.rashata.jamie.spend.manager.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.CategoryItem;
+import com.rashata.jamie.spend.util.RubjaiPreference;
 import com.rashata.jamie.spend.views.adapter.ItemCategoryAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,9 +46,11 @@ import static com.rashata.jamie.spend.manager.Data.TYPE_INCOME;
 
 public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCategoryAdapter.ActivityListener {
     private static final String TAG = "ExpenseIncomeActivity";
+    private static final int TYPE_CALCULATOR = 11;
     private int selected_catagory = -1;
     private EditText edt_money;
     private EditText edt_note;
+    private TextView txt_currency;
     private RecyclerView rec_item;
     private ItemCategoryAdapter itemCategoryAdapter;
     private ImageButton btn_calendar;
@@ -79,6 +84,8 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
             getSupportActionBar().setTitle(getResources().getString(R.string.income));
             itemCategoryAdapter = new ItemCategoryAdapter(this, Data.TYPE_INCOME);
         }
+        txt_currency = (TextView) findViewById(R.id.txt_currency);
+        txt_currency.setText(new RubjaiPreference(this).currency);
         rec_item = (RecyclerView) findViewById(R.id.rec_item);
         rec_item.setHasFixedSize(true);
         rec_item.setLayoutManager(new GridLayoutManager(this, 4));
@@ -110,7 +117,7 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
                     }
                 }
             });
-            imageItems.add(new CategoryItem(-1, R.drawable.item_ic_setting_expense, "แก้ไข", false));
+            imageItems.add(new CategoryItem(-1, R.drawable.item_ic_setting_expense, getString(R.string.edit), false));
         } else if (type == Data.TYPE_INCOME) {
             RealmManager.getInstance().getDataRepository().getIncomeCategory().subscribe(new Action1<List<IncomeCategory>>() {
                 @Override
@@ -137,6 +144,11 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
                 break;
             case R.id.correct:
                 addToDatabase();
+                break;
+            case R.id.calculator:
+                Intent intent = new Intent(getActivity(), CalculatorActivity.class);
+                overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
+                startActivityForResult(intent, TYPE_CALCULATOR);
                 break;
         }
         updateWidget();
@@ -223,6 +235,7 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
 
             }
         });
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
         datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -246,9 +259,9 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
         if (idItem == -1) { // setting
             Intent intent = new Intent(getActivity(), ManageActivity.class);
             if (type == Data.TYPE_EXPENSE) {
-                intent.putExtra("type", TYPE_EXPENSE);
+                intent.putExtra("type", Data.TYPE_EXPENSE);
             } else if (type == Data.TYPE_INCOME) {
-                intent.putExtra("type", TYPE_INCOME);
+                intent.putExtra("type", Data.TYPE_INCOME);
             }
             startActivity(intent);
             overridePendingTransition(R.anim.transition_left_in, R.anim.transition_left_out);

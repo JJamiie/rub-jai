@@ -14,12 +14,14 @@ import com.rashata.jamie.spend.R;
 public class SettingMoneyStartedViewHolder extends RecyclerView.ViewHolder {
     public TextView txt_title;
     public TextView txt_money;
+    public TextView txt_currency;
     public FrameLayout frm_setting;
 
     public SettingMoneyStartedViewHolder(View itemView) {
         super(itemView);
         txt_title = (TextView) itemView.findViewById(R.id.txt_title);
         txt_money = (TextView) itemView.findViewById(R.id.txt_money);
+        txt_currency = (TextView) itemView.findViewById(R.id.txt_currency);
         frm_setting = (FrameLayout) itemView.findViewById(R.id.frm_setting);
     }
 }

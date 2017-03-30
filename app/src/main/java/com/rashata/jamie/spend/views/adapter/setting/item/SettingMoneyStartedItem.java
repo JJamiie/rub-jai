@@ -6,6 +6,7 @@ package com.rashata.jamie.spend.views.adapter.setting.item;
 
 public class SettingMoneyStartedItem extends BaseSettingItem {
     private String money;
+    private String currency;
 
     public SettingMoneyStartedItem( ) {
         super(SettingType.TYPE_MONEY_STARTED);
@@ -17,5 +18,13 @@ public class SettingMoneyStartedItem extends BaseSettingItem {
 
     public void setMoney(String money) {
         this.money = money;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

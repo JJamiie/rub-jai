@@ -1,11 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/calculator"
+        android:icon="@drawable/menu_calculator"
+        android:orderInCategory="300"
+        android:title=""
+        app:showAsAction="ifRoom"></item>
+    <item
         android:id="@+id/correct"
         android:icon="@drawable/ic_correct"
         android:orderInCategory="300"
-        app:showAsAction="ifRoom"
-        android:title=""></item>
+        android:title=""
+        app:showAsAction="ifRoom"></item>
 
 </menu>
 
