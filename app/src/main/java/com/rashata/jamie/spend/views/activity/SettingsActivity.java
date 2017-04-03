@@ -44,6 +44,7 @@ import rx.functions.Action1;
 public class SettingsActivity extends AppCompatActivity implements SettingsAdapter.SettingsAdapterListener {
 
     private static final String TAG = "SettingsActivity";
+    private static final int RESULT_PASSCODE = 0;
 
     private RecyclerView rec_settings;
     private SettingsAdapter settingsAdapter;
@@ -61,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     @Override
     protected void onResume() {
         super.onResume();
-        loadData();
     }
 
     private void initInstances() {
@@ -74,6 +74,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         rec_settings.setLayoutManager(new LinearLayoutManager(this));
         settingsAdapter = new SettingsAdapter(this);
         rec_settings.setAdapter(settingsAdapter);
+        loadData();
     }
 
 
@@ -87,17 +88,19 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 SettingMoneyStartedItem settingMoneyStartedItem = new SettingMoneyStartedItem();
                 settingMoneyStartedItem.setMoney(String.valueOf(moneyStarted));
                 settingMoneyStartedItem.setCurrency(String.valueOf(rubjaiPreference.currency));
-                baseSettingItems.add(settingMoneyStartedItem);
+                baseSettingItems.add(settingMoneyStartedItem); //0
                 SettingPasscodeItem settingPasscodeItem = new SettingPasscodeItem();
                 settingPasscodeItem.setChecked(rubjaiPreference.passcode_en);
-                baseSettingItems.add(settingPasscodeItem);
+                baseSettingItems.add(settingPasscodeItem);// 1
                 SettingLanguageItem settingLanguageItem = new SettingLanguageItem();
                 settingLanguageItem.setLanguage(getCurrentLocale());
-                baseSettingItems.add(settingLanguageItem);
+                baseSettingItems.add(settingLanguageItem); // 2
                 baseSettingItems.add(new SettingClearDataItem());
-                settingsAdapter.setBaseSettingItems(baseSettingItems);
+                settingsAdapter.setBaseSettingItems(baseSettingItems);// 3
             }
         });
+        getSupportActionBar().setTitle(getResources().getString(R.string.settings));
+
     }
 
 
@@ -243,7 +246,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         rubjaiPreference.update();
         // Refresh
         loadData();
-
     }
 
     public Activity getActivity() {
@@ -264,9 +266,17 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         } else if (type == SettingType.TYPE_DISABLED_PASSCODE) {
             rubjaiPreference.passcode_en = false;
             rubjaiPreference.update();
-            loadData();
+            updatePasscode();
         }
     }
+
+    public void updatePasscode() {
+        rubjaiPreference = new RubjaiPreference(Contextor.getInstance().getContext());
+        SettingPasscodeItem settingPasscodeItem = (SettingPasscodeItem) settingsAdapter.getBaseSettingItems().get(1);
+        settingPasscodeItem.setChecked(rubjaiPreference.passcode_en);
+        settingsAdapter.notifyDataSetChanged();
+    }
+
 
     public void startPasscodeActivity() {
         final Handler handler = new Handler();
@@ -274,7 +284,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
             @Override
             public void run() {
                 Intent intent = new Intent(getActivity(), PasscodeActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,RESULT_PASSCODE);
             }
         }, 500);
     }
@@ -288,5 +298,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == RESULT_PASSCODE){
+            updatePasscode();
+        }
     }
 }

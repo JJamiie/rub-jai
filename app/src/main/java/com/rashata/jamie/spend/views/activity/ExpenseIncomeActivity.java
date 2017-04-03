@@ -277,4 +277,13 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
 //        AdRequest adRequest = new AdRequest.Builder().build();
 //        mAdView.loadAd(adRequest);
 //    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == TYPE_CALCULATOR && resultCode == RESULT_OK) {
+            String result = data.getStringExtra("result");
+            edt_money.setText(result);
+        }
+    }
 }

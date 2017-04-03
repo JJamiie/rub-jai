@@ -149,7 +149,6 @@ public class ManageStatisticActivity extends AppCompatActivity implements Manage
         loadStatisticCategory(id);
         manageStatisticCategoryAdapter.setIdExpenseStatistic(id);
         manageStatisticCategoryAdapter.setTitleCurrentStatistic(title);
-
     }
 
     @Override

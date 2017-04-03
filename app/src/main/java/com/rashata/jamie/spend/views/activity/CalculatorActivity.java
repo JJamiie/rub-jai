@@ -14,7 +14,6 @@ import com.rashata.jamie.spend.R;
 
 public class CalculatorActivity extends AppCompatActivity {
 
-
     public static final int TYPE_CLEAR = -1;
     public static final int TYPE_PLUS = 0;
     public static final int TYPE_MINUS = 1;
@@ -199,18 +198,8 @@ public class CalculatorActivity extends AppCompatActivity {
                 current = 0;
             } else if (mode == MODE_NUMBER) {
                 Log.d(TAG, "result: " + result + "current: " + current);
-                if (current_type == TYPE_CLEAR) {
-                    result = current;
-                } else if (current_type == TYPE_PLUS) {
-                    result = result + current;
-                } else if (current_type == TYPE_MINUS) {
-                    result = result - current;
-                } else if (current_type == TYPE_MULTIPLE) {
-                    result = result * current;
-                } else if (current_type == TYPE_DIVIDE) {
-                    result = result / current;
-                }
 
+                calculate();
                 setNumber();
                 mode = MODE_OPERATION;
                 current_type = type;
@@ -218,11 +207,24 @@ public class CalculatorActivity extends AppCompatActivity {
             } else if (mode == MODE_OPERATION) {
                 current_type = type;
             }
-
             Log.d(TAG, "result: " + result);
         }
-
     }
+
+    public void calculate() {
+        if (current_type == TYPE_CLEAR) {
+            result = current;
+        } else if (current_type == TYPE_PLUS) {
+            result = result + current;
+        } else if (current_type == TYPE_MINUS) {
+            result = result - current;
+        } else if (current_type == TYPE_MULTIPLE) {
+            result = result * current;
+        } else if (current_type == TYPE_DIVIDE) {
+            result = result / current;
+        }
+    }
+
 
     public void setNumber() {
         if (String.valueOf((int) result).length() > 8) {
@@ -262,7 +264,10 @@ public class CalculatorActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.transition_right_in, R.anim.transition_right_out);
             finish();
         } else if (item.getItemId() == R.id.action_use) {
+            calculate();
             Intent intent = new Intent();
+            String resultStr = result == (int) result ? String.valueOf((int) result) : String.valueOf(result);
+            intent.putExtra("result", resultStr);
             setResult(RESULT_OK, intent);
             finish();
         }

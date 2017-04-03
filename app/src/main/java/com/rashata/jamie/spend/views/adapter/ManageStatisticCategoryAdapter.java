@@ -147,7 +147,7 @@ public class ManageStatisticCategoryAdapter extends RecyclerView.Adapter<ManageS
                 + titleCurrentStatistic + Contextor.getInstance().getContext().getString(R.string.dont_you));
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.do_you_want_to_move),
+                .setPositiveButton(Contextor.getInstance().getContext().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 setIdExpenseStatisticInExpenseCategory(idExpenseStatistic, idCategory, position);

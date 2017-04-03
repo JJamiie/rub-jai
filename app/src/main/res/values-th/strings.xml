@@ -76,10 +76,10 @@
     <string name="simpler_generate_statistic">จัดรูปแบบสถิติตามใจอยาก</string>
     <string name="beautifully_simple_management">เหมาะสมกับการทำงานโดยแท้จริง</string>
     <string name="cant_edit_others_category">คุณไม่สามารถแก้ไขหรือลบหมวดอื่นๆได้</string>
-    <string name="do_you_want_to_move">คุณต้องการจะย้ายหมวด</string>
-    <string name="from">จากสถิติ</string>
-    <string name="to">มาสู่สถิติ</string>
-    <string name="dont_you">ใช่หรือไม ?</string>
+    <string name="do_you_want_to_move">คุณต้องการจะย้ายหมวด </string>
+    <string name="from">"จากสถิติ "</string>
+    <string name="to">" มาสู่สถิติ "</string>
+    <string name="dont_you">\" ใช่หรือไม่ ?\"</string>
 
     <string name="edit_data">แก้ไขข้อมูล</string>
     <string name="delete_data">ลบข้อมูล</string>

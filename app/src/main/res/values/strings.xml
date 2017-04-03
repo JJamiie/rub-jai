@@ -39,7 +39,7 @@
     <string name="others">อื่นๆ</string>
     <string name="travel">เดินทาง</string>
     <string name="food">อาหาร</string>
-    <string name="cloth">เสื้อผ้า</string>
+    <string name="cloth" translatable="false">เสื้อผ้า</string>
     <string name="movie">ดูหนัง</string>
     <string name="health">รักษาตัว</string>
     <string name="lover">คนรัก</string>
@@ -76,10 +76,10 @@
     <string name="simpler_generate_statistic">จัดรูปแบบสถิติตามใจอยาก</string>
     <string name="beautifully_simple_management">เหมาะสมกับการทำงานโดยแท้จริง</string>
     <string name="cant_edit_others_category">คุณไม่สามารถแก้ไขหรือลบหมวดอื่นๆได้</string>
-    <string name="do_you_want_to_move">คุณต้องการจะย้ายหมวด</string>
-    <string name="from">จากสถิติ</string>
-    <string name="to">มาสู่สถิติ</string>
-    <string name="dont_you">ใช่หรือไม ?</string>
+    <string name="do_you_want_to_move">คุณต้องการจะย้ายหมวด </string>
+    <string name="from">"จากสถิติ "</string>
+    <string name="to"> มาสู่สถิติ </string>
+    <string name="dont_you">\" ใช่หรือไม่ ? \"</string>
 
     <string name="edit_data">แก้ไขข้อมูล</string>
     <string name="delete_data">ลบข้อมูล</string>
@@ -121,4 +121,9 @@
     <string name="no_data_found">ไม่ค้นพบข้อมูล</string>
     <string name="use">ใช้</string>
     <string name="calculator">เครื่องคิดเลข</string>
+    <string name="setPasscode">Set Passcode</string>
+    <string name="pleaseEnterAPasscode">Please enter a passcode</string>
+    <string name="comfirmPasscode">Confirm Passcode</string>
+    <string name="pleaseReEnterAPasscode">Please re-enter a passcode.</string>
+    <string name="passcodeNotMatch">Passcode does not match. Please try again.</string>
 </resources>

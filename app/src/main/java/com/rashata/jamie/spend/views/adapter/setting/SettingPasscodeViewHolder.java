@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
+import com.rashata.jamie.spend.views.adapter.SettingsAdapter;
 
 /**
  * Created by jjamierashata on 3/1/2017 AD.
@@ -30,4 +31,6 @@ public class SettingPasscodeViewHolder extends RecyclerView.ViewHolder {
         switch_on_off = (SwitchCompat) itemView.findViewById(R.id.switch_on_off);
         frm_change_passcode = (FrameLayout) itemView.findViewById(R.id.frm_change_passcode);
     }
+
+
 }

@@ -143,6 +143,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 settingsAdapterListener.onSelectSettingItem(SettingType.TYPE_ENABLED_PASSCODE);
             }
         });
+        settingPasscodeViewHolder.switch_on_off.setOnCheckedChangeListener(null);
         settingPasscodeViewHolder.switch_on_off.setChecked(settingPasscodeItem.isChecked());
         settingPasscodeViewHolder.switch_on_off.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

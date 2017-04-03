@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.util.RubjaiPreference;
 import com.rashata.jamie.spend.views.adapter.PasscodeAdapter;
@@ -108,8 +109,8 @@ public class PasscodeActivity extends AppCompatActivity implements PasscodeAdapt
         txt_desc_title = (TextView) findViewById(R.id.txt_desc_title);
 
         if (!isStart) {
-            txt_title_passcode.setText("Set Passcode");
-            txt_desc_title.setText("Please enter a passcode");
+            txt_title_passcode.setText(getString(R.string.setPasscode));
+            txt_desc_title.setText(getString(R.string.pleaseEnterAPasscode));
         } else {
             txt_title_passcode.setVisibility(View.GONE);
         }
@@ -130,8 +131,8 @@ public class PasscodeActivity extends AppCompatActivity implements PasscodeAdapt
             }
         } else {
             if (firstPasscode.isEmpty()) {
-                txt_title_passcode.setText("Confirm Passcode");
-                txt_desc_title.setText("Please re-enter a passcode.");
+                txt_title_passcode.setText(getString(R.string.comfirmPasscode));
+                txt_desc_title.setText(getString(R.string.pleaseReEnterAPasscode));
                 firstPasscode = passcode;
                 clearPasscode = true;
             } else if (firstPasscode.equals(passcode)) {
@@ -141,7 +142,7 @@ public class PasscodeActivity extends AppCompatActivity implements PasscodeAdapt
                 finish();
             } else {
                 firstPasscode = "";
-                txt_title_passcode.setText("Set Passcode");
+                txt_title_passcode.setText(getString(R.string.setPasscode));
                 clearPasscode = true;
                 isCorrect = true;
             }
@@ -156,7 +157,7 @@ public class PasscodeActivity extends AppCompatActivity implements PasscodeAdapt
             }, 200);
         }
         if (isCorrect) {
-            txt_desc_title.setText("Passcode does not match. Please try again.");
+            txt_desc_title.setText(getString(R.string.passcodeNotMatch));
             Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(500);
         }

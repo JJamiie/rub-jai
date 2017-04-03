@@ -76,10 +76,10 @@
     <string name="simpler_generate_category">Category, your own style</string>
     <string name="simpler_generate_statistic">Statistic, your own way</string>
     <string name="cant_edit_others_category">You can\'t edit and delete other category.</string>
-    <string name="do_you_want_to_move">Do you want to change</string>
-    <string name="from">From</string>
-    <string name="to">to</string>
-    <string name="dont_you">don\'t you ?</string>
+    <string name="do_you_want_to_move">"Do you want to change "</string>
+    <string name="from">"From "</string>
+    <string name="to">" to "</string>
+    <string name="dont_you">\" , don\'t you ?\"</string>
 
     <string name="edit_data">Edit data</string>
     <string name="delete_data">Delete data</string>
