@@ -1,8 +1,6 @@
 package com.rashata.jamie.spend.util;
 
-import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-
 
 
 public class Constants {
@@ -26,60 +24,61 @@ public class Constants {
     public static final int TYPE_OTHER_INCOME = 5;
     public static final int TYPE_OTHER_EXPENSE = 16;
 
-    public static String[] incomeInitial = {Contextor.getInstance().getContext().getString(R.string.parent),
-            Contextor.getInstance().getContext().getString(R.string.salary), Contextor.getInstance().getContext().getString(R.string.gift),
-            Contextor.getInstance().getContext().getString(R.string.borrow), Contextor.getInstance().getContext().getString(R.string.sale),
-            Contextor.getInstance().getContext().getString(R.string.others)};
+    public static int[] incomeInitial = {R.string.parent,
+            R.string.salary, R.string.gift,
+            R.string.borrow, R.string.sale,
+            R.string.others};
     public static int[] incomePicInitial = {R.drawable.item_parent, R.drawable.item_salary, R.drawable.item_gift_gray, R.drawable.item_loan
             , R.drawable.item_sell, R.drawable.item_others_gray};
-    public static String[] expenseInitial = {Contextor.getInstance().getContext().getString(R.string.travel),
-            Contextor.getInstance().getContext().getString(R.string.food), Contextor.getInstance().getContext().getString(R.string.cloth),
-            Contextor.getInstance().getContext().getString(R.string.movie), Contextor.getInstance().getContext().getString(R.string.health),
-            Contextor.getInstance().getContext().getString(R.string.lover), Contextor.getInstance().getContext().getString(R.string.party),
-            Contextor.getInstance().getContext().getString(R.string.shopping), Contextor.getInstance().getContext().getString(R.string.gift),
-            Contextor.getInstance().getContext().getString(R.string.electricity_bill), Contextor.getInstance().getContext().getString(R.string.water_bill),
-            Contextor.getInstance().getContext().getString(R.string.telephone), Contextor.getInstance().getContext().getString(R.string.pet),
-            Contextor.getInstance().getContext().getString(R.string.sport), Contextor.getInstance().getContext().getString(R.string.family),
-            Contextor.getInstance().getContext().getString(R.string.reservation), Contextor.getInstance().getContext().getString(R.string.others)};
+    public static int[] expenseInitial = {R.string.travel,
+            R.string.food, R.string.cloth,
+            R.string.movie, R.string.health,
+            R.string.lover, R.string.party,
+            R.string.shopping, R.string.gift,
+            R.string.electricity_bill, R.string.water_bill,
+            R.string.telephone, R.string.pet,
+            R.string.sport, R.string.family,
+            R.string.reservation, R.string.others};
     public static int[] expensePicInitial = {R.drawable.item_bus, R.drawable.item_food, R.drawable.item_shirt, R.drawable.item_movie
             , R.drawable.item_health, R.drawable.item_lover, R.drawable.item_party, R.drawable.item_shopping, R.drawable.item_gift
             , R.drawable.item_electric, R.drawable.item_water, R.drawable.item_phone, R.drawable.item_pet, R.drawable.item_run
             , R.drawable.item_family, R.drawable.item_bed, R.drawable.item_others};
 
-    public static String[] titleInitialStatistic = {Contextor.getInstance().getContext().getString(R.string.basic_needs),
-            Contextor.getInstance().getContext().getString(R.string.relax), Contextor.getInstance().getContext().getString(R.string.travel)
-            , Contextor.getInstance().getContext().getString(R.string.pay)};
+    public static int[] titleInitialStatistic = {R.string.basic_needs,
+            R.string.relax, R.string.travel
+            , R.string.pay};
     public static int[] factor4 = {1, 4, 15};
     public static int[] relax = {2, 3, 5, 6, 7, 8, 13, 14};
     public static int[] travel = {0};
     public static int[] payment = {9, 10, 11, 12};
 
 
-    public static String date[] = {Contextor.getInstance().getContext().getString(R.string.sunday)
-            , Contextor.getInstance().getContext().getString(R.string.monday)
-            , Contextor.getInstance().getContext().getString(R.string.tuesday)
-            , Contextor.getInstance().getContext().getString(R.string.wednesday)
-            , Contextor.getInstance().getContext().getString(R.string.thursday)
-            , Contextor.getInstance().getContext().getString(R.string.friday)
-            , Contextor.getInstance().getContext().getString(R.string.saturday)
+    public static int date[] = {R.string.sunday
+            , R.string.monday
+            , R.string.tuesday
+            , R.string.wednesday
+            , R.string.thursday
+            , R.string.friday
+            , R.string.saturday
     };
-    public static String month[] = {Contextor.getInstance().getContext().getString(R.string.january)
-            , Contextor.getInstance().getContext().getString(R.string.february)
-            , Contextor.getInstance().getContext().getString(R.string.march)
-            , Contextor.getInstance().getContext().getString(R.string.april)
-            , Contextor.getInstance().getContext().getString(R.string.may)
-            , Contextor.getInstance().getContext().getString(R.string.june)
-            , Contextor.getInstance().getContext().getString(R.string.july)
-            , Contextor.getInstance().getContext().getString(R.string.august)
-            , Contextor.getInstance().getContext().getString(R.string.september)
-            , Contextor.getInstance().getContext().getString(R.string.october)
-            , Contextor.getInstance().getContext().getString(R.string.november)
-            , Contextor.getInstance().getContext().getString(R.string.december)
+    public static int month[] = {R.string.january
+            , R.string.february
+            , R.string.march
+            , R.string.april
+            , R.string.may
+            , R.string.june
+            , R.string.july
+            , R.string.august
+            , R.string.september
+            , R.string.october
+            , R.string.november
+            , R.string.december
     };
 
 
-    public static int[] flag = new int[]{R.drawable.flag_thai, R.drawable.flag_eng};
-    public static String[] language = new String[]{Contextor.getInstance().getContext().getString(R.string.thai)
-            , Contextor.getInstance().getContext().getString(R.string.english)};
+    public static int[] flag = new int[]{R.drawable.flag_thai, R.drawable.flag_us};
+    public static int[] language = new int[]{R.string.thai, R.string.english};
 
-}
+};
+
+

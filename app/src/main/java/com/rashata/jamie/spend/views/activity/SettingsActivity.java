@@ -1,6 +1,8 @@
 package com.rashata.jamie.spend.views.activity;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -39,6 +41,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import rx.functions.Action1;
+import xml.RubjaiWidget;
 
 
 public class SettingsActivity extends AppCompatActivity implements SettingsAdapter.SettingsAdapterListener {
@@ -169,7 +172,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         alertDialogBuilder.setView(promptsView);
         alertDialogBuilder
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.yes),
+                .setPositiveButton(getString(R.string.confirm),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (spin_language.getSelectedItemPosition() == 0) {
@@ -237,6 +240,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
     public void setLocale(String lang) {
         Log.d(TAG, getCurrentLocale());
         if (lang.equals(getCurrentLocale())) return;
+        RealmManager.getInstance().getDataRepository().changeLanguage(getCurrentLocale()).subscribe();
         Resources res = this.getResources();
         Configuration conf = res.getConfiguration();
         conf.locale = new Locale(lang);
@@ -244,8 +248,18 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
         RubjaiPreference rubjaiPreference = new RubjaiPreference(this);
         rubjaiPreference.language = lang;
         rubjaiPreference.update();
+        updateWidget();
         // Refresh
         loadData();
+    }
+
+
+    public void updateWidget() {
+        Intent intent = new Intent(this, RubjaiWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RubjaiWidget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
 
     public Activity getActivity() {
@@ -284,7 +298,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
             @Override
             public void run() {
                 Intent intent = new Intent(getActivity(), PasscodeActivity.class);
-                startActivityForResult(intent,RESULT_PASSCODE);
+                startActivityForResult(intent, RESULT_PASSCODE);
             }
         }, 500);
     }
@@ -302,7 +316,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsAdapt
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == RESULT_PASSCODE){
+        if (requestCode == RESULT_PASSCODE) {
             updatePasscode();
         }
     }

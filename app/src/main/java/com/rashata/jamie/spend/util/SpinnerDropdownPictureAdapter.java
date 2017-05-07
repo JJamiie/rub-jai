@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
 
 
@@ -18,13 +19,10 @@ import com.rashata.jamie.spend.R;
 public class SpinnerDropdownPictureAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     public int[] pictures;
-    public String[] titles;
+    public int[] titles;
 
-    public SpinnerDropdownPictureAdapter(Context context) {
-        this.inflater = (LayoutInflater.from(context));
-    }
 
-    public SpinnerDropdownPictureAdapter(Context context, int[] pictures, String[] titles) {
+    public SpinnerDropdownPictureAdapter(Context context, int[] pictures, int[] titles) {
         this.inflater = (LayoutInflater.from(context));
         this.pictures = pictures;
         this.titles = titles;
@@ -50,7 +48,7 @@ public class SpinnerDropdownPictureAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.item_lang_dropdown, null);
         TextView txt_name = (TextView) view.findViewById(R.id.txt_title);
         ImageView img_flag = (ImageView) view.findViewById(R.id.img_flag);
-        txt_name.setText(titles[i]);
+        txt_name.setText(Contextor.getInstance().getContext().getString(titles[i]));
         img_flag.setImageResource(pictures[i]);
         return view;
     }
@@ -63,11 +61,11 @@ public class SpinnerDropdownPictureAdapter extends BaseAdapter {
         this.pictures = pictures;
     }
 
-    public String[] getTitles() {
+    public int[] getTitles() {
         return titles;
     }
 
-    public void setTitles(String[] titles) {
+    public void setTitles(int[] titles) {
         this.titles = titles;
     }
 }

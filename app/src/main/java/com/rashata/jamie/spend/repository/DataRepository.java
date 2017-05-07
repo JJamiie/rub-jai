@@ -93,4 +93,5 @@ public interface DataRepository {
 
     rx.Observable<String> getTitleStatistic(int uuid);
 
+    rx.Observable changeLanguage(String from);
 }

@@ -49,7 +49,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:clickable="true"
-            android:text="เลือก"
+            android:text="@string/เลือก"
             android:textColor="@color/pink"
             android:textSize="12dp" />
     </LinearLayout>

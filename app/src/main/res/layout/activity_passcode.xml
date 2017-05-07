@@ -12,7 +12,7 @@
         android:id="@+id/txt_title_passcode"
         android:textSize="16dp"
         android:textStyle="bold"
-        android:text="Set Passcode"
+        android:text="@string/setPasscode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:text="Please enter a passcode."
+        android:text="@string/pleaseEnterAPasscode"
         android:textSize="10dp" />
 
     <android.support.v7.widget.RecyclerView
@@ -137,7 +137,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/selector_passcode"
             android:scaleType="fitCenter"
-            android:text="cancel"
+            android:text="@string/cancel"
             android:textColor="@color/selector_passcode_text"
             android:textSize="10dp" />
 

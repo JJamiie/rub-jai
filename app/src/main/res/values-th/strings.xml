@@ -116,11 +116,21 @@
     <string name="currency">สกุลเงิน</string>
 
 
-    <string name="banner_ad_unit_id">ca-app-pub-3754673556433244/6327931413</string>
     <string name="change_language">กรุณาเลือกภาษา</string>
     <string name="pleasetryagain">โปรดลองใหม่อีกครั้ง</string>
     <string name="ok">ตกลง</string>
     <string name="no_data_found">ไม่ค้นพบข้อมูล</string>
     <string name="use">ใช้</string>
     <string name="calculator">เครื่องคิดเลข</string>
+    <string name="choose_language">เลือกภาษา</string>
+    <string name="comfirmPasscode">ยืนยันพาสโค๊ด</string>
+    <string name="defaultSettings">ตั้งค่าพื้นฐาน</string>
+    <string name="setPasscode">ตั้งค่าพาสโค๊ด</string>
+    <string name="pleaseEnterAPasscode">กรุณาระบุพาสโค๊ด</string>
+    <string name="pleaseReEnterAPasscode">กรุณาระบุพาสโค๊ดอีกรอบ</string>
+    <string name="passcodeNotMatch">พาสโค๊ดไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง</string>
+    <string name="set">ตั้งค่า</string>
+    <string name="เลือก">เลือก</string>
+    <string name="confirm">ยืนยัน</string>
+    <string name="show">แสดง</string>
 </resources>

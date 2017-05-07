@@ -1,5 +1,8 @@
 package com.rashata.jamie.spend.repository.impl;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.util.Log;
 
 import com.rashata.jamie.spend.Contextor;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -748,13 +752,13 @@ public class DataRepositoryImpl implements DataRepository {
                                          //Add expense statistic
                                          for (int i = 0; i < Constants.titleInitialStatistic.length; i++) {
                                              ExpenseStatistic expenseStatistic = realm.createObject(ExpenseStatistic.class, i);
-                                             expenseStatistic.setTitle(Constants.titleInitialStatistic[i]);
+                                             expenseStatistic.setTitle(Contextor.getInstance().getContext().getString(Constants.titleInitialStatistic[i]));
                                          }
 
                                          // Add Income
                                          for (int i = 0; i < Constants.incomeInitial.length; i++) {
                                              IncomeCategory incomeCategory = realm.createObject(IncomeCategory.class, i);
-                                             incomeCategory.setName(Constants.incomeInitial[i]);
+                                             incomeCategory.setName(Contextor.getInstance().getContext().getString(Constants.incomeInitial[i]));
                                              incomeCategory.setPicture(Contextor.getInstance().getContext().getResources().getResourceEntryName(Constants.incomePicInitial[i]));
                                              if (i == Constants.incomeInitial.length - 1) incomeCategory.setShow(false);
                                              else incomeCategory.setShow(true);
@@ -764,7 +768,7 @@ public class DataRepositoryImpl implements DataRepository {
                                          // Add Expense
                                          for (int i = 0; i < Constants.expenseInitial.length; i++) {
                                              ExpenseCategory expensecategory = realm.createObject(ExpenseCategory.class, i);
-                                             expensecategory.setName(Constants.expenseInitial[i]);
+                                             expensecategory.setName(Contextor.getInstance().getContext().getString(Constants.expenseInitial[i]));
                                              expensecategory.setPicture(Contextor.getInstance().getContext().getResources().getResourceEntryName(Constants.expensePicInitial[i]));
                                              expensecategory.setIdExpenseStatistic(-1);
                                              if (i == Constants.expenseInitial.length - 1) expensecategory.setShow(false);
@@ -978,4 +982,70 @@ public class DataRepositoryImpl implements DataRepository {
         });
     }
 
+    @Override
+    public Observable changeLanguage(final String from) {
+        return Observable.create(new Observable.OnSubscribe<List<ExpenseCategory>>() {
+            @Override
+            public void call(Subscriber<? super List<ExpenseCategory>> subscriber) {
+                try {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    Resources res_from = getLocalizedResources(from);
+                    Resources res_to = null;
+                    if (from.equals("th")) {
+                        res_to = getLocalizedResources("en");
+                    } else {
+                        res_to = getLocalizedResources("th");
+                    }
+                    List<ExpenseCategory> expense_datas = realm.where(ExpenseCategory.class).findAll();
+                    for (ExpenseCategory expenseCategory : expense_datas) {
+                        for (int i = 0; i < Constants.expenseInitial.length; i++) {
+                            if (expenseCategory.getName().equals(res_from.getString(Constants.expenseInitial[i]))) {
+                                expenseCategory.setName(res_to.getString(Constants.expenseInitial[i]));
+                            }
+                        }
+                    }
+                    List<IncomeCategory> income_datas = realm.where(IncomeCategory.class).findAll();
+                    for (IncomeCategory incomeCategory : income_datas) {
+                        for (int i = 0; i < Constants.incomeInitial.length; i++) {
+                            if (incomeCategory.getName().equals(res_from.getString(Constants.incomeInitial[i]))) {
+                                incomeCategory.setName(res_to.getString(Constants.incomeInitial[i]));
+                            }
+                        }
+                    }
+
+                    List<ExpenseStatistic> expense_statistic_datas = realm.where(ExpenseStatistic.class).findAll();
+                    for (ExpenseStatistic expenseStatistic : expense_statistic_datas) {
+                        for (int i = 0; i < Constants.titleInitialStatistic.length; i++) {
+                            if (expenseStatistic.getTitle().equals(res_from.getString(Constants.titleInitialStatistic[i]))) {
+                                expenseStatistic.setTitle(res_to.getString(Constants.titleInitialStatistic[i]));
+                            }
+                        }
+                    }
+
+                    realm.commitTransaction();
+                    subscriber.onCompleted();
+                    realm.close();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
+    }
+
+    public Resources getLocalizedResources(String lang) {
+        Configuration conf = Contextor.getInstance().getContext().getResources().getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            conf.setLocale(new Locale(lang));
+        } else {
+            conf.locale = new Locale(lang);
+        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return Contextor.getInstance().getContext().createConfigurationContext(conf).getResources();
+        } else {
+            Resources res = Contextor.getInstance().getContext().getResources();
+            res.updateConfiguration(conf, res.getDisplayMetrics());
+            return res;
+        }
+    }
 }

@@ -69,7 +69,7 @@
             android:clickable="true"
             android:gravity="center"
             android:padding="5dp"
-            android:text="แสดง"
+            android:text="@string/show"
             android:textColor="@color/pink"
             android:textSize="12dp" />
         <!--<Button-->

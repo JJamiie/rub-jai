@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.RemoteViews;
 
+import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
+import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.views.activity.ExpenseIncomeActivity;
 import com.rashata.jamie.spend.views.activity.MainActivity;
@@ -49,13 +51,24 @@ public class RubjaiWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.rubjai_widget);
         views.setTextViewText(R.id.txt_summary_today, getSummaryToday());
 
+        views.setTextViewText(R.id.txt_today, Contextor.getInstance().getContext().getString(R.string.today));
+
+
         Intent intent_open = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent_open_app = PendingIntent.getActivity(context, 0, intent_open, 0);
         views.setOnClickPendingIntent(R.id.btn_open_app, pendingIntent_open_app);
 
         Intent intent_expense = new Intent(context, ExpenseIncomeActivity.class);
-        PendingIntent pendingIntent_expense = PendingIntent.getActivity(context, 0, intent_expense, 0);
+        intent_expense.putExtra("type", Data.TYPE_EXPENSE);
+        PendingIntent pendingIntent_expense = PendingIntent.getActivity(context, 1, intent_expense, 0);
         views.setOnClickPendingIntent(R.id.btn_expense, pendingIntent_expense);
+        views.setTextViewText(R.id.btn_expense, Contextor.getInstance().getContext().getString(R.string.expense));
+
+        Intent intent_income = new Intent(context, ExpenseIncomeActivity.class);
+        intent_income.putExtra("type", Data.TYPE_INCOME);
+        PendingIntent pendingIntent_income = PendingIntent.getActivity(context, 2, intent_income, 0);
+        views.setOnClickPendingIntent(R.id.btn_income, pendingIntent_income);
+        views.setTextViewText(R.id.btn_income, Contextor.getInstance().getContext().getString(R.string.income));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

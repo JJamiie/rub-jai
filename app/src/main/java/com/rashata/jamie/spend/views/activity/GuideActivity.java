@@ -2,20 +2,15 @@ package com.rashata.jamie.spend.views.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,6 +29,7 @@ public class GuideActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private Button btn_start;
     private int feature;
+    private RubjaiPreference rubjaiPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +41,7 @@ public class GuideActivity extends AppCompatActivity {
     private void setWidget() {
         Intent intent = getIntent();
         feature = intent.getIntExtra("feature", -1);
+        rubjaiPreference = new RubjaiPreference(this);
         setGuideItem();
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         pager_guide = (ViewPager) findViewById(R.id.pager_guide);
@@ -120,28 +117,45 @@ public class GuideActivity extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RubjaiPreference rubjaiPreference = new RubjaiPreference(getActivity());
-                rubjaiPreference.guideTour = "done";
-                rubjaiPreference.newFeature1 = "done";
-                rubjaiPreference.update();
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                finish();
+                startActivity();
             }
         });
+    }
+
+    public void startActivity() {
+        RubjaiPreference rubjaiPreference = new RubjaiPreference(getActivity());
+        rubjaiPreference.guideTour = "done";
+        rubjaiPreference.newFeature1 = "done";
+        rubjaiPreference.update();
+        Intent intent = null;
+        if (feature == -1) {
+            intent = new Intent(getActivity(), FirstSettingMoneyStartedActivity.class);
+        } else {
+            intent = new Intent(getActivity(), MainActivity.class);
+        }
+        startActivity(intent);
+        finish();
     }
 
     private void setGuideItem() {
         guideItems = new ArrayList<>();
         if (feature == -1) {
-            guideItems.add(new GuideItem(getString(R.string.welcome), getString(R.string.to_ledger_application), getString(R.string.beautifully_simple_management), R.drawable.guide1, true));
-            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide2, false));
-            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide3, false));
-            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide4, false));
-            guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide5, false));
+            if (rubjaiPreference.language.equals("th")) {
+                guideItems.add(new GuideItem(getString(R.string.welcome), getString(R.string.to_ledger_application), getString(R.string.beautifully_simple_management), R.drawable.guide1, true));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide2, false));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide3, false));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide4, false));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide5, false));
+            } else {
+                guideItems.add(new GuideItem(getString(R.string.welcome), getString(R.string.to_ledger_application), getString(R.string.beautifully_simple_management), R.drawable.guide1_en, true));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide2_en, false));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide3_en, false));
+                guideItems.add(new GuideItem(getString(R.string.instruction), "", "", R.drawable.guide4_en, false));
+            }
+        }else {
+            guideItems.add(new GuideItem(getString(R.string.instruction), getString(R.string.new_feature), getString(R.string.simpler_generate_category), R.drawable.guide6, true));
+            guideItems.add(new GuideItem(getString(R.string.instruction), getString(R.string.new_feature), getString(R.string.simpler_generate_statistic), R.drawable.guide7, true));
         }
-        guideItems.add(new GuideItem(getString(R.string.instruction), getString(R.string.new_feature), getString(R.string.simpler_generate_category), R.drawable.guide6, true));
-        guideItems.add(new GuideItem(getString(R.string.instruction), getString(R.string.new_feature), getString(R.string.simpler_generate_statistic), R.drawable.guide7, true));
     }
 
     public Activity getActivity() {

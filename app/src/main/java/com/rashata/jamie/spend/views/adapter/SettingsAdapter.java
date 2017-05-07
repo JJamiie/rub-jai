@@ -118,7 +118,7 @@ public class SettingsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             settingLanguageViewHolder.img_flag.setImageResource(R.drawable.flag_thai);
         } else if (settingLanguageItem.getLanguage().equals("en")) {
             settingLanguageViewHolder.txt_country.setText(R.string.english);
-            settingLanguageViewHolder.img_flag.setImageResource(R.drawable.flag_eng);
+            settingLanguageViewHolder.img_flag.setImageResource(R.drawable.flag_us);
         }
         settingLanguageViewHolder.frm_setting.setOnClickListener(new View.OnClickListener() {
             @Override

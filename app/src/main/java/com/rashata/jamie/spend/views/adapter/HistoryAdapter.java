@@ -101,8 +101,8 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         Log.d(TAG, (Calendar.DAY_OF_WEEK - 1) + " " + calendar.get(Calendar.MONTH));
-        holder.txt_date.setText(Constants.date[calendar.get(Calendar.DAY_OF_WEEK) - 1] + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                + Constants.month[calendar.get(Calendar.MONTH)] + " " + (calendar.get(Calendar.YEAR) + 543));
+        holder.txt_date.setText(Contextor.getInstance().getContext().getString(Constants.date[calendar.get(Calendar.DAY_OF_WEEK) - 1]) + " " + calendar.get(Calendar.DAY_OF_MONTH) + " "
+                + Contextor.getInstance().getContext().getString(Constants.month[calendar.get(Calendar.MONTH)]) + " " + (calendar.get(Calendar.YEAR) + 543));
         if (datasHistories.get(section).getTotal_money() >= 0) {
             holder.txt_total_money.setTextColor(Color.parseColor("#888b8f"));
             holder.txt_total_money.setText("+" + String.format("%.2f", datasHistories.get(section).getTotal_money()));
@@ -206,7 +206,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
         final Calendar calendar = Calendar.getInstance();
         calendar.setTime(data.getDate());
         String date = calendar.get(Calendar.DAY_OF_MONTH) + " "
-                + Constants.month[calendar.get(Calendar.MONTH)] + " " + (calendar.get(Calendar.YEAR) + 543);
+                + Contextor.getInstance().getContext().getString(Constants.month[calendar.get(Calendar.MONTH)]) + " " + (calendar.get(Calendar.YEAR) + 543);
         lin_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,7 +306,7 @@ public class HistoryAdapter extends SectionedRecyclerViewAdapter<HistoryHeaderVi
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 calendar.set(year, monthOfYear, dayOfMonth);
                 String date = calendar.get(Calendar.DAY_OF_MONTH) + " "
-                        + Constants.month[calendar.get(Calendar.MONTH)] + " " + (calendar.get(Calendar.YEAR) + 543);
+                        + Contextor.getInstance().getContext().getString(Constants.month[calendar.get(Calendar.MONTH)]) + " " + (calendar.get(Calendar.YEAR) + 543);
                 txt_date.setText(date);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));

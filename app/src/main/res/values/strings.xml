@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">กระเป๋า</string>
+    <string name="app_name">Kapao</string>
     <string name="get_started">เริ่มต้นการใช้งาน</string>
     <string name="today">วันนี้</string>
     <string name="total">ทั้งหมด</string>
@@ -39,7 +39,7 @@
     <string name="others">อื่นๆ</string>
     <string name="travel">เดินทาง</string>
     <string name="food">อาหาร</string>
-    <string name="cloth" translatable="false">เสื้อผ้า</string>
+    <string name="cloth">เสื้อผ้า</string>
     <string name="movie">ดูหนัง</string>
     <string name="health">รักษาตัว</string>
     <string name="lover">คนรัก</string>
@@ -112,7 +112,7 @@
     <string name="thai">ไทย</string>
     <string name="english">English</string>
 
-    <string name="banner_ad_unit_id">ca-app-pub-3754673556433244/6327931413</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3754673556433244/6327931413</string>
     <string name="settings">ตั้งค่า</string>
     <string name="exchange_currency">คุณต้องการจะเปลี่ยนสกุลเงินหรือไม่</string>
     <string name="change_language">กรุณาเลือกภาษา</string>
@@ -121,9 +121,15 @@
     <string name="no_data_found">ไม่ค้นพบข้อมูล</string>
     <string name="use">ใช้</string>
     <string name="calculator">เครื่องคิดเลข</string>
-    <string name="setPasscode">Set Passcode</string>
-    <string name="pleaseEnterAPasscode">Please enter a passcode</string>
-    <string name="comfirmPasscode">Confirm Passcode</string>
-    <string name="pleaseReEnterAPasscode">Please re-enter a passcode.</string>
-    <string name="passcodeNotMatch">Passcode does not match. Please try again.</string>
+    <string name="setPasscode">ตั้งค่าพาสโค๊ด</string>
+    <string name="pleaseEnterAPasscode">กรุณาระบุพาสโค๊ด</string>
+    <string name="comfirmPasscode">ยืนยันพาสโค๊ด</string>
+    <string name="pleaseReEnterAPasscode">กรุณาระบุพาสโค๊ดอีกรอบ</string>
+    <string name="choose_language">เลือกภาษา</string>
+    <string name="defaultSettings">ตั้งค่าพื้นฐาน</string>
+    <string name="passcodeNotMatch">พาสโค๊ดไม่ถูกต้อง กรุณากรอกใหม่อีกครั้ง</string>
+    <string name="set">ตั้งค่า</string>
+    <string name="เลือก">เลือก</string>
+    <string name="confirm">ยืนยัน</string>
+    <string name="show">แสดง</string>
 </resources>

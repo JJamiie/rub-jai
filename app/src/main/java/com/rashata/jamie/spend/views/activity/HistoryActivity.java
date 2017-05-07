@@ -82,10 +82,14 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
                     DatasHistory datasHistory = new DatasHistory(histories, date, total);
                     datasHistories.add(datasHistory);
                     historyAdapter.setDatasHistories(datasHistories);
-                    frm_nodata.setVisibility(View.GONE);
-                } else {
-                    frm_nodata.setVisibility(View.VISIBLE);
                 }
+
+                if (histories.isEmpty()) {
+                    frm_nodata.setVisibility(View.VISIBLE);
+                } else {
+                    frm_nodata.setVisibility(View.GONE);
+                }
+                historyAdapter.notifyDataSetChanged();
             }
         });
     }

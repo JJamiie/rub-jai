@@ -21,6 +21,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.rashata.jamie.spend.R;
 import com.rashata.jamie.spend.manager.Data;
 import com.rashata.jamie.spend.manager.ExpenseCategory;
@@ -101,6 +104,7 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
                 showDialogChooseDate();
             }
         });
+        addAds();
     }
 
     private void getData() {
@@ -271,12 +275,12 @@ public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCate
         }
     }
 
-//    public void addAds() {
-//        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3754673556433244/6327931413");
-//        AdView mAdView = (AdView) findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
-//    }
+    public void addAds() {
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3754673556433244/6327931413");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
 
 
     @Override
