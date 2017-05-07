@@ -25,8 +25,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseStatistic;
+import com.rashata.jamie.spend.repository.database.Data;
+import com.rashata.jamie.spend.repository.database.ExpenseStatistic;
 import com.rashata.jamie.spend.repository.RealmManager;
 
 import java.util.ArrayList;

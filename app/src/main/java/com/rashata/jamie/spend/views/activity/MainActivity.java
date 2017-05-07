@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
+import com.rashata.jamie.spend.repository.database.Data;
 import com.rashata.jamie.spend.repository.RealmManager;
 
 import rx.functions.Action1;

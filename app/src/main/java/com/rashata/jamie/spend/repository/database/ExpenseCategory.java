@@ -1,4 +1,4 @@
-package com.rashata.jamie.spend.manager;
+package com.rashata.jamie.spend.repository.database;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -7,13 +7,14 @@ import io.realm.annotations.PrimaryKey;
  * Created by jjamierashata on 11/26/2016 AD.
  */
 
-public class IncomeCategory extends RealmObject {
+public class ExpenseCategory extends RealmObject {
     @PrimaryKey
     private int uuid;
     private String name;
     private String picture;
     private boolean show;
     private int position;
+    private int idExpenseStatistic;
 
     public int getUuid() {
         return uuid;
@@ -54,4 +55,13 @@ public class IncomeCategory extends RealmObject {
     public void setPosition(int position) {
         this.position = position;
     }
+
+    public int getIdExpenseStatistic() {
+        return idExpenseStatistic;
+    }
+
+    public void setIdExpenseStatistic(int idExpenseStatistic) {
+        this.idExpenseStatistic = idExpenseStatistic;
+    }
+
 }

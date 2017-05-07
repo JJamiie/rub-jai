@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
-import com.rashata.jamie.spend.manager.IncomeCategory;
+import com.rashata.jamie.spend.repository.database.Data;
+import com.rashata.jamie.spend.repository.database.ExpenseCategory;
+import com.rashata.jamie.spend.repository.database.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.ArrayAdapterTitle;
 import com.rashata.jamie.spend.util.CategoryItem;

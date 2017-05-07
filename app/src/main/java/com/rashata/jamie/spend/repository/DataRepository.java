@@ -1,10 +1,10 @@
 package com.rashata.jamie.spend.repository;
 
 
-import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
-import com.rashata.jamie.spend.manager.ExpenseStatistic;
-import com.rashata.jamie.spend.manager.Initial;
+import com.rashata.jamie.spend.repository.database.Data;
+import com.rashata.jamie.spend.repository.database.ExpenseCategory;
+import com.rashata.jamie.spend.repository.database.ExpenseStatistic;
+import com.rashata.jamie.spend.repository.database.Initial;
 import com.rashata.jamie.spend.util.CategoryItem;
 
 import java.util.ArrayList;

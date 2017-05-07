@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
+import com.rashata.jamie.spend.repository.database.Data;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.DatasHistory;
 import com.rashata.jamie.spend.util.History;

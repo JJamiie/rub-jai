@@ -25,9 +25,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
-import com.rashata.jamie.spend.manager.IncomeCategory;
+import com.rashata.jamie.spend.repository.database.Data;
+import com.rashata.jamie.spend.repository.database.ExpenseCategory;
+import com.rashata.jamie.spend.repository.database.IncomeCategory;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.util.RubjaiPreference;
@@ -43,8 +43,8 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xml.RubjaiWidget;
 
-import static com.rashata.jamie.spend.manager.Data.TYPE_EXPENSE;
-import static com.rashata.jamie.spend.manager.Data.TYPE_INCOME;
+import static com.rashata.jamie.spend.repository.database.Data.TYPE_EXPENSE;
+import static com.rashata.jamie.spend.repository.database.Data.TYPE_INCOME;
 
 
 public class ExpenseIncomeActivity extends AppCompatActivity implements ItemCategoryAdapter.ActivityListener {

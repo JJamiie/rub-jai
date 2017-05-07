@@ -6,11 +6,11 @@ import android.os.Build;
 import android.util.Log;
 
 import com.rashata.jamie.spend.Contextor;
-import com.rashata.jamie.spend.manager.Data;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
-import com.rashata.jamie.spend.manager.ExpenseStatistic;
-import com.rashata.jamie.spend.manager.IncomeCategory;
-import com.rashata.jamie.spend.manager.Initial;
+import com.rashata.jamie.spend.repository.database.Data;
+import com.rashata.jamie.spend.repository.database.ExpenseCategory;
+import com.rashata.jamie.spend.repository.database.ExpenseStatistic;
+import com.rashata.jamie.spend.repository.database.IncomeCategory;
+import com.rashata.jamie.spend.repository.database.Initial;
 import com.rashata.jamie.spend.repository.DataRepository;
 import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.util.Constants;

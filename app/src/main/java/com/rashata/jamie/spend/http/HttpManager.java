@@ -1,4 +1,4 @@
-package com.rashata.jamie.spend.manager.http;
+package com.rashata.jamie.spend.http;
 
 import java.util.concurrent.TimeUnit;
 

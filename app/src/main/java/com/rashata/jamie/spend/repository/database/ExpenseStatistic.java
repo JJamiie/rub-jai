@@ -1,4 +1,4 @@
-package com.rashata.jamie.spend.manager;
+package com.rashata.jamie.spend.repository.database;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
+import com.rashata.jamie.spend.repository.database.Data;
 import com.rashata.jamie.spend.util.CategoryItem;
 
 import java.util.ArrayList;

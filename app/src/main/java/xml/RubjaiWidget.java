@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.Data;
+import com.rashata.jamie.spend.repository.database.Data;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.views.activity.ExpenseIncomeActivity;
 import com.rashata.jamie.spend.views.activity.MainActivity;

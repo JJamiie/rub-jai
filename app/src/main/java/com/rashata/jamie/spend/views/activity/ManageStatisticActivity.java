@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.ExpenseCategory;
-import com.rashata.jamie.spend.manager.ExpenseStatistic;
+import com.rashata.jamie.spend.repository.database.ExpenseCategory;
+import com.rashata.jamie.spend.repository.database.ExpenseStatistic;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.CategoryItem;
 import com.rashata.jamie.spend.util.GridSpacingItemDecoration;

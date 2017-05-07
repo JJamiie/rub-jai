@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.rashata.jamie.spend.Contextor;
 import com.rashata.jamie.spend.R;
-import com.rashata.jamie.spend.manager.ExpenseStatistic;
+import com.rashata.jamie.spend.repository.database.ExpenseStatistic;
 import com.rashata.jamie.spend.repository.RealmManager;
 import com.rashata.jamie.spend.util.ArrayAdapterTitle;
 import com.rashata.jamie.spend.util.StatisticItem;
